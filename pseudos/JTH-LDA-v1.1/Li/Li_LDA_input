@@ -1,0 +1,28 @@
+Li 3
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+2 2 0 0 0 0 
+2 1 0 
+2 0 1 
+0 0 0 
+v 
+v 
+v 
+1
+1.6 1.3 1.5 1.6
+y
+2.0
+n 
+y
+0.0
+n 
+custom polynom2 4 10.0 gramschmidtortho besselshape
+bessel
+1.3
+1.3
+1.3
+1.6
+1.6
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0
+

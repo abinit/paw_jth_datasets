@@ -1,0 +1,30 @@
+Ar 18 
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+3 3 0 0 0 0
+0 0 0
+c
+c
+v
+c
+v
+1
+1.8 1.6 1.8 1.8
+y
+3.0
+n
+y
+3.0
+n
+Vanderbilt 
+2 -2.0 ultrasoft
+1.8
+1.8
+1.8
+1.8
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0
+ 
+
+
+

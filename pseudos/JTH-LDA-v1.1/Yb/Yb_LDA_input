@@ -1,0 +1,46 @@
+Yb 70
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 1500
+6 5 5 4 0
+5 2 1
+4 3 13
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+c
+c
+v
+v
+3
+2.5 2.3 2.3 2.5
+n
+y
+3.0
+n
+y
+2.
+n
+y
+2.0
+n
+custom rrkj 
+bessel 
+2.0
+2.0
+2.5
+2.5
+2.5
+2.5
+2.5
+2.5
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0
+

@@ -1,0 +1,37 @@
+Pd 46 
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 600 80 2.20
+5 4 4 0 0 0
+5 0 1
+4 2 9
+0 0 0
+c
+c
+c
+v
+v
+c
+c
+v
+c
+v
+2
+2.5 2.2 2.1 1.0
+n
+y
+2.0
+n
+y
+2.0
+n
+custom rrkj vanderbiltortho 
+3 0.50 ultrasoft
+2.50
+2.50
+2.50
+2.50
+2.10 
+2.10 
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0
+

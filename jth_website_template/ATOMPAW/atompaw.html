@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+
+<head>
+<title>Generating PAW atomic datasets with AtomPAW</title>
+</head>
+
+<body>
+
+  <!-- ========================================================================== -->
+  <!-- ============================= MARC SECTION =============================== -->
+  <!-- ========================================================================== -->
+
+  <!-- ============================= TITLE ====================================== -->
+
+  <a id="Top" name="Top"></a>
+    <span style="color: rgb(0, 51, 102); font-weight: bold;">
+      <big>
+        How to build PAW atomic datasets for ABINIT using
+        <a style="font-weight: bold;" href="http://users.wfu.edu/natalie/papers/pwpaw/man.html" target="_blank">AtomPAW</a>
+        generator
+      </big>
+    </span>
+  </a>
+
+
+  <p>&nbsp;</p>
+  <p style="margin-left: 40px;">
+    To create PAW atomic datasets for ABINIT we use the
+    <span style="font-weight: bold; color: rgb(153, 0, 0);">AtomPAW</span>
+    atomic data generator.<br>
+    From ABINIT version 5.8, it is included in the package as a plugin.<br><br>
+  </p>
+
+  <!-- ========================== HOW TO GET ==================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    1. How to get <span style="color: rgb(153, 0, 0);">AtomPAW</span> executable
+  </p>
+
+  You can use one of these two possibilities:
+  <ul>
+    <li>
+      Use <b>AtomPAW</b> executable included in ABINIT package:<br>
+      Provided that ABINIT has been compiled with the
+      <span style="color: rgb(0, 153, 0);">--with-dft-flavor="...+atompaw..."</span>
+      option, the <b>AtomPAW</b> code is directly available from command line.<br>
+      Just try to type:  <span style="color: rgb(0, 153, 0);">
+        ~abinit_compilation_directory/fallbacks/export/bin/atompaw-abinit</span>
+      if "atompaw vx.y.z" message appears, everything is fine.<br>
+      In order to compile <b>AtomPAW</b> plugin during ABINIT compilation, you may need an Internet access. <br>
+      <i>See ABINIT build system manual for additional information.</i><br>
+      <b>OR</b>
+   <li>
+     Use <b>AtomPAW</b> standalone version:<br>
+     Download <b>AtomPAW</b> from its
+     <a href="http://users.wfu.edu/natalie/papers/pwpaw/man.html" target="_blank">web site</a>.<br>
+     Install it in a place of your choice (see installation instructions in
+     <a href="atompaw-usersguide.pdf" target="_blank">user's guide</a>).
+  </li>
+</ul>
+
+  <!-- ========================== HOW TO USE ==================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    2. How to use <span style="color: rgb(153, 0, 0);">AtomPAW</span>
+  </p>
+
+  <p style="margin-left: 20px;">
+
+    <b>1-</b> Take a look at the <a href="atompaw-usersguide.pdf" target="_blank">user's guide</a> for <b>AtomPAW</b>,<br>
+    <b>2-</b> Follow ABINIT tutorial named <span style="color: rgb(0, 153, 0);"><b>PAW2</b></span>.
+
+    AtomPAW execution follows the steps described below:<br>
+
+    <ul>
+      <li>
+        Create a work directory ; use it for all that follows.
+      </li>
+      <li>
+        Edit the input file for <b>AtomPAW</b>.<br>
+        You can find an example <a href="Ni.input">here</a> (nickel).<br>
+        Input file syntax is explained in the <a href="atompaw-usersguide.pdf" target="_blank">user's guide</a>.<br>
+        Don't forget to add the 2 lines asking <b>AtomPAW</b> to produce the PAW dataset<br>
+        in <b>XML</b> format (according to
+        <a href="http://esl.cecam.org/Paw-xml" target="blank_">standard specification</a>):<br>
+        <small>
+          <span style="color: rgb(0, 153, 0);margin-left: 40px;">XMLOUT</span><br>
+          <span style="color: rgb(0, 153, 0);margin-left: 40px;">default</span><br>
+        </small>
+        or in <b>ABINIT</b> proprietary format:<br>
+        <small>
+          <span style="color: rgb(0, 153, 0);margin-left: 40px;">ABINITOUT</span><br>
+          <span style="color: rgb(0, 153, 0);margin-left: 40px;">default</span>
+        </small>
+      </li>
+      <li>
+        Run AtomPAW: <span style="color: rgb(51, 102, 255);">atompaw &lt;X.input</span><br>
+        AtomPAW generates several files; the PAW atomic dataset for ABINIT can be found
+        in the *.xml or *.pawps files.<br>
+        Others files are useful to check the accuracy and transferability of the atomic data.
+      </li>
+    </ul>
+  </p>
+
+  <!-- ========================== HOW TO CHECK ================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    3. How to check the validity of PAW atomic data
+  </p>
+
+  Everything is explained the <a href="atompaw-usersguide.pdf" target="_blank">user's guide</a>.<br>
+  The following remarks are quoted from the
+  <a href="http://www.wfu.edu/%7Enatalie/papers/pwpaw/man.html" target="_blank">
+  AtomPAW original paper</a>:<br>
+  <blockquote>
+    Iteratively check the following quantities before accepting a given
+    set of projectors and basis functions:<br>
+    1- The PAW logarithmic derivatives for each
+    atom should agree with the all-electron values within the
+    energy range of interest. See files
+    <span style="color: rgb(51, 102, 255); font-weight: bold;">logderiv.i</span><br>
+    2- The core electron density ncore should
+    be sufficiently small for r&gt;rc. See file
+    <span style="color: rgb(51, 102, 255); font-weight: bold;">density</span><br>
+    3- The plane-wave cut-offs needed to
+    converge the calculation (which can be determined with
+    the help of the Fourier-space functions F<sub>nili</sub>(q)), should
+    be consistent with the computer resources available for
+    the solid state calculations. See files
+    <span style="color: rgb(51, 102, 255); font-weight: bold;">tprod.i</span><br>
+    4- For the material of interest, several
+    solid state calculations should give reasonable results.
+  </blockquote>
+
+  <!-- =========================== REFERENCES =================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    4. References
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[1]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1016/S0010-4655(00)00244-7" target=_blank>
+      A Projector Augmented Wave (PAW) code for electronic structure calculations,
+     Part I: atompaw for generating atom-centered functions</a>
+    (<a href="http://users.wfu.edu/natalie/papers/pwpaw/atompaw.pdf"
+        target=_blank>local copy</a>)<br>
+    A. R. Tackett, N. A. W. Holzwarth and G. E. Matthews,
+    Computer Physics Communications <b>135</b>, 329-347 (2001)<br>
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[2]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.57.11827" target=_blank>
+      Orthogonal polynomial projectors for the projector augmented
+      wave method of electronic structure calculations</a>
+    (<a href="http://users.wfu.edu/natalie/papers/cpaw/prb57.pdf"
+        target=_blank>local copy</a>)<br>
+    N. A. W. Holzwarth, G. E. Matthews, A. R. Tackett and R. B. Dunning,
+    Phys. Rev. B <b>57</b>, 11827-11830 (1998)<br>
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[3]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.55.2005"  target=_blank>
+      Comparison of the PAW, pseudopotential, and LAPW formalisms for density
+      functional calculations of solids</a>
+    (<a href="http://users.wfu.edu/natalie/papers/pawman/PAWman.pdf"
+        target=_blank>local copy</a>)<br>
+    N. A. W. Holzwarth, G. E. Matthews, R. B. Dunning, A. R. Tackett and Y. Zeng,
+    Phys. Rev. B <b>55</b>, 2005-2017 (1997)<br>
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[4]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.44.13063" target=_blank>
+      Real-space implementation of nonlocal pseudopotentials
+      for 1st-principle total-energy calculations</a><br>
+    R.D. King-Smith, M.C. Payne and J.S. Lin,
+    Phys. Rev. B <b>44</b>,13063 (1991)<br>
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[5]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1016/j.commatsci.2007.07.020" target=_blank>
+      Implementation of the projector augmented-wave method in the ABINIT code:
+      Application to the study of iron under pressure</a><br>
+    M. Torrent, F. Jollet, F. Bottin, G. Zerah and X. Gonze,
+    Computational Materials Science <b>42</b>, 337 (2008)
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[6]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1016/j.cpc.2010.07.036" target=_blank>
+    Electronic structure packages: two implementations of the Projector Augmented-Wave (PAW) formalism</a>
+    (<a href="http://www.wfu.edu/~natalie/papers/PAWform/PAWformman.sdarticle.pdf"
+        target=_blank>local copy</a>)<br>
+    M. Torrent, N. A. W. Holzwarth, F. Jollet, D. Harris, N. Lepley and X. Xu,
+    Computer Physics Communications <b>181</b>, 1862 (2010)<br>
+  </p>
+
+  <!-- ============================= CONTACT ==================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    6. Contact
+  </p>
+
+  <p style="margin-left: 40px;">
+    In case of problem or questions contact the authors:
+  </p>
+
+  <p style="margin-left: 50px;">
+    Marc Torrent<br>
+    Francois Jollet<br>
+    <i>D&eacute;partement de Physique Th&eacute;orique et Appliqu&eacute;e<br>
+    CEA-Bruy&egrave;res-le-Ch&acirc;tel, France</i>
+  </p>
+  <p style="margin-left: 50px;">
+    Natalie Holzwarth<br>
+    <i>Department of Physics<br>
+    Wake Forest University, Winston-Salem (NC), USA</i>
+  </p>
+
+  <!-- ============================== FOOTER ==================================== -->
+
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <hr style="width: 100%; height: 1px;">
+    <div style="width: 363px; text-align: left;">
+      <small><i>
+        Last modification: september 15, 2014<br>
+        Webmaster (this page): M. Torrent
+      </i></small>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- =========================== END MARC SECTION ============================= -->
+  <!-- ========================================================================== -->
+
+</body>
+</html>

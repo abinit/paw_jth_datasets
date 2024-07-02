@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+
+<head>
+<title>Generating PAW atomic datasets with USPP</title>
+</head>
+
+<body>
+
+  <!-- ========================================================================== -->
+  <!-- ============================= MARC SECTION =============================== -->
+  <!-- ========================================================================== -->
+
+  <!-- ============================= TITLE ====================================== -->
+
+  <a id="Top" name="Top"></a>
+    <span style="color: rgb(0, 51, 102); font-weight: bold;">
+      <big>
+        How to build PAW atomic datasets for ABINIT using
+        <a style="font-weight: bold;" href="http://www.physics.rutgers.edu/%7Edhv/uspp" target="_blank">USPP</a>
+        generator
+      </big>
+    </span>
+  </a>
+
+  <p>&nbsp;</p>
+  <p style="color: rgb(153, 51, 0);">
+    <b>Current version of <i>USPP2PAW</i>: <a href="USpp2PAW.tar.gz">v1.1.0</a></b><br>
+    Produce XML-formatted datasets readable by ABINIT from version 7.6
+  </p>
+  Also produce datasets in ABINIT proprietary format (from ABINIT v5.4+)<br>
+  <small>
+    See this <a href="previousversions.html">note</a> for use with older versions of ABINIT</font>
+  </small>
+
+  <p>&nbsp;</p>
+  <p style="margin-left: 20px;">
+    <table width="75%" border ="0" cellspacing="1" cellpadding="1" bgcolor="#CEECF5">
+      <tr><td><i>
+        To obtain PAW atomic datasets we proceed as follows:<br>
+        <ul>
+          <li>
+            We patch USPP package in order to make it generate XML-formatted PAW datasets (according to
+            <a href="http://esl.cecam.org/en/data/paw-xml" target="blank_">specifications</a>
+            ) or in ABINIT proprietary format.<br>
+          </li>
+          <li>
+            "Patched" USPP is directly useable with normal USPP input files.
+          </li>
+        </ul>
+      </i></td><tr>
+    </table>
+  </p>
+
+  <!-- ========================= WHAT YOU NEED ================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    1. What you need<a id="WhatYouNeed" name="WhatYouNeed"></a>
+  </p>
+
+  <ul type="square">
+    <li>
+      <b><span style="color: rgb(0, 102, 153);">USPP</b></span>
+      ultrasoft pseudopotentials generator (<i>version 7.3.6</i> or higher)<br>
+      <i>This code is written in Fortran 77</i>
+    </li>
+    <li>
+      <b><span style="color: rgb(0, 102, 153);">USPP2PAW</b></span> add-on for USPP<br>
+      <i>This code is written in Fortran 90</i>
+    </li>
+    <li>
+      A Linux/Unix workstation with (at least) following tools:<br> A
+      <b><span style="color: rgb(0, 102, 153);">Fortran 90 compiler</span></b> with F77 libraries,
+      <b><span style="color: rgb(0, 102, 153);">sed</span></b> stream editor,
+      <b><span style="color: rgb(0, 102, 153);">make</span></b> utility
+    </li>
+  </ul>
+
+  <div style="margin-left: 40px;color: rgb(204, 0, 0);">
+    We suppose for the following that the reader is <b>familiar with the use of USPP package</b>.<br>
+    If not, first take at look at the complete USPP
+    <a href="http://www.physics.rutgers.edu/%7Edhv/uspp/#DOCUMENTATION" target="_blank">documentation</a>.
+  </div>
+
+  <!-- ================== PATCHING & COMPILING USPP ============================= -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    2. Patching and compiling USPP<a id="PreliminarySteps" name="PreliminarySteps"></a>
+  </p>
+
+  <ul type="square">
+    <li>
+      Download <b><span style="color: rgb(0, 102, 153);">USPP</span></b>
+      package from the dedicated
+      <a href="http://www.physics.rutgers.edu/%7Edhv/uspp#DOWNLOAD" target="_blank">website</a>.
+      Be sure to download version <b>7.3.6</b> or higher
+      (including important modifications for <i>USPP2PAW</i>).
+     </li>
+     <li>
+      Extract <b><span style="color: rgb(0, 102, 153);">USPP</span></b>
+      (in some <i><span style="color: navy;">/uspp-xyz</span></i> directory).
+    </li>
+    <li>
+      Download <b><span style="color: rgb(0, 102, 153);">USPP2PAW</span></b> package to produce
+      XML-formatted PAW datasets (recommended) or datasets in ABINIT proprietary format.<br>
+      Download link:
+      <a href="USpp2PAW.tar.gz">USPP2PAW</a>
+    </li>
+    <li>
+      Extract <b><span style="color: rgb(0, 102, 153);">USPP2PAW</span></b>
+      into USPP directory (in <i><span style="color: navy;">/uspp-xyz/USpp2PAW.vx.y.z</span></i>
+      directory).<br>
+      <small>Note that you also get a <i><span style="color: navy;">/uspp-xyz/utils-uspp</span></i> directory.</small>
+    </li>
+    <li>
+      Go into <i><span style="color: navy;">/uspp-xyz/Uspp2PAW.vx.y.z</span></i> directory and edit
+      <i><span style="color: navy;">Makefile </span></i> file;
+      modify it according to your machine specifications.
+    </li>
+    <li>
+      Into <i><span style="color: navy;">/uspp-xyz/Uspp2PAW.vx.y.z</span></i> directory:
+      <ul type="disk">
+        <li>
+          Type: <i><span style="color: maroon;">make</span></i><br>
+          It compiles a patched version of <b><span style="color: rgb(0, 102, 153);">USPP</span></b>
+          (with ABINIT PAW add-ons) and creates <i><span style="color: navy;">runatom.x</span></i>
+          in <i><span style="color: navy;">/uspp-xyz/USpp2PAW.vx.y.z</span></i> directory.
+        </li>
+        <li>
+          Type: <i><span style="color: maroon;">make install</span></i><br>
+          It installs "patched" <i><span style="color: navy;">runatom.x</span></i>
+          into <i><span style="color: navy;">/uspp-xyz/Bin</span></i> directory.
+        </li>
+        <li>
+          <i>-- optional --</i><br>
+          Type: <i><span style="color: maroon;">make clean</span></i><br>
+          It cleans up <i><span style="color: navy;">/uspp-xyz/Uspp2PAW.vx.y.z</span></i>
+          directory</span>.<br>
+          or type: <i><span style="color: maroon;">make clean_all</span></i><br>
+          It cleans up <i><span style="color: navy;">/uspp-xyz/Uspp2PAW.vx.y.z</span></i>
+          and <i><span style="color: navy;">/uspp-xyz/Source</span></i>  directories.
+        </li>
+      </ul>
+    <li>
+      At this stage you get a patched version of <b><span style="color: rgb(0, 102, 153);">USPP</span></b>
+      package; you can use it like original USPP.
+    </li>
+  </ul>
+
+  <!-- ==================== GENERATING A DATASET ================================ -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    3. Generating a PAW atomic dataset for ABINIT<a id="GeneratingPseudopotential" name="GeneratingPseudopotential"></a>
+  </p>
+
+  <ul type="square">
+    <li>
+      Simply use <b><span style="color: rgb(0, 102, 153);">USPP</span></b> as if you wanted to generate
+      an ultrasoft pseudopotential!
+    <ul>
+      <li>
+        Go into <i><span style="color: navy;">/uspp-xyz/Work</span></i> directory;
+        browse down sub-directories, selecting chemical specie and density functional (LDA, GGA).
+      </li>
+      <li>
+        Type: <i><span style="color: maroon;">make clean && make</span></i>
+      </li>
+      <li>
+        If you encounter some error during execution, look for an error message in the
+        <span style="color: rgb(0, 102, 153);">??_ae.out</span> or
+        <span style="color: rgb(0, 102, 153);">??_ps.out</span> files;
+        if the error message is not explicit enough, look at
+        <a href="http://www.physics.rutgers.edu/%7Edhv/uspp/uspp-735/Doc/TUTORIAL" target="_blank">Doc/TUTORIAL</a>
+        (most of the problems are addressed).
+      </li>
+    </ul>
+    <li>
+      You get a <i><span style="color: navy;">X.paw.xml</span></i> dataset directly useable by ABINIT!<br>
+      A <i><span style="color: navy;">X.paw.abinit</span></i> file is also produced (ABINIT proprietary format).
+    </li>
+    <li>
+      <u>Additional options (adjustable parameters for the PAW data generation)</u>
+      <ul>
+        <li>
+          A file named <b><span style="color: navy;">uspp2paw.dat</span></b>
+          can be added in the working directory to pass arguments to the USpp2PAW converter.<br>
+          <a href="uspp2paw.dat" target="_self">Here</a>, an example of this file
+          with details on the different keywords.
+        </li>
+        <li>
+          Note for experienced users:<br>
+          If you want to use "<b>Real Space Optimisation</b>" to
+          improve the behaviour of non-local projectors, you have to use
+          specific keywords in <span style="color: navy;">uspp2paw.dat</span> file.<br>
+          Real Space Optimisation improve the development of non-local projectors by
+          "smoothing" their development over large G vectors (introducing a
+          "controlled" error). It has been proposed by King-Smith and al. [4].<br>
+          The method is governed by 3 parameters (Gmax (=2*Ecut**2), Gamma and Wl)
+          that must be given in <span style="color: navy;">uspp2paw.dat</span>.<br>
+          The efficiency of Real Space Optimization strongly depends on the non-local
+          projectors produced by USPP; only experienced users should use it...
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- ====================== ADDITONAL REMARKS ================================= -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    4. Additional remarks<a id="AdditionalRemarks" name="AdditionalRemarks"></a>
+  </p>
+
+  <ul>
+    <li>
+      You can -- as a first step --  use <b>input files</b>
+      (<i><span style="color: navy;">*.adat</span></i> files)
+      from D. Vanderbilt's
+      <a href="http://www.physics.rutgers.edu/%7Edhv/uspp/table.html" target="_blank">web site</a>
+      or from GBRV
+      <a href="http://www.physics.rutgers.edu/gbrv" target="_blank">web site</a>.<br>
+      We recommend to make additional tests before using those input files, as
+      PAW formalism is a bit different from US pseudopotentials one.
+    </li>
+    <li>
+      The choice of <b>exchange-correlation</b> functional is limited
+      by functionals included in <b><span style="color: rgb(0, 102, 153);">USPP</span></b>
+      and  <b><span style="color: rgb(0, 102, 153);">ABINIT</span></b>.<br>
+      To be used, a functional must be provided into both packages.
+      This limits the choice to four functionals:<br>
+      <span style="color: maroon;">
+        Ceperley-Adler (LDA), Wigner (LDA), Hedin-Lundqvist (LDA), Perdew-Burke-Ernzerhof 96 (GGA)
+      </span>
+    </li>
+    <li>
+      In order to check the validity of atomic data produced by USPP, a first test is the
+      comparison of the <u>logarithmic derivatives of wave functions</u>
+      (exact ones compared to PAW ones).<br>
+      A simple PYTHON script <b><span style="color: rgb(0, 102, 153);">pltlogd</span></b>
+      is provided within <b>USpp2PAW</b> package in
+      <i><span style="color: navy;">/uspp-xyz/utils-uspp</span></i> directory
+      to plot these derivatives. It uses the
+      <span style="color: rgb(0, 102, 153);">??.logd</span> file produced by USPP.<br>
+      Just type: <i><span style="color: maroon;">pltlogd file.logd l</span></i>,
+      where <i>l</i> is an angular momentum (0, 1, 2, or 3).
+    </li>
+  </ul>
+
+  <!-- =========================== REFERENCES =================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    5. References<a id="References" name="References"></a>
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[1]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.41.7892" target=_blank>
+      Soft Self-Consistent Pseudopotentials in a Generalized Eigenvalue Formalism</a>
+    (<a href="http://www.physics.rutgers.edu/%7Edhv/pubs/local_copy/uspp_1.pdf"
+        target=_blank>local copy</a>)<br>
+    D. Vanderbilt,
+    Phys. Rev. B <b>41</b> (Rapid Communications), 7892 (1990)
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[2]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.43.6796" target=_blank>
+      Implementation of Ultra-Soft Pseudopotentials in Ab-initio Molecular Dynamic"</a>
+    (<a href="http://www.physics.rutgers.edu/%7Edhv/pubs/local_copy/uspp_2.pdf"
+        target=_blank>local copy</a>)<br>
+    K. Laasonen, R. Car, C. Lee and D. Vanderbilt,
+    Phys. Rev. B <b>43</b> (Rapid Communications), 6796 (1991)
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[3]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.59.1758" target=_blank>
+      From ultrasoft pseudopotentials to the projector augmented-wave method</a><br>
+    G. Kresse, D. Joubert,
+    Phys. Rev. B <b>59</b>, 1758 (1999)
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[4]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1103/PhysRevB.44.13063" target=_blank>
+      Real-space implementation of nonlocal pseudopotentials
+      for 1st-principle total-energy calculations</a><br>
+    R.D. King-Smith, M.C. Payne and J.S. Lin,
+    Phys. Rev. B <b>44</b>, 13063 (1991)
+  </p>
+
+  <p style="margin-left: 10px;">
+    <b>[5]</b>&nbsp;
+    <a href="http://dx.doi.org/10.1016/j.commatsci.2007.07.020" target=_blank>
+      Implementation of the projector augmented-wave method in the ABINIT code:
+      Application to the study of iron under pressure</a><br>
+    F. Jollet, F. Bottin, G. Zerah and X. Gonze,
+    Comput. Mater. Sci. <b>42</b>, 337 (2008)
+  </p>
+
+  <!-- ======================= AKNOWLEDGEMENTS ================================== -->
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    6. Aknowledgements<a id="Aknowledgements" name="Aknowledgements"></a>
+  </p>
+
+  <p>
+    We thank <a href="http://www.physics.rutgers.edu/%7Edhv" target="_blank">D.Vanderbilt</a>
+    for having given us the opportunity to use USPP software.
+  </p>
+
+  <!-- ============================= CONTACT ==================================== -->
+
+
+  <p>&nbsp;</p>
+  <p style="font-weight: bold;">
+    7. Contact<a id="Contact" name="Contact"></a>
+  </p>
+
+  <p style="margin-left: 40px;">
+    In case of problem or questions contact the authors:
+  </p>
+
+  <p style="margin-left: 50px;">
+    Marc Torrent<br>
+    Francois Jollet<br>
+    <i>D&eacute;partement de Physique Th&eacute;orique et Appliqu&eacute;e<br>
+    CEA-Bruy&egrave;res-le-Ch&acirc;tel, France</i>
+  </p>
+
+  <!-- ============================== FOOTER ==================================== -->
+
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <hr style="width: 100%; height: 1px;">
+    <div style="width: 363px; text-align: left;">
+      <small><i>
+        Last modification: september 15, 2014<br>
+        Webmaster (this page): M. Torrent
+      </i></small>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- =========================== END MARC SECTION ============================= -->
+  <!-- ========================================================================== -->
+
+</body>
+</html>

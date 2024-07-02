@@ -1,0 +1,32 @@
+He  2 
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+1 2 0 0 0 0
+1 0 1
+2 1 0
+0 0 0
+v
+v
+1
+1.15 1.0 0.8 0.8
+y
+0.0
+n
+y
+2.0
+n
+custom rrkj 
+2 1.0
+1.15
+1.15
+1.05
+1.05
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0 
+
+
+Vanderbilt
+
+
+custom rrkj vanderbiltortho 
+bessel

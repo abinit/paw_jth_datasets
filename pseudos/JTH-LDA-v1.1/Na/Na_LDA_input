@@ -1,0 +1,26 @@
+Na 11
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+3 3 0 0 0 0 
+3 0 1
+3 1 0   
+0 0 0 
+c 
+v 
+v 
+v
+v 
+1
+1.6 1.4 1.6 1.6
+n 
+n 
+Vanderbilt
+bessel
+1.6
+1.6
+1.5
+1.5
+XMLOUT
+default author "F. Jollet and M.Torrent"
+0
+
+

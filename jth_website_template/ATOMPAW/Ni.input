@@ -1,0 +1,52 @@
+Nickel 28.
+GGA-PBE  scalarrelativistic  loggrid 1500 80. 2.3  loggderivrange -10. 10. 300
+4 4 3 0 0          ! Up to 4s, 4p and 3d
+1 0 2.0            ! Electronic configuration 3d9 4s1 4p0
+2 0 2.0
+2 1 6.0
+3 0 2.0
+3 1 6.0
+3 2 9.0
+4 0 1.0
+4 1 0.0
+0 0 0
+c                  ! 1s
+c                  ! 2s
+c                  ! 3s
+v                  ! 4s valence
+c                  ! 2p
+c                  ! 3p
+v                  ! 4p valence
+v                  ! 3d valence
+2                  ! Basis contains s, p and d partial-waves
+2.3 2.3 1.1 2.2    ! rpaw=2.3, rshape=2.3, rveff=1.1, rcore=2.2
+y                  ! Additional s partial-wave
+4.                 ! at Eref=4.0 Ry
+n
+y                  ! Additional p partial-wave
+4.                 ! at Eref=4.0 Ry
+n
+y                  ! Additional d partial-wave
+2.5                ! at Eref=2.5 Ry
+n
+custom rrkj gramschmidtortho sinc  ! RRKJ PW + sinc shape func.
+Bessel             ! Simple Bessel Vloc
+2.3                ! Matching radius for Phi1 (l=0)
+2.3                ! Matching radius for Phi2 (l=0)
+2.3                ! Matching radius for Phi3 (l=1)
+2.3                ! Matching radius for Phi4 (l=1)
+2.3                ! Matching radius for Phi5 (l=2)
+2.3                ! Matching radius for Phi6 (l=2)
+SCFPAW             ! Activate test configuration tool
+1 0 2.0            ! Test configuration 3d8 4s2
+2 0 2.0
+2 1 6.0
+3 0 2.0
+3 1 6.0
+3 2 8.0
+4 0 2.0
+XMLOUT             ! Output in XML format
+Default            !  with default parameters
+ABINITOUT          ! Output in ABINIT format
+Default            !  with default parameters
+END

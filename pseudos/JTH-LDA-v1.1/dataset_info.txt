@@ -1,0 +1,97 @@
+# Comments to the JTHv1.1 table (08/03/2018)
+# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)
+# =============================================================================================
+ H  / H.LDA_PW-JTH.xml     / standard / recommended / / / The small radius leads to "hard" data
+ He / He.LDA_PW-JTH.xml    / standard / recommended / / /
+ Li / Li.LDA_PW-JTH.xml    / standard / recommended / / /
+ Be / Be.LDA_PW-JTH.xml    / standard / recommended / / /
+ B  / B.LDA_PW-JTH.xml     / standard / recommended / / /
+ C  / C.LDA_PW-JTH.xml     / standard / recommended / / /
+ N  / N.LDA_PW-JTH.xml     / standard / recommended / / /
+ O  / O.LDA_PW-JTH.xml     / standard / recommended / / /
+ F  / F.LDA_PW-JTH.xml     / standard / recommended / / /
+ Ne / Ne.LDA_PW-JTH.xml    / standard / recommended / / /
+ Na / Na.LDA_PW-JTH.xml    / standard / recommended / / /
+ Mg / Mg.LDA_PW-JTH.xml    / standard / recommended / / /
+ Al / Al.LDA_PW-JTH.xml    / standard / recommended / / /
+ Si / Si.LDA_PW-JTH.xml    / standard / recommended / / /
+ P  / P.LDA_PW-JTH.xml     / standard / recommended / / /
+ S  / S.LDA_PW-JTH.xml     / standard / recommended / / /
+ Cl / Cl.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ar / Ar.LDA_PW-JTH.xml    / standard / recommended / / /
+ K  / K.LDA_PW-JTH.xml     / standard / recommended / / /
+ Ca / Ca.LDA_PW-JTH.xml    / standard / recommended / / /
+ Sc / Sc.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ti / Ti.LDA_PW-JTH.xml    / standard / recommended / / /
+ V  / V.LDA_PW-JTH.xml     / standard / recommended / / /
+ Cr / Cr.LDA_PW-JTH.xml    / standard / recommended / / /
+ Mn / Mn.LDA_PW-JTH.xml    / standard / recommended / / /
+ Fe / Fe.LDA_PW-JTH.xml    / standard / recommended / / /
+ Co / Co.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ni / Ni.LDA_PW-JTH.xml    / standard / recommended / / /
+ Cu / Cu.LDA_PW-JTH.xml    / standard / recommended / / /
+ Zn / Zn.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ga / Ga.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ge / Ge.LDA_PW-JTH.xml    / standard / recommended / / /
+ As / As.LDA_PW-JTH.xml    / standard / recommended / / /
+ As / As.LDA_PW-JTH_sp.xml /          /             / / /
+ Se / Se.LDA_PW-JTH.xml    / standard / recommended / / /
+ Br / Br.LDA_PW-JTH.xml    / standard / recommended / / /
+ Kr / Kr.LDA_PW-JTH.xml    / standard / recommended / / /
+ Rb / Rb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Sr / Sr.LDA_PW-JTH.xml    / standard / recommended / / /
+ Y  / Y.LDA_PW-JTH.xml     / standard / recommended / / /
+ Zr / Zr.LDA_PW-JTH.xml    / standard / recommended / / /
+ Nb / Nb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Mo / Mo.LDA_PW-JTH.xml    / standard / recommended / / /
+ Tc / Tc.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ru / Ru.LDA_PW-JTH.xml    / standard / recommended / / /
+ Rh / Rh.LDA_PW-JTH.xml    / standard / recommended / / /
+ Pd / Pd.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ag / Ag.LDA_PW-JTH.xml    / standard / recommended / / /
+ Cd / Cd.LDA_PW-JTH.xml    / standard / recommended / / /
+ In / In.LDA_PW-JTH.xml    / standard / recommended / / /
+ In / In.LDA_PW-JTH_sp.xml /          /             / / /
+ Sn / Sn.LDA_PW-JTH.xml    / standard / recommended / / /
+ Sn / Sn.LDA_PW-JTH_sp.xml /          /             / / /
+ Sb / Sb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Sb / Sb.LDA_PW-JTH_sp.xml /          /             / / /
+ Te / Te.LDA_PW-JTH.xml    / standard / recommended / / /
+ I  / I.LDA_PW-JTH.xml     / standard / recommended / / /
+ Xe / Xe.LDA_PW-JTH.xml    / standard / recommended / / /
+ Cs / Cs.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ba / Ba.LDA_PW-JTH.xml    / standard / recommended / / /
+ La / La.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ce / Ce.LDA_PW-JTH.xml    / standard / recommended / / /
+ Pr / Pr.LDA_PW-JTH.xml    / standard / recommended / / /
+ Nd / Nd.LDA_PW-JTH.xml    / standard / recommended / / /
+ Pm / Pm.LDA_PW-JTH.xml    / standard / recommended / / /
+ Sm / Sm.LDA_PW-JTH.xml    / standard / recommended / / /
+ Eu / Eu.LDA_PW-JTH.xml    / standard / recommended / / /
+ Gd / Gd.LDA_PW-JTH.xml    / standard / recommended / / /
+ Tb / Tb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Dy / Dy.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ho / Ho.LDA_PW-JTH.xml    / standard / recommended / / /
+ Er / Er.LDA_PW-JTH.xml    / standard / recommended / / /
+ Tm / Tm.LDA_PW-JTH.xml    / standard / recommended / / /
+ Yb / Yb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Lu / Lu.LDA_PW-JTH.xml    / standard / recommended / / /
+ Hf / Hf.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ta / Ta.LDA_PW-JTH.xml    / standard / recommended / / /
+ W  / W.LDA_PW-JTH.xml     / standard / recommended / / /
+ Re / Re.LDA_PW-JTH.xml    / standard / recommended / / /
+ Os / Os.LDA_PW-JTH.xml    / standard / recommended / / /
+ Ir / Ir.LDA_PW-JTH.xml    / standard / recommended / / /
+ Pt / Pt.LDA_PW-JTH.xml    / standard / recommended / / /
+ Au / Au.LDA_PW-JTH.xml    / standard / recommended / / /
+ Hg / Hg.LDA_PW-JTH.xml    / standard / recommended / / /
+ Tl / Tl.LDA_PW-JTH.xml    / standard / recommended / / /
+ Tl / Tl.LDA_PW-JTH_sp.xml /          /             / / /
+ Pb / Pb.LDA_PW-JTH.xml    / standard / recommended / / /
+ Pb / Pb.LDA_PW-JTH_sp.xml /          /             / / /
+ Bi / Bi.LDA_PW-JTH.xml    / standard / recommended / / /
+ Bi / Bi.LDA_PW-JTH_sp.xml /          /             / / /
+ Po / Po.LDA_PW-JTH.xml    / standard / recommended / / /
+ At / At.LDA_PW-JTH.xml    / standard / recommended / / /
+ Rn / Rn.LDA_PW-JTH.xml    / standard / recommended / / /
+ 

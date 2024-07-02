@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+
+<head>
+<title>Using USPP2Abinit with older ABINIT versions</title>
+</head>
+
+<body>
+
+  <!-- ========================================================================== -->
+  <!-- ============================= MARC SECTION =============================== -->
+  <!-- ========================================================================== -->
+
+  <p style="font-weight: bold; text-decoration: underline;">
+    Note related to the use of USPP2Abinit with old versions of ABINIT
+  </p>
+
+  <ul>
+    <li>
+      <b>Version 2.3.0 of USPP2Abinit (and later) is only compatible with ABINIT v5.4.3+.</b><br>
+      You can use it with previous versions of ABINIT provided that you modify the
+      "ABINIT pseudopotential file" after having created it.<br>
+      Edit it and replace the "paw4" keyword by "paw3".
+    </li>
+    <li>
+      <b>Version 2.4.0 of USPP2Abinit (and later) is only compatible with ABINITv6.1.0+.</b><br>
+      You can use it with previous versions of ABINIT provided that you put
+      <span style="color: rgb(51, 102, 255);">"USE_XC_NHAT=0"</span>in <i>uspp2abinit.dat</i> file.
+    </li>
+  </ul>
+
+  <!-- ========================================================================== -->
+  <!-- =========================== END MARC SECTION ============================= -->
+  <!-- ========================================================================== -->
+
+</body>
+</html>
