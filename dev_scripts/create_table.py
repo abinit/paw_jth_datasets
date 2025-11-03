@@ -16,13 +16,15 @@ info_filename        = "dataset_info.txt"
 readme_filename      = "README.md"
 comment_filename     = "Comments"
 indexhtml_filename   = "index.html"
-globalindex_filename = ("index.html","index.html.drupal")
+globalindex_filename = ["index-table.html"]
+specie_html_template = "index-specie.html" 
 jth_short_name       = "JTH"
-github_link          = "https://github.com/abinit/paw_jth_datasets/pseudos"
+github_link          = "https://github.com/abinit/paw_jth_datasets"
+github_subfolder     = "pseudos"
 github_folder_def    = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/pseudos"
 link_to_error404     = "https://en.wikipedia.org/wiki/HTTP_404"
 website_template     = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/jth_website_template"
-last_modif_date      = "june 1, 2024"
+last_modif_date      = "nov. 1, 2025"
 web_master           = "M. Torrent, F. Jollet"
 
 shell_name = ('s','p','d','f','g')
@@ -100,7 +102,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
   table_name = table_name_from_string(os.path.split(table_folder)[1])
   table_version = table_version_from_string(table_name)
   github_table_folder = os.path.join(github_folder,table_name)
-  github_table_link  = os.path.join(github_link,table_name)
+  github_table_link  = os.path.join(github_link,github_subfolder,table_name)
   table_link_to_pdf  = link_to_error404
   ddb_info_filename = None
 
@@ -245,7 +247,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             file_readme.write("all-electron calculations and other available atomic datasets ")
             file_readme.write("(some reference results are given [here]("+table_link_to_pdf+")._\n")
             file_readme.write("_They are recommended for use, although they have to be tested ")
-            file_readme.write("again by users._\n")
+            file_readme.write("again by users._  \n")
             readme_is_empty = False
 
 #         Write dataset info in README file
@@ -300,17 +302,18 @@ def main_create_html_from_table(html_folder,table_folder):
 
 # Copy website template into destination directory
   if len(os.listdir(html_folder)) == 0:
-    table_found = "none"
+    table_pdf_found = "none"
     for root, dirs, files in os.walk(table_folder):
       for ff in files:
         if isfile_case_sensitive(ff) and os.path.splitext(ff)[-1].lower() == ".pdf":
-          table_found = ff ; break
-    if table_found != "none":
-      copy_html_template(html_folder,pdf_table_path=os.path.join("..","..","Files",table_name+".pdf"))
-      shutil.copy2(os.path.join(table_folder,table_found),os.path.join(html_folder,"Files",table_name+".pdf"))            
+          table_pdf_found = ff ; break
+    table_pdf_name = table_name+".pdf" if table_pdf_found != "none" else None
+    if table_pdf_found != "none":
+      copy_html_template(html_folder,pdf_table_path=os.path.join("..","..","ATOMICDATA",table_name+".pdf"))
+      shutil.copy2(os.path.join(table_folder,table_pdf_found),os.path.join(html_folder,"ATOMICDATA",table_name+".pdf"))            
     else:
       copy_html_template(html_folder)
-    
+
 # Make tmp dir
   tmp_dir = os.path.join(html_folder,"tmp")
   if isdir_case_sensitive(tmp_dir): shutil.rmtree(tmp_dir,ignore_errors=True)
@@ -361,7 +364,7 @@ def main_create_html_from_table(html_folder,table_folder):
 
 #       Process table PDF file
         if file_ext == '.pdf' and len(os.path.split(file_bodyname)[0]) == 0:
-          file_dest = os.path.join(html_folder,"Files",table_name+'.pdf')
+          file_dest = os.path.join(html_folder,"ATOMICDATA",table_name+'.pdf')
           shutil.copy2(file_fullname,file_dest)
 
 #       Process "Comments" file
@@ -438,8 +441,8 @@ def main_create_html_from_table(html_folder,table_folder):
 # Modify global index file
   tarball_src_folder = os.path.join(html_folder,'ATOMICDATA')
   tarball_folder_link = 'ATOMICDATA'
-  modify_global_index(ddb,table_name,html_folder,tarball_src_folder,tarball_folder_link)
-  
+  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link)
+
 # Remove tmp dir
   shutil.rmtree(tmp_dir,ignore_errors=True)
 
@@ -451,14 +454,17 @@ def main_create_html_from_github(html_folder,github_table_folder):
 # Table info
   table_name = table_name_from_string(os.path.split(github_table_folder)[1])
   table_version = table_version_from_string(table_name)
-  github_table_link  = github_link+"/"+table_name
+  github_table_link  = github_link+"/raw/main/"+github_subfolder+"/"+table_name
 
 # Create github destination directory
   if not exists_case_sensitive(html_folder): os.makedirs(html_folder,exist_ok=True)
 
 # Copy website template into destination directory
+  table_pdf_found = False
   if len(os.listdir(html_folder)) == 0:
-    if isfile_case_sensitive(os.path.join(github_table_folder,table_name+".pdf")):
+    table_pdf_found = isfile_case_sensitive(os.path.join(github_table_folder,table_name+".pdf"))
+    table_pdf_name = table_name+".pdf" if table_pdf_found else None
+    if table_pdf_found:
       copy_html_template(html_folder,pdf_table_path=os.path.join(github_table_link,table_name+".pdf"))
     else:
       copy_html_template(html_folder)
@@ -529,7 +535,7 @@ def main_create_html_from_github(html_folder,github_table_folder):
 # Modify global index file
   tarball_src_folder = github_table_folder
   tarball_folder_link = github_table_link
-  modify_global_index(ddb,table_name,html_folder,tarball_src_folder,tarball_folder_link)
+  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link)
 
 
 #--------------------------------------------------------------------------------
@@ -800,6 +806,7 @@ class paw_dataset:
     if len(dataset_info[5])>0: self.delta1   = dataset_info[5]
     if len(dataset_info)>6   : self.comment  = dataset_info[6:]
 
+
 #-----------------------------------------
 # Set "pseudo-dojo" dictionnary
   def set_pseudodojo_dict(self):
@@ -929,34 +936,34 @@ class paw_dataset:
 
     my_markdown_lines = []  
     my_markdown_lines.append('<br>\n')
-    line = '**PAW dataset:**'
+    line = '**PAW dataset:**  \n'
     if self.xml_file_name != "unknown":
       line += ' ['+self.xml_file_name+']('+github_table_link+'/'+self.symbol+'/'+self.xml_file_name+')'
       if self.upf_file_name != "unknown":
         line += ', ['+self.upf_file_name+']('+github_table_link+"/"+self.symbol+'/'+self.upf_file_name+')'
     elif self.upf_file_name != "unknown":
       line += ' ['+self.upf_file_name+']('+github_table_link+'/'+self.symbol+'/'+self.upf_file_name+')'
-    my_markdown_lines.append(line+'\n')
+    my_markdown_lines.append(line+'  \n')
     if self.status != "unknown":
-      my_markdown_lines.append('Status: **'+self.status+'**\n')
-    my_markdown_lines.append('Exchange-correlation functional: '+self.xc_type+' - '+self.xc_name+'\n')
-    my_markdown_lines.append('Electronic structure ([core] val): '+self.estruct_short+'\n')
+      my_markdown_lines.append('Status: **'+self.status+'**  \n')
+    my_markdown_lines.append('Exchange-correlation functional: '+self.xc_type+' - '+self.xc_name+'  \n')
+    my_markdown_lines.append('Electronic structure ([core] val): '+self.estruct_short+'  \n')
     if self.rpaw is not None:
-      my_markdown_lines.append('Augmentation radius: %.2f a.u.\n' % round(self.rpaw,2))
+      my_markdown_lines.append('Augmentation radius: %.2f a.u.  \n' % round(self.rpaw,2))
     if self.delta is not None and self.delta1 is not None:
       my_markdown_lines.append('[Delta factor](https://molmod.ugent.be/deltacodesdft): $\\Delta$-value= ' \
-              +str(self.delta) + ' meV, ' + '$\\Delta_1$-value= ' + str(self.delta1) + ' meV\n')
+              +str(self.delta) + ' meV, ' + '$\\Delta_1$-value= ' + str(self.delta1) + ' meV  \n')
     if self.ecut_low is not None and self.ecut_medium is not None and self.ecut_high is not None:
         my_markdown_lines.append('Suggested PW cut-off energies: ' \
           + 'low= %.1f'    % self.ecut_low    + ' Ha, ' \
           + 'medium= %.1f' % self.ecut_medium + ' Ha, ' \
-          + 'high= %.1f'   % self.ecut_medium + ' Ha\n')
+          + 'high= %.1f'   % self.ecut_medium + ' Ha  \n')
     if self.gen_name != "unknown":
       my_markdown_lines.append('Generator: '+self.gen_name)
       if self.inp_file_name != "unknown":
-          my_markdown_lines.append(' - [input file]('+github_table_link+'/'+self.symbol+'/'+self.inp_file_name+')\n')
+          my_markdown_lines.append(' - [input file]('+github_table_link+'/'+self.symbol+'/'+self.inp_file_name+')  \n')
       else:
-          my_markdown_lines.append(' (input file included in the dataset itself)\n')
+          my_markdown_lines.append(' (input file included in the dataset itself)  \n')
     if len(self.comment)>0:
       for cm in self.comment:
         if len(cm)>0:
@@ -995,7 +1002,7 @@ class database_info:
     for i_inf,inf in enumerate(self.info_list):
       stg += '      '+str(i_inf+1)+': '+', '.join(map(str, inf))+'\n'
 
-    stg += '  === xc_names: '+', '.join(map(str, xc_names))+'\n'
+    stg += '  === xc_names: '+', '.join(map(str, self.xc_names))+'\n'
     return stg
 
 #-----------------------------------------
@@ -1135,9 +1142,11 @@ def table_name_from_string(strg):
   
   table_xc = "XC"
   if "LDA" in strgup: table_xc = "LDA"
+  if "GGA" in strgup: xc_name = "GGA"
   if "PW" in strgup: table_xc = "PW"
   if "PBE" in strgup: table_xc = "PBE"
   if "PBESOL" in strgup: table_xc = "PBEsol"
+  if "R2SCAN" in strgup: xc_name = "mGGA-R2SCAN"
 
   table_type = "JTH"
   if "JTH" in strgup:
@@ -1176,9 +1185,11 @@ def xc_name_from_string(strg):
   
   table_xc = "unknown"
   if "LDA" in strgup: xc_name = "LDA"
-  if "PW" in strgup: xc_name = "PW"
-  if "PBE" in strgup: xc_name = "PBE"
-  if "PBESOL" in strgup: xc_name = "PBEsol"
+  if "GGA" in strgup: xc_name = "GGA"
+  if "PW" in strgup: xc_name = "LDA-PW"
+  if "PBE" in strgup: xc_name = "GGA-PBE"
+  if "PBESOL" in strgup: xc_name = "GGA-PBEsol"
+  if "R2SCAN" in strgup: xc_name = "mGGA-R2SCAN"
 
   return xc_name
 
@@ -1265,6 +1276,8 @@ def copy_html_template(dest_dirname,pdf_table_path=None):
 
   #Copy dir structure
   shutil.copytree(website_template,dest_dirname,dirs_exist_ok=True)
+  specie_template_file=os.path.join(dest_dirname,specie_html_template)
+  if isfile_case_sensitive(specie_template_file): os.remove(specie_template_file)
 
   #Copy and modify index.html files
   for root, dirs, files in os.walk(os.path.join(dest_dirname,"ATOMICDATA")):
@@ -1272,8 +1285,8 @@ def copy_html_template(dest_dirname,pdf_table_path=None):
       dir_specie = specie_from_dirname(dir_name)
       
       #Copy index.html template
-      file_index_src  = os.path.join(website_template,"Files","index-jth.html")
-      file_index_dest = os.path.join(root,dir_name,"index.html")
+      file_index_src  = os.path.join(website_template,specie_html_template)
+      file_index_dest = os.path.join(root,dir_name,indexhtml_filename)
       shutil.copy(file_index_src,file_index_dest)
 
       #Modifiy index.html
@@ -1291,10 +1304,11 @@ def copy_html_template(dest_dirname,pdf_table_path=None):
 #Modify global index file of the website
 # ddb = database object containing table info
 # table_name = name of the table
+# table_pdf_name = name of the PDF describing the table
 # html_folder = destination folder (html table folder)
 # tarball_src_folder = folder where to find source tarballs (full tables)
 # tarball_folder_link = html link to tarballs in html
-def modify_global_index(ddb,table_name,html_folder,tarball_src_folder,tarball_folder_link):
+def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link):
 
   tarball_list = []
   for file_name in os.listdir(tarball_src_folder):
@@ -1302,7 +1316,8 @@ def modify_global_index(ddb,table_name,html_folder,tarball_src_folder,tarball_fo
 
   strg_list = []
   strg_list.append(["$${JTH_TABLE_VERSION}", "v"+table_version_from_string(table_name)])
-  strg_list.append(["$${JTH_TABLE_PDF}", table_name+".pdf"])
+  if table_pdf_name != None:
+    strg_list.append(["$${JTH_TABLE_PDF}", table_pdf_name])
   if "PBE" in ddb.xc_names:
     strg_list.append(["$${JTH_TABLE_DELTA_VALUE}", "%.2f" % round(ddb.deltafactor()[0],2)])
     strg_list.append(["$${JTH_TABLE_DELTA1_VALUE}", "%.2f" % round(ddb.deltafactor()[1],2)])
@@ -1390,7 +1405,7 @@ def usage():
   +'\n  [--action <action>]    (default: none)' \
   +'\n  [--root <root_folder>] (default: current folder, can be table_folder)' \
   +'\n  [--dest <dest_folder>] (default: none, can be github_folder or html_folder)' \
-  +'\n  [--erase_dest] (default: no, erase destination folder [be careful])' \
+  +'\n  [--erase-dest] (default: no, erase destination folder [be careful])' \
   +'\nPossible actions: create_github_from_table, create_html_from_github, create_html_from_table' \
   +'\n' \
   +'\nGlossary:' \

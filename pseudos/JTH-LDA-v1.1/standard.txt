@@ -58,6 +58,7 @@ Dy/Dy.LDA_PW-JTH.xml
 Ne/Ne.LDA_PW-JTH.xml
 Bi/Bi.LDA_PW-JTH.xml
 Nb/Nb.LDA_PW-JTH.xml
+At/At.LDA_PW-JTH.xml
 As/As.LDA_PW-JTH.xml
 Hg/Hg.LDA_PW-JTH.xml
 Gd/Gd.LDA_PW-JTH.xml

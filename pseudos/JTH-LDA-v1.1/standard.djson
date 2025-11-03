@@ -19,8 +19,8 @@
    "Z_val": 1.0,
    "l_max": 1,
    "md5": "a72dedc985f2ec889920c6583be5b980",
-   "dfact_meV": null,
-   "dfactprime_meV": null,
+   "dfact_meV": "0.237",
+   "dfactprime_meV": "3.972",
    "tags": [],
    "hints": {
     "high": {
@@ -1691,6 +1691,26 @@
     },
     "normal": {
      "ecut": 10.0
+    }
+   }
+  },
+  "At": {
+   "basename": "At.LDA_PW-JTH.xml",
+   "Z_val": 85.0,
+   "l_max": 2,
+   "md5": "33e679c9e691747c1924c0ad0215c169",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
     }
    }
   },
