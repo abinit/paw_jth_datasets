@@ -15,6 +15,7 @@ from collections import OrderedDict
 info_filename        = "dataset_info.txt"
 readme_filename      = "README.md"
 comment_filename     = "Comments"
+atomicdata_folder    = "ATOMICDATA"
 indexhtml_filename   = "index.html"
 globalindex_filename = ["index-table.html"]
 specie_html_template = "index-specie.html" 
@@ -309,8 +310,8 @@ def main_create_html_from_table(html_folder,table_folder):
           table_pdf_found = ff ; break
     table_pdf_name = table_name+".pdf" if table_pdf_found != "none" else None
     if table_pdf_found != "none":
-      copy_html_template(html_folder,pdf_table_path=os.path.join("..","..","ATOMICDATA",table_name+".pdf"))
-      shutil.copy2(os.path.join(table_folder,table_pdf_found),os.path.join(html_folder,"ATOMICDATA",table_name+".pdf"))            
+      copy_html_template(html_folder,pdf_table_path=os.path.join("..","..",atomicdata_folder,table_name+".pdf"))
+      shutil.copy2(os.path.join(table_folder,table_pdf_found),os.path.join(html_folder,atomicdata_folder,table_name+".pdf"))            
     else:
       copy_html_template(html_folder)
 
@@ -328,7 +329,7 @@ def main_create_html_from_table(html_folder,table_folder):
       if isfile_case_sensitive(file_fullname):
 
         if file_specie in specie.keys():
-          specie_dirname=os.path.join("ATOMICDATA","%03d-%s" % (int(specie[file_specie][1]),file_specie.lower()))
+          specie_dirname=os.path.join(atomicdata_folder,"%03d-%s" % (int(specie[file_specie][1]),file_specie.lower()))
           specie_dir_dest = os.path.join(html_folder,specie_dirname)
 
 #         Process XML file(s)
@@ -364,7 +365,7 @@ def main_create_html_from_table(html_folder,table_folder):
 
 #       Process table PDF file
         if file_ext == '.pdf' and len(os.path.split(file_bodyname)[0]) == 0:
-          file_dest = os.path.join(html_folder,"ATOMICDATA",table_name+'.pdf')
+          file_dest = os.path.join(html_folder,atomicdata_folder,table_name+'.pdf')
           shutil.copy2(file_fullname,file_dest)
 
 #       Process "Comments" file
@@ -379,7 +380,7 @@ def main_create_html_from_table(html_folder,table_folder):
     raise ValueError("No Comments file found in table_folder!")
 
 # Explore destination (html) directory and build index.html files
-  for root, dirs, files in os.walk(os.path.join(html_folder,"ATOMICDATA")):
+  for root, dirs, files in os.walk(os.path.join(html_folder,atomicdata_folder)):
     for dir_name in dirs:
       dir_fullname = os.path.join(root,dir_name)
       dir_specie = specie_from_dirname(dir_name)
@@ -432,15 +433,15 @@ def main_create_html_from_table(html_folder,table_folder):
 # Build tarball(s) with entire table
   for root, dirs, files in os.walk(tmp_dir):
     for dir_name in dirs:
-      tar_name = os.path.join(html_folder,'ATOMICDATA',dir_name)+'.tar.gz'
+      tar_name = os.path.join(html_folder,atomicdata_folder,dir_name)+'.tar.gz'
       if isfile_case_sensitive(tar_name): os.remove(tar_name)
       tarf = tarfile.open(name=tar_name, mode='x:gz')
       tarf.add(os.path.join(root,dir_name),arcname=dir_name)
       tarf.close()
 
 # Modify global index file
-  tarball_src_folder = os.path.join(html_folder,'ATOMICDATA')
-  tarball_folder_link = 'ATOMICDATA'
+  tarball_src_folder = os.path.join(html_folder,atomicdata_folder)
+  tarball_folder_link = atomicdata_folder
   modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link)
 
 # Remove tmp dir
@@ -448,8 +449,11 @@ def main_create_html_from_table(html_folder,table_folder):
 
 
 #=========================================
-def main_create_html_from_github(html_folder,github_table_folder):
+def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=False):
   """Read data in github_table_folder and create html_folder structure"""
+# Option:
+#   with_subdirs: False = creates ATOMIDATA/xxx-yy.html files
+#                 True  = creates ATOMICDATA/xxx-yy/index.html files
 
 # Table info
   table_name = table_name_from_string(os.path.split(github_table_folder)[1])
@@ -465,10 +469,11 @@ def main_create_html_from_github(html_folder,github_table_folder):
     table_pdf_found = isfile_case_sensitive(os.path.join(github_table_folder,table_name+".pdf"))
     table_pdf_name = table_name+".pdf" if table_pdf_found else None
     if table_pdf_found:
-      copy_html_template(html_folder,pdf_table_path=os.path.join(github_table_link,table_name+".pdf"))
+      copy_html_template(html_folder,with_subdirs=with_subdirs, \
+           pdf_table_path=os.path.join(github_table_link,table_name+".pdf"))
     else:
-      copy_html_template(html_folder)
-
+      copy_html_template(html_folder,with_subdirs=with_subdirs)
+ 
 # Initialize database from info file
   ddb_info_filename = os.path.join(github_table_folder,info_filename)
   if isfile_case_sensitive(ddb_info_filename):
@@ -483,7 +488,12 @@ def main_create_html_from_github(html_folder,github_table_folder):
       dir_specie = specie_from_dirname(dir_name)
 
       if dir_specie in specie.keys():
-        specie_dir_dest=os.path.join(html_folder,"ATOMICDATA","%03d-%s" % (int(specie[dir_specie][1]),dir_specie.lower()))
+        if with_subdirs:
+          specie_dir_dest=os.path.join(html_folder,atomicdata_folder,"%03d-%s" % (int(specie[dir_specie][1]),dir_specie.lower()))
+          specie_indexfile_dest=indexhtml_filename
+        else:
+          specie_dir_dest=os.path.join(html_folder,atomicdata_folder)
+          specie_indexfile_dest="%03d-%s.html" % (int(specie[dir_specie][1]),dir_specie.lower())
 
 #       Search all relevant files in directory
         file_list = {}
@@ -526,7 +536,7 @@ def main_create_html_from_github(html_folder,github_table_folder):
 
 #       Write new lines in index.html, if any
         if len(html_lines)>0:
-          fname = os.path.join(specie_dir_dest,indexhtml_filename)
+          fname = os.path.join(specie_dir_dest,specie_indexfile_dest)
           #Delete "Not available" line if present
           file_delete_lines(fname,line_list=["ot available"])
           #Write new lines
@@ -535,7 +545,8 @@ def main_create_html_from_github(html_folder,github_table_folder):
 # Modify global index file
   tarball_src_folder = github_table_folder
   tarball_folder_link = github_table_link
-  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link)
+  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,\
+                      tarball_folder_link,with_subdirs=with_subdirs)
 
 
 #--------------------------------------------------------------------------------
@@ -1267,32 +1278,44 @@ def file_add_lines(file_name,line_before="@@@",line_list=[]):
 
 #-----------------------------------------
 #Copy website template into destination directory
-def copy_html_template(dest_dirname,pdf_table_path=None):
+def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True):
+
+#   with_subdirs: False = creates ATOMIDATA/xxx-yy.html files
+#                 True  = creates ATOMICDATA/xxx-yy/index.html files
 
   if pdf_table_path is not None:
     table_link_to_pdf = pdf_table_path
   else:
     table_link_to_pdf = link_to_error404
 
+  #Ignore some files
+  if with_subdirs:
+    ignored_files=shutil.ignore_patterns(specie_html_template)
+  else:
+    ignored_files=shutil.ignore_patterns(specie_html_template,atomicdata_folder)
+
   #Copy dir structure
-  shutil.copytree(website_template,dest_dirname,dirs_exist_ok=True)
-  specie_template_file=os.path.join(dest_dirname,specie_html_template)
-  if isfile_case_sensitive(specie_template_file): os.remove(specie_template_file)
+  shutil.copytree(website_template,dest_dirname,dirs_exist_ok=True,ignore=ignored_files)
+  if not with_subdirs: os.mkdir(os.path.join(dest_dirname,atomicdata_folder))            
 
   #Copy and modify index.html files
-  for root, dirs, files in os.walk(os.path.join(dest_dirname,"ATOMICDATA")):
+  for root, dirs, files in os.walk(os.path.join(website_template,atomicdata_folder)):
     for dir_name in dirs:
-      dir_specie = specie_from_dirname(dir_name)
+      specie_name = specie_from_dirname(dir_name)
+      specie_fullname="%03d-%s" % (int(specie[specie_name][1]),specie_name.lower())
       
       #Copy index.html template
       file_index_src  = os.path.join(website_template,specie_html_template)
-      file_index_dest = os.path.join(root,dir_name,indexhtml_filename)
+      if with_subdirs:
+        file_index_dest = os.path.join(dest_dirname,atomicdata_folder,dir_name,indexhtml_filename)
+      else:
+        file_index_dest = os.path.join(dest_dirname,atomicdata_folder,specie_fullname+'.html')
       shutil.copy(file_index_src,file_index_dest)
 
       #Modifiy index.html
       strg_list = []
-      strg_list.append(["$${ELEM_SHORT}", dir_specie])
-      strg_list.append(["$${ELEM_LONG}", specie[dir_specie][0]])
+      strg_list.append(["$${ELEM_SHORT}", specie_name])
+      strg_list.append(["$${ELEM_LONG}", specie[specie_name][0]])
       strg_list.append(["$${LINK_TO_REF}", table_link_to_pdf])
       strg_list.append(["$${LAST_MODIF_DATE}", last_modif_date])
       strg_list.append(["$${WEBMASTER}", web_master])
@@ -1308,7 +1331,11 @@ def copy_html_template(dest_dirname,pdf_table_path=None):
 # html_folder = destination folder (html table folder)
 # tarball_src_folder = folder where to find source tarballs (full tables)
 # tarball_folder_link = html link to tarballs in html
-def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link):
+def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder, \
+                        tarball_folder_link,with_subdirs=True):
+
+#   with_subdirs: False = creates ATOMIDATA/xxx-yy.html files
+#                 True  = creates ATOMICDATA/xxx-yy/index.html files
 
   tarball_list = []
   for file_name in os.listdir(tarball_src_folder):
@@ -1333,6 +1360,17 @@ def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_fo
     index_full_name = os.path.join(html_folder,file_index_global)
     file_replace_string(index_full_name,strg_list)
     file_add_lines(index_full_name,line_before="INSERT HERE TARBALLS TO FULL TABLE - END",line_list=html_lines)
+
+    # If needed, in global index file, replace subdirs with html files
+    if not with_subdirs:
+     pattern = r"(ATOMICDATA/\w+-\w+)/"
+     for file_index_global in globalindex_filename:
+       index_full_name = os.path.join(html_folder,file_index_global)
+       with open(index_full_name, "r", encoding="utf-8") as f: content = f.read()
+       new_content = re.sub(pattern, r"\1.html", content)
+       shutil.move(index_full_name,index_full_name+".bak")
+       with open(index_full_name, "w", encoding="utf-8") as f: f.write(new_content)
+       os.remove(index_full_name+".bak")
 
 #-----------------------------------------
 #From "Comments" file (data_folder), create "dataset_info.txt" file (github_folder)
@@ -1402,11 +1440,14 @@ def infofile_from_commentfile(comment_filename,info_filename):
 def usage():
   print ('Usage: '+sys.argv[0].split('/')[-1] \
   +'\n  [--help]' \
-  +'\n  [--action <action>]    (default: none)' \
+  +'\n  [--action <action>] (default: none)  Possible actions:' \
+  +'\n       create_github_from_table, create_html_from_github, create_html_from_table' \
   +'\n  [--root <root_folder>] (default: current folder, can be table_folder)' \
   +'\n  [--dest <dest_folder>] (default: none, can be github_folder or html_folder)' \
-  +'\n  [--erase-dest] (default: no, erase destination folder [be careful])' \
-  +'\nPossible actions: create_github_from_table, create_html_from_github, create_html_from_table' \
+  +'\n  [--erase-dest] (default: no. Erase destination folder [be careful])' \
+  +'\n  [--with-subdirs] (default: no. Valid only if action = create_html_from_github)' \
+  +'\n                    If yes, creates ATOMICADATA/xxx-yy/index.html files.' \
+  +'\n                    If no,  creates ATOMICDATA/xxx-yyy.html files.' \
   +'\n' \
   +'\nGlossary:' \
   +'\ngithub_folder: destination folder as present in pseudo-dojo github' \
@@ -1418,6 +1459,7 @@ if __name__ == "__main__":
   dest = None
   action = None
   erase_dest = False
+  with_subdirs = False
   for i in range(len(sys.argv)):
     if sys.argv[i]=="--help":
       usage() ; sys.exit()
@@ -1438,6 +1480,8 @@ if __name__ == "__main__":
         action=sys.argv[i+1]
     elif sys.argv[i]=="--erase-dest":
       erase_dest = True
+    elif sys.argv[i]=="--with-subdirs":
+      with_subdirs = True
 
   if root is not None:
     if not isdir_case_sensitive(root):
@@ -1462,7 +1506,7 @@ if __name__ == "__main__":
   elif action =="create_html_from_github":
     if dest is None:
       print("Action 'create_html_from_github' needs a 'dest' argument!");sys.exit()    
-    main_create_html_from_github(dest,github_table_folder=root)
+    main_create_html_from_github(dest,github_table_folder=root,with_subdirs=with_subdirs)
   elif action is None:
     print("Need a 'action' argument!")
     sys.exit()
