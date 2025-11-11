@@ -16,6 +16,8 @@ info_filename        = "dataset_info.txt"
 readme_filename      = "README.md"
 comment_filename     = "Comments"
 atomicdata_folder    = "ATOMICDATA"
+input_xml_lines_def  = ['XMLOUT\n','default\n']
+input_upf_lines_def  = ['UPFOUT\n','default\n']
 indexhtml_filename   = "index.html"
 globalindex_filename = ["index-table.html"]
 specie_html_template = "index-specie.html" 
@@ -125,7 +127,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
 
         if file_specie in specie.keys():
           dir_dest = os.path.join(github_table_folder,file_specie)
-        
+   
 #         Process XML file(s)
           if file_ext == '.xml' or file_ext == ".XML":
             if string_is_in_file(["<paw_dataset version="],file_fullname):
@@ -134,8 +136,13 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
               #Create input file
               pawdt = paw_dataset(xml_filename=file_fullname)
               file_input_dest = os.path.join(github_table_folder,file_specie,file_bodyname+".atompaw.input")
+              upf_name1=os.path.join(root,file_bodyname + ".upf")
+              upf_name2=os.path.join(root,file_bodyname + ".UPF")
+              if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
+              if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
+              merged_input_file=pawdt.merge_xml_upf_input()
               finput = open(file_input_dest,'w')
-              finput.write("".join(pawdt.input_file))
+              finput.write("".join(merged_input_file))
               finput.close()
 
 #         Process UPF file(s)
@@ -289,7 +296,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
   shutil.rmtree(tmp_dir,ignore_errors=True)
 
 #=========================================
-def main_create_html_from_table(html_folder,table_folder):
+def main_create_html_from_table(table_folder,html_folder):
   """Read data in table_folder and create html_folder structure"""
 
 # Table info
@@ -346,8 +353,13 @@ def main_create_html_from_table(html_folder,table_folder):
               shutil.copy2(file_fullname,specie_dir_dest)                           
               #Create input file
               file_input_dest = os.path.join(specie_dir_dest,file_bodyname+".atompaw.input")
+              upf_name1=os.path.join(root,file_bodyname + ".upf")
+              upf_name2=os.path.join(root,file_bodyname + ".UPF")
+              if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
+              if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
+              merged_input_file=pawdt.merge_xml_upf_input()
               finput = open(file_input_dest,'w')
-              finput.write("".join(pawdt.input_file))
+              finput.write("".join(merged_input_file))
               finput.close()
 
 #         Process UPF file(s)
@@ -446,6 +458,61 @@ def main_create_html_from_table(html_folder,table_folder):
 
 # Remove tmp dir
   shutil.rmtree(tmp_dir,ignore_errors=True)
+
+
+#=========================================
+def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
+  """Read data in table_folder and create a folder containing all Atompaw inputs"""
+
+# Read table info
+  table_name = table_name_from_string(os.path.split(table_folder)[1])
+  table_version = table_version_from_string(table_name)
+  inputs_table_folder = os.path.join(inputs_folder,table_name)
+
+# Create github destination directory
+  if not exists_case_sensitive(inputs_table_folder): os.makedirs(inputs_table_folder,exist_ok=True)
+
+# Create specie directories in destination folder
+  for sp_name in specie.keys():
+    fname=os.path.join(inputs_table_folder,sp_name)
+    if not exists_case_sensitive(fname): os.makedirs(fname,exist_ok=True)
+
+# Explore root directory
+  for root, dirs, files in os.walk(table_folder):
+    for file_name in files:
+      file_bodyname, file_ext = os.path.splitext(file_name)
+      file_fullname = os.path.join(root,file_name)
+      file_specie = specie_from_filename(file_name)
+      if os.path.isfile(file_fullname):
+
+        if file_specie in specie.keys():
+          dir_dest = os.path.join(inputs_table_folder,file_specie)
+
+#         Process XML file
+          if file_ext == ".xml" or file_ext == ".XML":
+            if string_is_in_file(["<paw_dataset version="],file_fullname):
+              pawdt = paw_dataset(xml_filename=file_fullname)
+              upf_name1=os.path.join(root,file_bodyname + ".upf")
+              upf_name2=os.path.join(root,file_bodyname + ".UPF")
+              if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
+              if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
+              merged_input_file=pawdt.merge_xml_upf_input(add_corewf=add_corewf)
+              file_input_dest = os.path.join(dir_dest,file_bodyname+".atompaw.input")
+              finput = open(file_input_dest,'w')
+              finput.write("".join(merged_input_file))
+              finput.close()
+
+#         Process UPF file, if XML file does not exist
+          if file_ext == ".upf" or file_ext == ".UPF":
+            if string_is_in_file(["<UPF version="],file_fullname):
+              xml_name1=os.path.join(root,file_bodyname + ".xml")
+              xml_name2=os.path.join(root,file_bodyname + ".XML")
+              if not isfile_case_sensitive(xml_name1) and not isfile_case_sensitive(xml_name2):
+                pawdt = paw_dataset(upf_filename=file_fullname)
+                file_input_dest = os.path.join(dir_dest,file_bodyname+".atompaw.input")
+                finput = open(file_input_dest,'w')
+                finput.write("".join(pawdt.input_file_upf))
+                finput.close()
 
 
 #=========================================
@@ -560,32 +627,35 @@ class paw_dataset:
 # Set default values
   def __init__(self,xml_filename=None,upf_filename=None,dataset_info=[]):
 
-    self.xml_file_name = "unknown"
-    self.upf_file_name = "unknown"
-    self.inp_file_name = "unknown"
-    self.file_xml_md5  = None
-    self.file_upf_md5  = None
-    self.symbol        = None
-    self.category      = "unknown"
-    self.status        = "unknown"
-    self.lmax          = None
-    self.charge        = None
-    self.core          = None
-    self.vale          = None
-    self.ecut_low      = None
-    self.ecut_medium   = None
-    self.ecut_high     = None
-    self.xc_type       = "unknown"
-    self.xc_name       = "unknown"
-    self.gen_type      = "unknown"
-    self.gen_name      = "unknown"
-    self.rpaw          = None
-    self.delta         = None
-    self.delta1        = None
-    self.valence       = []
-    self.comment       = []
-    self.input_file    = []
-    self.estruct_short = "unknown"
+    self.xml_file_name   = "unknown"
+    self.upf_file_name   = "unknown"
+    self.inp_file_name   = "unknown"
+    self.file_xml_md5    = None
+    self.file_upf_md5    = None
+    self.symbol          = None
+    self.category        = "unknown"
+    self.status          = "unknown"
+    self.lmax            = None
+    self.charge          = None
+    self.core            = None
+    self.vale            = None
+    self.ecut_low        = None
+    self.ecut_medium     = None
+    self.ecut_high       = None
+    self.xc_type         = "unknown"
+    self.xc_name         = "unknown"
+    self.gen_type        = "unknown"
+    self.gen_name        = "unknown"
+    self.rpaw            = None
+    self.delta           = None
+    self.delta1          = None
+    self.valence         = []
+    self.comment         = []
+    self.input_file_xml  = []
+    self.input_file_upf  = []
+    self.input_xml_lines = None
+    self.input_upf_lines = None
+    self.estruct_short   = "unknown"
 
     if xml_filename is not None:
       self.read_from_xml(xml_filename)
@@ -619,9 +689,17 @@ class paw_dataset:
     stg += '  comment:\n'
     for cm in self.comment:
       stg += '    ['+str(cm)+']\n'
-    stg += '  input file:\n'
-    for ip in self.input_file:
+    stg += '  input file (XML):\n'
+    for ip in self.input_file_xml:
       stg += '    | '+str(ip)
+    stg += '  input file (UPF):\n'
+    for ip in self.input_file_upf:
+      stg += '    | '+str(ip)
+    stg += '  input_xml_lines:\n'
+    stg += '    ['+str(self.input_xml_lines[0])+', '+str(self.input_xml_lines[1])+']\n'
+    stg += '  input_upf_lines:\n'
+    stg += '    ['+str(self.input_upf_lines[0])+', '+str(self.input_upf_lines[1])+']\n'
+
     return stg
 
 #-----------------------------------------
@@ -635,18 +713,23 @@ class paw_dataset:
 #   Get MD5 checksum of XML sile
     self.file_xml_md5 = hashlib.md5(open(xml_filename,'rb').read()).hexdigest()
 
-    #Read input file
-    if self.input_file == []:
+#   Read input file
+    if self.input_file_xml == []:
       fxml = open(xml_filename,'r')
       flines = fxml.readlines()
       try:
         ind1 = flines.index("<!-- Program:  atompaw - input data follows: \n")
         ind2 = flines.index(" Program:  atompaw - input end -->\n")
-        self.input_file = flines[ind1+1:ind2]
+        self.input_file_xml = flines[ind1+1:ind2]
       except:
-        self.input_file = []
+        self.input_file_xml = []
       fxml.close()
-    
+
+#   Read XML options in input file
+    if len(self.input_file_xml) > 0:
+      index_xml = next((i for i,stg in enumerate(self.input_file_xml) if 'xmlout' in stg.lower()), None)
+      self.input_xml_lines = self.input_file_xml[index_xml:index_xml+2]
+
 #   Read content of the file and fill object
     self.xml_file_name = os.path.split(xml_filename)[-1]
     tree = etree.parse(xml_filename)
@@ -733,13 +816,19 @@ class paw_dataset:
     fupf.close()
 
 #   Get input file
-    if self.input_file == []:
+    if self.input_file_upf == []:
       try:
         ind1 = flines.index("         UPF file from ATOMPAW code with following input\n")
         ind2 = flines.index("  </PP_INFO>\n")
-        self.input_file = flines[ind1+1:ind2]
+        self.input_file_upf = flines[ind1+1:ind2]
       except:
-        self.input_file = []
+        self.input_file_upf = []
+
+#   Read UPF options in input file
+    if len(self.input_file_upf) > 0:
+      #index_upf = next((i for i,stg in enumerate(self.input_file_upf) if 'upfout' in stg.lower()), None)
+      index_upf = next((i for i,stg in enumerate(self.input_file_upf) if not any(sub in stg.lower() for sub in ['upfout','pwscfout'])), None)
+      self.input_upf_lines = self.input_file_upf[index_upf:index_upf+2]
     
 #   Get UPF file name
     self.upf_file_name = o.path.split(upf_filename)[-1]
@@ -792,6 +881,48 @@ class paw_dataset:
       #self.ecut_high   = float()
       #self.rpaw        = float()
       #self.valence     = []
+
+#-----------------------------------------
+# Merge content of UPF and XML input files 
+  def merge_xml_upf_input(self,force_default=False,add_corewf=False):
+  
+    merged_input_file=[]
+
+    # Suppress XML input lines
+    if len(self.input_file_xml) > 0:
+      if self.input_xml_lines is not None:
+        merged_input_file = [s for s in self.input_file_xml if not any(sub in s for sub in self.input_xml_lines)]
+      else:
+        merged_input_file = self.input_file_xml
+
+    # Suppress UPF input lines
+    if len(merged_input_file) == 0:
+      if len(self.input_file_upf) > 0:
+        if self.input_upf_lines is not None:
+          merged_input_file = [s for s in self.input_file_upf if not any(sub in s for sub in self.input_upf_lines)]
+        else:
+          merged_input_file=self.input_file_upf
+
+    # Add XML and UPF input lines if any
+    if len(merged_input_file) > 0:
+      index_end = next((i for i, s in enumerate(merged_input_file) if 'END' in s), None)
+      if index_end is not None:
+        if self.input_xml_lines is not None and not force_default:
+          xml_lines = self.input_xml_lines
+        else:
+          xml_lines = input_xml_lines_def
+        xml_lines[1] = xml_lines[1].lower()
+        if add_corewf and not 'prtcorewf' in xml_lines[1]:
+          xml_lines[1] = 'prtcorewf ' + xml_lines[1].replace('default','')
+        merged_input_file[index_end:index_end] = xml_lines
+      index_end = next((i for i, s in enumerate(merged_input_file) if 'END' in s), None)
+      if index_end is not None:
+        if self.input_upf_lines is not None and not force_default:
+          merged_input_file[index_end:index_end] = self.input_upf_lines
+        else:
+          merged_input_file[index_end:index_end] = input_upf_lines_def
+
+    return merged_input_file
 
 #-----------------------------------------
  # Read properties from dataset_info object
@@ -1440,19 +1571,26 @@ def infofile_from_commentfile(comment_filename,info_filename):
 def usage():
   print ('Usage: '+sys.argv[0].split('/')[-1] \
   +'\n  [--help]' \
+  +'\n' \
   +'\n  [--action <action>] (default: none)  Possible actions:' \
-  +'\n       create_github_from_table, create_html_from_github, create_html_from_table' \
+  +'\n       create_github_from_table, create_html_from_github,' \
+  +'\n       create_html_from_table, create_inputs_from_table' \
+  +'\n' \
   +'\n  [--root <root_folder>] (default: current folder, can be table_folder)' \
-  +'\n  [--dest <dest_folder>] (default: none, can be github_folder or html_folder)' \
+  +'\n  [--dest <dest_folder>] (default: none, can be github_folder or html_folder or inputs_folder)' \
+  +'\n' \
   +'\n  [--erase-dest] (default: no. Erase destination folder [be careful])' \
   +'\n  [--with-subdirs] (default: no. Valid only if action = create_html_from_github)' \
   +'\n                    If yes, creates ATOMICADATA/xxx-yy/index.html files.' \
   +'\n                    If no,  creates ATOMICDATA/xxx-yyy.html files.' \
+  +'\n  [--add-corewf] (default: no. Valid only if action = create_inputs_from_table)' \
+  +'\n                    If yes, add printing of core WF in Atompaw XML input files.' \
   +'\n' \
   +'\nGlossary:' \
-  +'\ngithub_folder: destination folder as present in pseudo-dojo github' \
   +'\ntable_folder : source folder as written by F. Jollet' \
-  +'\nhtml_folder  : destination folder to be uploaded to abinit web site')
+  +'\ngithub_folder: destination folder as present in pseudo-dojo github' \
+  +'\nhtml_folder  : destination folder to be uploaded to abinit web site' \
+  +'\inputs_folder : destination folder containing all input files')
 
 if __name__ == "__main__":
   root = os.getcwd()
@@ -1460,6 +1598,7 @@ if __name__ == "__main__":
   action = None
   erase_dest = False
   with_subdirs = False
+  add_corewf = False
   for i in range(len(sys.argv)):
     if sys.argv[i]=="--help":
       usage() ; sys.exit()
@@ -1482,6 +1621,8 @@ if __name__ == "__main__":
       erase_dest = True
     elif sys.argv[i]=="--with-subdirs":
       with_subdirs = True
+    elif sys.argv[i]=="--add-corewf":
+      add_corewf = True
 
   if root is not None:
     if not isdir_case_sensitive(root):
@@ -1502,7 +1643,11 @@ if __name__ == "__main__":
   elif action =="create_html_from_table":
     if dest is None:
       print("Action 'create_html_from_table' needs a 'dest' argument!");sys.exit()    
-    main_create_html_from_table(dest,root)    
+    main_create_html_from_table(root,dest)    
+  elif action =="create_inputs_from_table":
+    if dest is None:
+      print("Action 'create_inputs_from_table' needs a 'dest' argument!");sys.exit()    
+    main_create_inputs_from_table(root,dest,add_corewf=add_corewf)    
   elif action =="create_html_from_github":
     if dest is None:
       print("Action 'create_html_from_github' needs a 'dest' argument!");sys.exit()    
