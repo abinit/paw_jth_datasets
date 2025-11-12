@@ -130,7 +130,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
    
 #         Process XML file(s)
           if file_ext == '.xml' or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version="],file_fullname):
+            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
               #Copy file
               shutil.copy2(file_fullname,dir_dest)
               #Create input file
@@ -141,9 +141,10 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
               if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
               if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
               merged_input_file=pawdt.merge_xml_upf_input()
-              finput = open(file_input_dest,'w')
-              finput.write("".join(merged_input_file))
-              finput.close()
+              if len(merged_input_file) > 0:
+                finput = open(file_input_dest,'w')
+                finput.write("".join(merged_input_file))
+                finput.close()
 
 #         Process UPF file(s)
           elif file_ext == '.upf' or file_ext == ".UPF":
@@ -253,7 +254,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             file_readme.write("  \n")
             file_readme.write("_These atomic data have been carefully tested against ") 
             file_readme.write("all-electron calculations and other available atomic datasets ")
-            file_readme.write("(some reference results are given [here]("+table_link_to_pdf+")._\n")
+            file_readme.write("(some reference results are given [here]("+table_link_to_pdf+"))._\n")
             file_readme.write("_They are recommended for use, although they have to be tested ")
             file_readme.write("again by users._  \n")
             readme_is_empty = False
@@ -341,7 +342,7 @@ def main_create_html_from_table(table_folder,html_folder):
 
 #         Process XML file(s)
           if file_ext == '.xml' or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version="],file_fullname):
+            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
               pawdt = paw_dataset(xml_filename=file_fullname)
               #Store file for tarball
               xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
@@ -358,9 +359,10 @@ def main_create_html_from_table(table_folder,html_folder):
               if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
               if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
               merged_input_file=pawdt.merge_xml_upf_input()
-              finput = open(file_input_dest,'w')
-              finput.write("".join(merged_input_file))
-              finput.close()
+              if len(merged_input_file) > 0:
+                finput = open(file_input_dest,'w')
+                finput.write("".join(merged_input_file))
+                finput.close()
 
 #         Process UPF file(s)
           elif file_ext == '.upf' or file_ext == ".UPF":
@@ -490,7 +492,7 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
 
 #         Process XML file
           if file_ext == ".xml" or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version="],file_fullname):
+            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
               pawdt = paw_dataset(xml_filename=file_fullname)
               upf_name1=os.path.join(root,file_bodyname + ".upf")
               upf_name2=os.path.join(root,file_bodyname + ".UPF")
@@ -498,9 +500,10 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
               if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
               merged_input_file=pawdt.merge_xml_upf_input(add_corewf=add_corewf)
               file_input_dest = os.path.join(dir_dest,file_bodyname+".atompaw.input")
-              finput = open(file_input_dest,'w')
-              finput.write("".join(merged_input_file))
-              finput.close()
+              if len(merged_input_file) > 0:
+                finput = open(file_input_dest,'w')
+                finput.write("".join(merged_input_file))
+                finput.close()
 
 #         Process UPF file, if XML file does not exist
           if file_ext == ".upf" or file_ext == ".UPF":
@@ -510,9 +513,10 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
               if not isfile_case_sensitive(xml_name1) and not isfile_case_sensitive(xml_name2):
                 pawdt = paw_dataset(upf_filename=file_fullname)
                 file_input_dest = os.path.join(dir_dest,file_bodyname+".atompaw.input")
-                finput = open(file_input_dest,'w')
-                finput.write("".join(pawdt.input_file_upf))
-                finput.close()
+                if len(pawdt.input_file_upf) > 0:
+                  finput = open(file_input_dest,'w')
+                  finput.write("".join(pawdt.input_file_upf))
+                  finput.close()
 
 
 #=========================================
@@ -670,18 +674,23 @@ class paw_dataset:
 # Print object
   def __str__(self):
     stg= 'Object of type paw_dataset:\n' \
-     + '  XML file_name = '+self.xml_file_name+'\n' \
-     + '  UPF file_name = '+self.upf_file_name+'\n' \
-     + '  XML md5   = '+self.file_xml_md5+'\n' \
-     + '  UPF md5   = '+self.file_upf_md5+'\n' \
-     + '  generator = ('+self.gen_type+', '+self.gen_name+')\n' \
-     + '  xc        = ('+self.xc_type+', '+self.xc_name+')\n' \
-     + '  symbol    = '+self.symbol+'\n' \
-     + '  charge    : tot='+str(self.charge)+', core='+str(self.core) \
-     + ', val='+str(self.vale)+'\n' \
-     + '  rpaw      = '+str(self.rpaw)+'\n' \
-     + '  delta[1]  = ('+str(self.delta)+', '+str(self.delta1)+')\n' \
-     + '  ecut      = ('+str(self.ecut_low)+', '+str(self.ecut_medium)+', '+str(self.ecut_high)+')\n'
+     + '  XML file_name = '+ self.xml_file_name+'\n' \
+     + '  UPF file_name = '+ self.upf_file_name+'\n' \
+     + '  INP file_name = '+ self.inp_file_name+'\n' \
+     + '  XML md5   = '+ (self.file_xml_md5 if self.file_xml_md5 is not None else "None") +'\n' \
+     + '  UPF md5   = '+ (self.file_upf_md5 if self.file_upf_md5 is not None else "None") +'\n' \
+     + '  generator = ('+ self.gen_type+', '+self.gen_name+')\n' \
+     + '  xc        = ('+ self.xc_type+', '+self.xc_name+')\n' \
+     + '  symbol    = '+ (self.symbol if self.symbol is not None else "None") +'\n' \
+     + '  charge    : tot='+ (str(self.charge) if self.charge is not None else "None") \
+     + ', core='+ (str(self.core) if self.core is not None else "None") \
+     + ', val='+ (str(self.vale) if self.vale is not None else "None") +'\n' \
+     + '  rpaw      = '+ (str(self.rpaw) if self.rpaw is not None else "None") +'\n' \
+     + '  delta[1]  = ('+ (str(self.delta) if self.delta is not None else "None") +', ' \
+                        + (str(self.delta1) if self.delta1 is not None else "None") +')\n' \
+     + '  ecut      = ('+ (str(self.ecut_low) if self.ecut_low is not None else "None") + ', ' \
+                        + (str(self.ecut_medium) if self.ecut_medium is not None else "None") +', ' \
+                        + (str(self.ecut_high) if self.ecut_high is not None else "None") +')\n'
     stg += '  valence:\n'
     for vv in self.valence:
       stg += '    n='+str(vv[0])+', l='+str(vv[1])
@@ -696,9 +705,11 @@ class paw_dataset:
     for ip in self.input_file_upf:
       stg += '    | '+str(ip)
     stg += '  input_xml_lines:\n'
-    stg += '    ['+str(self.input_xml_lines[0])+', '+str(self.input_xml_lines[1])+']\n'
+    if self.input_xml_lines is not None:
+      stg += '    ['+str(self.input_xml_lines[0])+', '+str(self.input_xml_lines[1])+']\n'
     stg += '  input_upf_lines:\n'
-    stg += '    ['+str(self.input_upf_lines[0])+', '+str(self.input_upf_lines[1])+']\n'
+    if self.input_upf_lines is not None:
+      stg += '    ['+str(self.input_upf_lines[0])+', '+str(self.input_upf_lines[1])+']\n'
 
     return stg
 
@@ -717,13 +728,16 @@ class paw_dataset:
     if self.input_file_xml == []:
       fxml = open(xml_filename,'r')
       flines = fxml.readlines()
+      fxml.close()
+
+#   Get input file
+    if self.input_file_xml == []:
       try:
         ind1 = flines.index("<!-- Program:  atompaw - input data follows: \n")
         ind2 = flines.index(" Program:  atompaw - input end -->\n")
         self.input_file_xml = flines[ind1+1:ind2]
       except:
         self.input_file_xml = []
-      fxml.close()
 
 #   Read XML options in input file
     if len(self.input_file_xml) > 0:
@@ -765,10 +779,22 @@ class paw_dataset:
     gen = tree.xpath("generator")[0]
     if self.gen_type == "unknown": self.gen_type = gen.get("type")
     if self.gen_name == "unknown": self.gen_name = gen.get("name")
+    # If generator name doesnt contain the version number, try to find it in the comments
+    pattern = r"\b\d+\.\d+\.\d+\.\d+\b"
+    if not re.search(pattern, self.gen_name):
+      index_ver = next((i for i,stg in enumerate(flines) if 'contact info' in stg.lower()), None)
+      if index_ver > 0:
+        wds = flines[index_ver-1].lower().split()
+        index_ver = wds.index("atompaw")+1
+        if index_ver > 0: self.gen_name += "-" + wds[index_ver]
 
 #   Get PAW radius
-    rpaw = tree.xpath("paw_radius")[0]
-    if self.rpaw is None: self.rpaw = float(rpaw.get("rc"))
+    check_rpaw = tree.xpath("paw_radius")
+    if len(check_rpaw) == 0: check_rpaw = tree.xpath("PAW_radius")
+    rpaw = check_rpaw[0]
+    check_rc = rpaw.get("rc")
+    if check_rc is None: check_rc = rpaw.get("rpaw")
+    if self.rpaw is None and check_rc is not None: self.rpaw = float(check_rc)
 
     if self.valence == []:
       valence = tree.xpath("valence_states/state")
@@ -780,6 +806,7 @@ class paw_dataset:
           nn=-1
         else:
           nn=int(vale.get("n"))
+          if nn > 10: nn=-1
         if vale.get("f") is None:
           ff=-1.0
         else:
@@ -794,7 +821,7 @@ class paw_dataset:
       print("vale : "+str(self.vale))
       print("vale_charge : "+str(vale_charge))
       raise ValueError("Check XML file!")
- 
+
 #   Get electronic structure
     if self.estruct_short == "unknown":
       self.estruct_short = self.electronic_structure(option="short")
@@ -1061,8 +1088,12 @@ class paw_dataset:
       my_html_lines.append('      Generator: '+self.gen_name)
       if self.inp_file_name != "unknown":
         my_html_lines.append(' (<a href="'+file_location+'/'+self.inp_file_name+'">input file</a>)<br>\n')
-      else:
+      elif len(self.input_file_xml) > 0 and len(self.input_file_upf) > 0:
         my_html_lines.append(' (input file included in the dataset itself)<br>\n')
+      elif len(self.input_file_xml) > 0:
+        my_html_lines.append(' (input file included in the XML dataset itself)<br>\n')
+      elif len(self.input_file_upf) > 0:
+        my_html_lines.append(' (input file included in the UPF dataset itself)<br>\n')
     for cm in self.comment:
       if len(cm)>0:
         my_html_lines.append('      '+cm+'<br>\n')
@@ -1096,16 +1127,20 @@ class paw_dataset:
       my_markdown_lines.append('[Delta factor](https://molmod.ugent.be/deltacodesdft): $\\Delta$-value= ' \
               +str(self.delta) + ' meV, ' + '$\\Delta_1$-value= ' + str(self.delta1) + ' meV  \n')
     if self.ecut_low is not None and self.ecut_medium is not None and self.ecut_high is not None:
-        my_markdown_lines.append('Suggested PW cut-off energies: ' \
+      my_markdown_lines.append('Suggested PW cut-off energies: ' \
           + 'low= %.1f'    % self.ecut_low    + ' Ha, ' \
           + 'medium= %.1f' % self.ecut_medium + ' Ha, ' \
           + 'high= %.1f'   % self.ecut_medium + ' Ha  \n')
     if self.gen_name != "unknown":
       my_markdown_lines.append('Generator: '+self.gen_name)
       if self.inp_file_name != "unknown":
-          my_markdown_lines.append(' - [input file]('+github_table_link+'/'+self.symbol+'/'+self.inp_file_name+')  \n')
-      else:
-          my_markdown_lines.append(' (input file included in the dataset itself)  \n')
+        my_markdown_lines.append(' - [input file]('+github_table_link+'/'+self.symbol+'/'+self.inp_file_name+')  \n')
+      elif len(self.input_file_xml) > 0 and len(self.input_file_upf) > 0:
+        my_markdown_lines.append(' (input file included in the dataset itself)  \n')
+      elif len(self.input_file_xml) > 0:
+        my_markdown_lines.append(' (input file included in the XML dataset itself)  \n')
+      elif len(self.input_file_upf) > 0:
+        my_markdown_lines.append(' (input file included in the UPF dataset itself)  \n')
     if len(self.comment)>0:
       for cm in self.comment:
         if len(cm)>0:
@@ -1267,7 +1302,7 @@ def string_is_in_file(strg_list,file_name):
   found = False
   while not found:
     line = ff.readline()
-    if line is None: break
+    if not line: break
     for st in strg_list:
       found = st in line
       if found: break
@@ -1519,32 +1554,44 @@ def infofile_from_commentfile(comment_filename,info_filename):
     info_file = open(info_filename,"a")
   else:
     info_file = open(info_filename,"w")
-    if flines[0][0] == '#':
+    if flines[0][0] == '#' and "omment" in flines[0]:
       info_file.write(flines[0])
     else:
       info_file.write("# Comments to the "+table_name+" table\n")
-      info_file.write("# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)\n")
-      info_file.write("# =============================================================================================\n")
+    info_file.write("# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)\n")
+    info_file.write("# =============================================================================================\n")
 
 # Write lines in info_file
   for fline in flines:
     if fline[0] != '#':
       fword = fline.split('/')
       x_specie = fword[0].strip() ; x_filename = fword[1].strip()
+      x_core_val = "" ; x_xc = "" ; x_generator = ""
       x_status = "" ; x_category = "" ; x_comment = []
-      x_delta = None ; x_delta1 = None
-      for ifw,fw in enumerate(fword):
-        if "ecommended" in fw:
+      x_delta = None ; x_delta1 = None ; x_rpaw = None
+      for ifw,fw in enumerate(fword[2:]):
+        fwl = fw.lower().strip()
+        if "ecommended" in fwl:
           x_status   = "recommended"
           x_category = "standard"
-        if "rpaw" in fw and len(fword)>ifw+2:
-          if "Delta" in fword[ifw+2]:
-            x_comment = [fword[ifw+1].strip()]
-        if "Delta" in fw:
-          ww = fw.split()
+        elif "gga" in fwl or "lda" in fwl:
+          x_xc = fwl
+        elif "s1" in fwl or "s2" in fwl:
+          x_core_val = fwl
+        elif "rpaw=" in fwl:
+          ww = fwl.split()
+          for w in ww:
+            i = w.find("rpaw=")
+            if i >= 0:  x_rpaw  = float(w[i+5:])
+        elif "delta" in fwl:
+          ww = fwl.split()
           for i,w in enumerate(ww):
-            if "Delta=" in w:  x_delta  = float(ww[i+1])
-            if "Delta1=" in w: x_delta1 = float(ww[i+1])
+            if "delta=" in w:  x_delta  = float(ww[i+1])
+            if "delta1=" in w: x_delta1 = float(ww[i+1])
+        elif "generator" in fwl:
+          x_generator = fwl
+        else:
+           x_comment.append(fwl)
       info_file.write("%3s / %24s / %8s / %11s / " \
         % (x_specie,x_filename,x_category,x_status))
       if x_delta is not None:
@@ -1590,7 +1637,7 @@ def usage():
   +'\ntable_folder : source folder as written by F. Jollet' \
   +'\ngithub_folder: destination folder as present in pseudo-dojo github' \
   +'\nhtml_folder  : destination folder to be uploaded to abinit web site' \
-  +'\inputs_folder : destination folder containing all input files')
+  +'\ninputs_folder : destination folder containing all input files')
 
 if __name__ == "__main__":
   root = os.getcwd()
