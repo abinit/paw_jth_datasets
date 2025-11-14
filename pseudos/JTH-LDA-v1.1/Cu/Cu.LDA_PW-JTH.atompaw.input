@@ -30,4 +30,6 @@ custom rrkj
 2.0                                         ! r_c matching radius for second d partial wave
 XMLOUT
 default
+UPFOUT
+default
 END

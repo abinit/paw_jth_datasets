@@ -19,8 +19,8 @@
    "Z_val": 1.0,
    "l_max": 1,
    "md5": "a72dedc985f2ec889920c6583be5b980",
-   "dfact_meV": "0.237",
-   "dfactprime_meV": "3.972",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
    "tags": [],
    "hints": {
     "high": {

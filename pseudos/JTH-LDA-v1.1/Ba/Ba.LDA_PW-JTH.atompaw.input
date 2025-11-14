@@ -36,4 +36,6 @@ bessel                                  ! Scheme for pseudopotential (l_loc=3, E
 2.3
 XMLOUT
 default
+UPFOUT
+default
 END

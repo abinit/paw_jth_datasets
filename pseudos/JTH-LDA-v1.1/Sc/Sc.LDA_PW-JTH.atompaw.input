@@ -29,4 +29,6 @@ custom polynom2 7 10.0 vanderbiltortho besselshape         ! Scheme for PS parti
 2.4                                         ! r_c matching radius for second d partial wave
 XMLOUT
 default
+UPFOUT
+default
 END

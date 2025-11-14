@@ -23,4 +23,6 @@ Vanderbilt
 1.5                                        ! r_c matching radius for second p partial wave
 XMLOUT
 default
+UPFOUT
+default
 END

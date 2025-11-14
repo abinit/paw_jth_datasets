@@ -19,13 +19,13 @@ atomicdata_folder    = "ATOMICDATA"
 input_xml_lines_def  = ['XMLOUT\n','default\n']
 input_upf_lines_def  = ['UPFOUT\n','default\n']
 indexhtml_filename   = "index.html"
-globalindex_filename = ["index-table.html"]
+globalindex_template = "index-table.html"
 specie_html_template = "index-specie.html" 
 jth_short_name       = "JTH"
 github_link          = "https://github.com/abinit/paw_jth_datasets"
 github_subfolder     = "pseudos"
 github_folder_def    = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/pseudos"
-link_to_error404     = "https://en.wikipedia.org/wiki/HTTP_404"
+link_to_error404     = "https://abinit.github.io/404"
 website_template     = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/jth_website_template"
 last_modif_date      = "nov. 1, 2025"
 web_master           = "M. Torrent, F. Jollet"
@@ -105,7 +105,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
   table_name = table_name_from_string(os.path.split(table_folder)[1])
   table_version = table_version_from_string(table_name)
   github_table_folder = os.path.join(github_folder,table_name)
-  github_table_link  = os.path.join(github_link,github_subfolder,table_name)
+  github_table_link  = github_link+"/raw/main/"+github_subfolder+"/"+table_name
   table_link_to_pdf  = link_to_error404
   ddb_info_filename = None
 
@@ -253,9 +253,10 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             file_readme.write("### JTH PAW atomic dataset(s) for element "+atom+"\n")
             file_readme.write("  \n")
             file_readme.write("_These atomic data have been carefully tested against ") 
-            file_readme.write("all-electron calculations and other available atomic datasets ")
-            file_readme.write("(some reference results are given [here]("+table_link_to_pdf+"))._\n")
-            file_readme.write("_They are recommended for use, although they have to be tested ")
+            file_readme.write("all-electron calculations and other available atomic datasets")
+            if table_link_to_pdf != link_to_error404:
+              file_readme.write(" (some reference results are given [here]("+table_link_to_pdf+")).")
+            file_readme.write("_\n_They are recommended for use, although they have to be tested ")
             file_readme.write("again by users._  \n")
             readme_is_empty = False
 
@@ -310,18 +311,31 @@ def main_create_html_from_table(table_folder,html_folder):
   if not exists_case_sensitive(html_folder): os.makedirs(html_folder,exist_ok=True)
 
 # Copy website template into destination directory
-  if len(os.listdir(html_folder)) == 0:
-    table_pdf_found = "none"
-    for root, dirs, files in os.walk(table_folder):
-      for ff in files:
-        if isfile_case_sensitive(ff) and os.path.splitext(ff)[-1].lower() == ".pdf":
-          table_pdf_found = ff ; break
-    table_pdf_name = table_name+".pdf" if table_pdf_found != "none" else None
+  pdf_name = None
+  table_pdf_found = "none"
+  only_index=True if len(os.listdir(html_folder)) > 0 else False
+  for root, dirs, files in os.walk(table_folder):
+    for ff in files:
+      if isfile_case_sensitive(os.path.join(root,ff)) and os.path.splitext(ff)[-1].lower() == ".pdf":
+        table_pdf_found = os.path.join(root,ff) ; break
+  existing_pdf_found = "none"
+  for root, dirs, files in os.walk(os.path.join(html_folder,atomicdata_folder)):
+    for ff in files:
+      if isfile_case_sensitive(os.path.join(root,ff)) and os.path.splitext(ff)[-1].lower() == ".pdf":
+        existing_pdf_found = os.path.join(root,ff) ; break
+  if existing_pdf_found != "none":
+    pdf_name = os.path.basename(existing_pdf_found)
+  elif table_pdf_found != "none":
+    pdf_name = table_name+".pdf"
+  else:
+    pdf_name = None
+  if existing_pdf_found != "none" or table_pdf_found != "none":
+    copy_html_template(html_folder,only_index_specie=only_index, \
+                       pdf_table_path=os.path.join("..","..",atomicdata_folder,pdf_name))
     if table_pdf_found != "none":
-      copy_html_template(html_folder,pdf_table_path=os.path.join("..","..",atomicdata_folder,table_name+".pdf"))
-      shutil.copy2(os.path.join(table_folder,table_pdf_found),os.path.join(html_folder,atomicdata_folder,table_name+".pdf"))            
-    else:
-      copy_html_template(html_folder)
+      shutil.copy2(table_pdf_found,os.path.join(html_folder,atomicdata_folder,pdf_name))            
+  else:
+    copy_html_template(html_folder,only_index_specie=only_index)
 
 # Make tmp dir
   tmp_dir = os.path.join(html_folder,"tmp")
@@ -456,7 +470,8 @@ def main_create_html_from_table(table_folder,html_folder):
 # Modify global index file
   tarball_src_folder = os.path.join(html_folder,atomicdata_folder)
   tarball_folder_link = atomicdata_folder
-  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,tarball_folder_link)
+  modify_global_index(ddb,table_name,pdf_name,html_folder,tarball_src_folder, \
+                      tarball_folder_link,reset_tarbal=True)
 
 # Remove tmp dir
   shutil.rmtree(tmp_dir,ignore_errors=True)
@@ -535,7 +550,7 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
   if not exists_case_sensitive(html_folder): os.makedirs(html_folder,exist_ok=True)
 
 # Copy website template into destination directory
-  table_pdf_found = False
+  table_pdf_found = False ; table_pdf_name = None
   if len(os.listdir(html_folder)) == 0:
     table_pdf_found = isfile_case_sensitive(os.path.join(github_table_folder,table_name+".pdf"))
     table_pdf_name = table_name+".pdf" if table_pdf_found else None
@@ -560,7 +575,8 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
 
       if dir_specie in specie.keys():
         if with_subdirs:
-          specie_dir_dest=os.path.join(html_folder,atomicdata_folder,"%03d-%s" % (int(specie[dir_specie][1]),dir_specie.lower()))
+          specie_dir_dest=os.path.join(html_folder,atomicdata_folder,"%03d-%s" % \
+                          (int(specie[dir_specie][1]),dir_specie.lower()))
           specie_indexfile_dest=indexhtml_filename
         else:
           specie_dir_dest=os.path.join(html_folder,atomicdata_folder)
@@ -1059,7 +1075,7 @@ class paw_dataset:
 
     if self.xml_file_name == "unknown" and self.upf_file_name == "unknown": return
 
-    my_html_lines = []  
+    my_html_lines = []
     my_html_lines.append('    <ul>\n')
     my_html_lines.append('      <b>PAW dataset: </b>\n')
     if self.xml_file_name != "unknown":
@@ -1418,6 +1434,31 @@ def file_delete_lines(file_name,line_list=[]):
   return None
 
 #-----------------------------------------
+#Delete line(s) between 2 given lines
+#Example: file_delete_lines(file_name,line_start,line_end)
+def file_delete_lines_between(file_name,line_start="@@@",line_end="@@@"):
+
+  if not isfile_case_sensitive(file_name):
+    raise ValueError("File "+file_name+" does not exist!")
+
+  f_in = open(file_name,'r')
+  flines = f_in.readlines()
+  f_in.close()
+
+  shutil.move(file_name,file_name+".bak")
+  
+  f_out = open(file_name,'w')
+  write_it=True
+  for fline in flines:
+    if line_end in fline: write_it=True
+    if write_it: f_out.write(fline)
+    if line_start in fline: write_it=False
+  f_out.close()
+
+  os.remove(file_name+".bak")
+  return None
+
+#-----------------------------------------
 #Add line(s) in a file before a given line
 #Example: file_add_lines(file_name,line_before,[line1,line2,...])
 def file_add_lines(file_name,line_before="@@@",line_list=[]):
@@ -1444,10 +1485,12 @@ def file_add_lines(file_name,line_before="@@@",line_list=[]):
 
 #-----------------------------------------
 #Copy website template into destination directory
-def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True):
+def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True,only_index_specie=False):
 
 #   with_subdirs: False = creates ATOMIDATA/xxx-yy.html files
 #                 True  = creates ATOMICDATA/xxx-yy/index.html files
+#   only_index_specie: False = creates all website structure
+#                      True  = resets only index.html files (in specie dirs)
 
   if pdf_table_path is not None:
     table_link_to_pdf = pdf_table_path
@@ -1461,8 +1504,9 @@ def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True):
     ignored_files=shutil.ignore_patterns(specie_html_template,atomicdata_folder)
 
   #Copy dir structure
-  shutil.copytree(website_template,dest_dirname,dirs_exist_ok=True,ignore=ignored_files)
-  if not with_subdirs: os.mkdir(os.path.join(dest_dirname,atomicdata_folder))            
+  if not only_index_specie:
+    shutil.copytree(website_template,dest_dirname,dirs_exist_ok=True,ignore=ignored_files)
+    if not with_subdirs: os.mkdir(os.path.join(dest_dirname,atomicdata_folder))            
 
   #Copy and modify index.html files
   for root, dirs, files in os.walk(os.path.join(website_template,atomicdata_folder)):
@@ -1486,6 +1530,9 @@ def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True):
       strg_list.append(["$${LAST_MODIF_DATE}", last_modif_date])
       strg_list.append(["$${WEBMASTER}", web_master])
       file_replace_string(file_index_dest,strg_list)
+      if pdf_table_path is None:
+        strg_list=['Some reference results are given','!-- LINK TO PDF -->']
+        file_delete_lines(file_index_dest,strg_list)
 
   return None
 
@@ -1498,10 +1545,12 @@ def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True):
 # tarball_src_folder = folder where to find source tarballs (full tables)
 # tarball_folder_link = html link to tarballs in html
 def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder, \
-                        tarball_folder_link,with_subdirs=True):
+                        tarball_folder_link,with_subdirs=True,reset_tarbal=False):
 
 #   with_subdirs: False = creates ATOMIDATA/xxx-yy.html files
 #                 True  = creates ATOMICDATA/xxx-yy/index.html files
+#   reset_tarbal: False = Add tar.gz file(s) to the existing ones
+#                 True  = Reset tar.gz file list before adding them
 
   tarball_list = []
   for file_name in os.listdir(tarball_src_folder):
@@ -1522,21 +1571,25 @@ def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_fo
     strg='<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">'+xc_name_from_string(file_name)+'</a>'
     if len(tarball_list)>1 and i < len(tarball_list)-1: strg += ',&nbsp;'
     html_lines.append(strg+'\n')
-  for file_index_global in globalindex_filename:
-    index_full_name = os.path.join(html_folder,file_index_global)
-    file_replace_string(index_full_name,strg_list)
-    file_add_lines(index_full_name,line_before="INSERT HERE TARBALLS TO FULL TABLE - END",line_list=html_lines)
+  index_full_name = os.path.join(html_folder,globalindex_template)
+  file_replace_string(index_full_name,strg_list)
 
-    # If needed, in global index file, replace subdirs with html files
-    if not with_subdirs:
-     pattern = r"(ATOMICDATA/\w+-\w+)/"
-     for file_index_global in globalindex_filename:
-       index_full_name = os.path.join(html_folder,file_index_global)
-       with open(index_full_name, "r", encoding="utf-8") as f: content = f.read()
-       new_content = re.sub(pattern, r"\1.html", content)
-       shutil.move(index_full_name,index_full_name+".bak")
-       with open(index_full_name, "w", encoding="utf-8") as f: f.write(new_content)
-       os.remove(index_full_name+".bak")
+  # Handle tar.gz files
+  if reset_tarbal:
+    file_delete_lines_between(index_full_name, \
+         line_start="<!-- INSERT HERE TARBALLS TO FULL TABLE - START -->", \
+         line_end="<!-- INSERT HERE TARBALLS TO FULL TABLE - END -->")
+  file_add_lines(index_full_name,line_before="INSERT HERE TARBALLS TO FULL TABLE - END",line_list=html_lines)
+
+  # If needed, in global index file, replace subdirs with html files
+  if not with_subdirs:
+    pattern = r"(ATOMICDATA/\w+-\w+)/"
+    index_full_name = os.path.join(html_folder,globalindex_template)
+    with open(index_full_name, "r", encoding="utf-8") as f: content = f.read()
+    new_content = re.sub(pattern, r"\1.html", content)
+    shutil.move(index_full_name,index_full_name+".bak")
+    with open(index_full_name, "w", encoding="utf-8") as f: f.write(new_content)
+    os.remove(index_full_name+".bak")
 
 #-----------------------------------------
 #From "Comments" file (data_folder), create "dataset_info.txt" file (github_folder)

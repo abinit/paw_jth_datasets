@@ -23,4 +23,6 @@ Vanderbilt 				        ! Scheme for PS partial waves and projectors
 1.1                                        ! r_c matching radius for second p partial wave
 XMLOUT
 default
+UPFOUT
+default
 END

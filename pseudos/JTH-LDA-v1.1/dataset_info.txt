@@ -1,4 +1,6 @@
 # Comments to the JTHv1.1 table (08/03/2018)
+# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)
+# =============================================================================================
  As /     As.LDA_PW-JTH_sp.xml /          /             /        /        /
  In /     In.LDA_PW-JTH_sp.xml /          /             /        /        /
  Sn /     Sn.LDA_PW-JTH_sp.xml /          /             /        /        /
@@ -6,7 +8,7 @@
  Tl /     Tl.LDA_PW-JTH_sp.xml /          /             /        /        /
  Pb /     Pb.LDA_PW-JTH_sp.xml /          /             /        /        /
  Bi /     Bi.LDA_PW-JTH_sp.xml /          /             /        /        /
-  H /         H.LDA_PW-JTH.xml / standard / recommended /  0.237 /  3.972 / The small radius leads to "hard" data /
+  H /         H.LDA_PW-JTH.xml / standard / recommended /        /        / the small radius leads to "hard" data /
  He /        He.LDA_PW-JTH.xml / standard / recommended /        /        /
  Li /        Li.LDA_PW-JTH.xml / standard / recommended /        /        /
  Be /        Be.LDA_PW-JTH.xml / standard / recommended /        /        /

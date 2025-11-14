@@ -39,4 +39,6 @@ custom rrkj vanderbiltortho     ! Scheme for PS partial waves and projectors
 2.5                                        ! r_c matching radius for second d partial wave
 XMLOUT
 default
+UPFOUT
+default
 END

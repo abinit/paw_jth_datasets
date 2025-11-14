@@ -37,4 +37,6 @@ custom polynom2 4 10.0 vanderbiltortho          ! Scheme for PS partial waves an
 2.2                                         ! r_c matching radius for second d partial wave
 XMLOUT
 default
+UPFOUT
+default
 END
