@@ -1,0 +1,23 @@
+Li 3
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+2 2 0 0 0 0
+2 1 0
+2 0 1
+0 0 0
+v
+v
+v
+1
+1.61
+n
+n
+VANDERBILT
+2 0
+1.61
+1.61
+1.61
+XMLOUT
+default
+UPFOUT
+default
+END

@@ -1,0 +1,26 @@
+Ne  10
+XC_GGA_X_PBE+XC_GGA_C_PBE scalarrelativistic loggrid 2001
+2 2 0 0 0 0
+0 0 0
+c
+v
+v
+1
+1.8
+y
+2.0
+n
+y
+2.0
+n
+Vanderbilt
+2 0
+1.8
+1.8
+1.8
+1.8
+XMLOUT
+default
+UPFOUT
+default
+END

@@ -135,7 +135,8 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
               shutil.copy2(file_fullname,dir_dest)
               #Create input file
               pawdt = paw_dataset(xml_filename=file_fullname)
-              file_input_dest = os.path.join(github_table_folder,file_specie,file_bodyname+".atompaw.input")
+              file_input_dest = \
+                 os.path.join(github_table_folder,file_specie,file_bodyname+".atompaw.input")
               upf_name1=os.path.join(root,file_bodyname + ".upf")
               upf_name2=os.path.join(root,file_bodyname + ".UPF")
               if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
@@ -209,7 +210,8 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             if isfile_case_sensitive(pawdt_path_xml):
               pawdt.read_from_xml(xml_filename=pawdt_path_xml)
               #Store file for tarball
-              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+ \
+                                    pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
               if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
                 ddb.xc_names.append(pawdt.xc_name)
                 os.makedirs(xc_dir,exist_ok=True)
@@ -221,7 +223,8 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             if isfile_case_sensitive(pawdt_path_upf):
               pawdt.read_from_upf(upf_filename=pawdt_path_upf)
               #Store file for tarball
-              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+ \
+                                    pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
               if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
                 ddb.xc_names.append(pawdt.xc_name)
                 os.makedirs(xc_dir,exist_ok=True)
@@ -749,8 +752,8 @@ class paw_dataset:
 #   Get input file
     if self.input_file_xml == []:
       try:
-        ind1 = flines.index("<!-- Program:  atompaw - input data follows: \n")
-        ind2 = flines.index(" Program:  atompaw - input end -->\n")
+        ind1 = next((i for i,e in enumerate(flines) if "<!-- Program:  atompaw - input data follows" in e), -1)
+        ind2 = next((i for i,e in enumerate(flines) if "Program:  atompaw - input end -->" in e), -1)
         self.input_file_xml = flines[ind1+1:ind2]
       except:
         self.input_file_xml = []
@@ -832,11 +835,13 @@ class paw_dataset:
 #   Check charge
     vale_charge = sum([vv[3] if vv[0]>0 else 0. for vv in self.valence])
     if vale_charge != self.vale:
+      if vale_charge < self.vale:
+        print("\nWarning:")     
       print("Inconsistency between occupations and valence charge!")
       print("File name : "+self.xml_file_name)
-      print("vale : "+str(self.vale))
-      print("vale_charge : "+str(vale_charge))
-      raise ValueError("Check XML file!")
+      print("vale (valence charge)            : "+str(self.vale))
+      print("vale_charge (sum of occupations) : "+str(vale_charge)+"\n")
+      if vale_charge > self.vale: raise ValueError("Check XML file!")
 
 #   Get electronic structure
     if self.estruct_short == "unknown":

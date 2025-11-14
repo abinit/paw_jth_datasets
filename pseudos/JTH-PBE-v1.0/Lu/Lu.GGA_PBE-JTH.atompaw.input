@@ -1,0 +1,46 @@
+Lu 71
+XC_GGA_X_PBE+XC_GGA_C_PBE scalarrelativistic loggrid 2001
+6 5 5 4 0
+5 2 1
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+c
+c
+v
+v
+3
+2.5 2.3 2.4 2.2
+n
+y
+3.
+n
+y
+2.
+n
+y
+1.5
+n
+custom rrkj gramschmidtortho sinc
+4 -0.33 ultrasoft
+2.0
+2.0
+2.5
+2.5
+2.5
+2.5
+2.5
+2.5
+XMLOUT
+default
+UPFOUT
+default
+END

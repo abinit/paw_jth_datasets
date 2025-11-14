@@ -1,0 +1,96 @@
+# Comments to the JTHv1.1 table (08/03/2018)
+# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)
+# =============================================================================================
+ As /    As.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ In /    In.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ Sn /    Sn.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ Sb /    Sb.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ Tl /    Tl.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ Pb /    Pb.GGA_PBE-JTH_sp.xml /          /             /        /        /
+ Bi /    Bi.GGA_PBE-JTH_sp.xml /          /             /        /        /
+  H /        H.GGA_PBE-JTH.xml / standard / recommended /  0.237 /  3.972 / the small radius leads to "hard" data /
+ He /       He.GGA_PBE-JTH.xml / standard / recommended /  0.008 /  1.662 /
+ Li /       Li.GGA_PBE-JTH.xml / standard / recommended /  0.011 /  0.119 /
+ Be /       Be.GGA_PBE-JTH.xml / standard / recommended /  0.094 /  0.289 /
+  B /        B.GGA_PBE-JTH.xml / standard / recommended /  0.244 /  0.426 /
+  C /        C.GGA_PBE-JTH.xml / standard / recommended /  0.146 /  0.180 /
+  N /        N.GGA_PBE-JTH.xml / standard / recommended /  0.488 /  0.927 /
+  O /        O.GGA_PBE-JTH.xml / standard / recommended /  0.242 /  0.763 /
+  F /        F.GGA_PBE-JTH.xml / standard / recommended /  0.220 /  0.984 /
+ Ne /       Ne.GGA_PBE-JTH.xml / standard / recommended /  0.010 /  0.891 /
+ Na /       Na.GGA_PBE-JTH.xml / standard / recommended /  0.498 /  5.190 /
+ Mg /       Mg.GGA_PBE-JTH.xml / standard / recommended /  0.256 /  0.934 /
+ Al /       Al.GGA_PBE-JTH.xml / standard / recommended /  0.098 /  0.229 /
+ Si /       Si.GGA_PBE-JTH.xml / standard / recommended /  0.307 /  0.507 /
+  P /        P.GGA_PBE-JTH.xml / standard / recommended /  0.488 /  1.003 /
+  S /        S.GGA_PBE-JTH.xml / standard / recommended /  0.304 /  0.636 /
+ Cl /       Cl.GGA_PBE-JTH.xml / standard / recommended /  0.062 /  0.252 /
+ Ar /       Ar.GGA_PBE-JTH.xml / standard / recommended /  0.022 /  1.670 /
+  K /        K.GGA_PBE-JTH.xml / standard / recommended /  0.069 /  0.778 /
+ Ca /       Ca.GGA_PBE-JTH.xml / standard / recommended /  0.111 /  0.459 /
+ Sc /       Sc.GGA_PBE-JTH.xml / standard / recommended /  0.019 /  0.044 /
+ Ti /       Ti.GGA_PBE-JTH.xml / standard / recommended /  1.252 /  1.930 /
+  V /        V.GGA_PBE-JTH.xml / standard / recommended /  1.688 /  2.074 /
+ Cr /       Cr.GGA_PBE-JTH.xml / standard / recommended /  0.723 /  1.024 /
+ Mn /       Mn.GGA_PBE-JTH.xml / standard / recommended /  0.892 /  2.050 /
+ Fe /       Fe.GGA_PBE-JTH.xml / standard / recommended /  0.557 /  0.763 /
+ Co /       Co.GGA_PBE-JTH.xml / standard / recommended /  1.068 /  1.373 /
+ Ni /       Ni.GGA_PBE-JTH.xml / standard / recommended /  1.457 /  2.028 /
+ Cu /       Cu.GGA_PBE-JTH.xml / standard / recommended /  0.647 /  1.138 /
+ Zn /       Zn.GGA_PBE-JTH.xml / standard / recommended /  0.281 /  0.741 /
+ Ga /       Ga.GGA_PBE-JTH.xml / standard / recommended /  0.137 /  0.410 /
+ Ge /       Ge.GGA_PBE-JTH.xml / standard / recommended /  0.555 /  1.181 /
+ As /       As.GGA_PBE-JTH.xml / standard / recommended /  0.494 /  0.959 /
+ Se /       Se.GGA_PBE-JTH.xml / standard / recommended /  0.238 /  0.510 /
+ Br /       Br.GGA_PBE-JTH.xml / standard / recommended /  0.109 /  0.369 /
+ Kr /       Kr.GGA_PBE-JTH.xml / standard / recommended /  0.021 /  1.441 /
+ Rb /       Rb.GGA_PBE-JTH.xml / standard / recommended /  0.288 /  3.415 /
+ Sr /       Sr.GGA_PBE-JTH.xml / standard / recommended /  0.755 /  3.616 /
+  Y /        Y.GGA_PBE-JTH.xml / standard / recommended /  0.332 /  0.735 /
+ Zr /       Zr.GGA_PBE-JTH.xml / standard / recommended /  0.245 /  0.336 /
+ Nb /       Nb.GGA_PBE-JTH.xml / standard / recommended /  0.193 /  0.188 /
+ Mo /       Mo.GGA_PBE-JTH.xml / standard / recommended /  1.631 /  1.195 /
+ Tc /       Tc.GGA_PBE-JTH.xml / standard / recommended /  1.031 /  0.715 /
+ Ru /       Ru.GGA_PBE-JTH.xml / standard / recommended /  0.344 /  0.241 /
+ Rh /       Rh.GGA_PBE-JTH.xml / standard / recommended /  0.944 /  0.781 /
+ Pd /       Pd.GGA_PBE-JTH.xml / standard / recommended /  1.161 /  1.360 /
+ Ag /       Ag.GGA_PBE-JTH.xml / standard / recommended /  0.215 /  0.397 /
+ Cd /       Cd.GGA_PBE-JTH.xml / standard / recommended /  0.021 /  0.064 /
+ In /       In.GGA_PBE-JTH.xml / standard / recommended /  0.209 /  0.641 /
+ Sn /       Sn.GGA_PBE-JTH.xml / standard / recommended /  0.106 /  0.239 /
+ Sb /       Sb.GGA_PBE-JTH.xml / standard / recommended /  0.304 /  0.571 /
+ Te /       Te.GGA_PBE-JTH.xml / standard / recommended /  0.069 /  0.131 /
+  I /        I.GGA_PBE-JTH.xml / standard / recommended /  0.727 /  2.319 /
+ Xe /       Xe.GGA_PBE-JTH.xml / standard / recommended /  0.010 /  0.645 /
+ Cs /       Cs.GGA_PBE-JTH.xml / standard / recommended /  0.115 /  1.500 /
+ Ba /       Ba.GGA_PBE-JTH.xml / standard / recommended /  0.739 /  4.080 /
+ La /       La.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Ce /       Ce.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Pr /       Pr.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Nd /       Nd.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Pm /       Pm.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Sm /       Sm.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Eu /       Eu.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Gd /       Gd.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Tb /       Tb.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Dy /       Dy.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Ho /       Ho.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Er /       Er.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Tm /       Tm.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Yb /       Yb.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Lu /       Lu.GGA_PBE-JTH.xml / standard / recommended /  0.211 /  0.464 /
+ Hf /       Hf.GGA_PBE-JTH.xml / standard / recommended /  0.192 /  0.239 /
+ Ta /       Ta.GGA_PBE-JTH.xml / standard / recommended /  0.434 /  0.362 /
+  W /        W.GGA_PBE-JTH.xml / standard / recommended /  1.349 /  0.828 /
+ Re /       Re.GGA_PBE-JTH.xml / standard / recommended /  0.885 /  0.487 /
+ Os /       Os.GGA_PBE-JTH.xml / standard / recommended /  0.482 /  0.253 /
+ Ir /       Ir.GGA_PBE-JTH.xml / standard / recommended /  0.514 /  0.304 /
+ Pt /       Pt.GGA_PBE-JTH.xml / standard / recommended /  2.105 /  1.616 /
+ Au /       Au.GGA_PBE-JTH.xml / standard / recommended /  1.108 /  1.323 /
+ Hg /       Hg.GGA_PBE-JTH.xml / standard / recommended /  0.144 /  1.704 /
+ Tl /       Tl.GGA_PBE-JTH.xml / standard / recommended /  0.056 /  0.201 /
+ Pb /       Pb.GGA_PBE-JTH.xml / standard / recommended /  0.293 /  0.690 /
+ Bi /       Bi.GGA_PBE-JTH.xml / standard / recommended /  0.110 /  0.209 /
+ Po /       Po.GGA_PBE-JTH.xml / standard / recommended /  0.194 /  0.338 /
+ At /       At.GGA_PBE-JTH.xml / standard / recommended /        /        /
+ Rn /       Rn.GGA_PBE-JTH.xml / standard / recommended /  0.023 /  1.355 /
