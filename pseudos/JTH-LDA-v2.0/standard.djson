@@ -1,0 +1,1738 @@
+{
+ "dojo_info": {
+  "pp_type": "PAW",
+  "description": "Standard table designed for GS applications",
+  "xc_name": "PW",
+  "references": [
+   "Comp. Phys. Comm. 185, 1246 (2014)"
+  ],
+  "authors": [
+   "F. Jollet",
+   "M. Torrent",
+   "N. Holzwarth"
+  ],
+  "dojo_dir": "JTH-LDA-v2.0"
+ },
+ "pseudo_metadata": {
+  "H": {
+   "basename": "H.LDA_PW-JTH.xml",
+   "Z_val": 1.0,
+   "l_max": 1,
+   "md5": "75e80a4c5b51303bf730cc440ebfb884",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "He": {
+   "basename": "He.LDA_PW-JTH.xml",
+   "Z_val": 2.0,
+   "l_max": 1,
+   "md5": "c8eac574e8786f1a55e4337d23d180ea",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Li": {
+   "basename": "Li.LDA_PW-JTH.xml",
+   "Z_val": 3.0,
+   "l_max": 1,
+   "md5": "e02d9cd33d9f2ca2bf43d82b6c307b45",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Be": {
+   "basename": "Be.LDA_PW-JTH.xml",
+   "Z_val": 4.0,
+   "l_max": 1,
+   "md5": "294d464e8a7d7ee8e9a224b2a52fd25f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "B": {
+   "basename": "B.LDA_PW-JTH.xml",
+   "Z_val": 5.0,
+   "l_max": 1,
+   "md5": "41970d0580eda6730289ab17ef401861",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "C": {
+   "basename": "C.LDA_PW-JTH.xml",
+   "Z_val": 6.0,
+   "l_max": 1,
+   "md5": "b750933965a6f813f9d6b053cd9cdcfc",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "N": {
+   "basename": "N.LDA_PW-JTH.xml",
+   "Z_val": 7.0,
+   "l_max": 1,
+   "md5": "88be6a3dff5b7f90e9670dfc60da0834",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "O": {
+   "basename": "O.LDA_PW-JTH.xml",
+   "Z_val": 8.0,
+   "l_max": 1,
+   "md5": "8b2f9089e610b08b173b0e6f9bef403c",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "F": {
+   "basename": "F.LDA_PW-JTH.xml",
+   "Z_val": 9.0,
+   "l_max": 1,
+   "md5": "d47e8d1260ce236470c481d592a8d340",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ne": {
+   "basename": "Ne.LDA_PW-JTH.xml",
+   "Z_val": 10.0,
+   "l_max": 1,
+   "md5": "9bf16f0c2708aa37935798c55abc700b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Na": {
+   "basename": "Na.LDA_PW-JTH.xml",
+   "Z_val": 11.0,
+   "l_max": 1,
+   "md5": "480512a65bb80b8b47990dd1e31b4aae",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mg": {
+   "basename": "Mg.LDA_PW-JTH.xml",
+   "Z_val": 12.0,
+   "l_max": 1,
+   "md5": "c2276ee18c357a2642cc9ed8c5b1f928",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Al": {
+   "basename": "Al.LDA_PW-JTH.xml",
+   "Z_val": 13.0,
+   "l_max": 1,
+   "md5": "203fd787e0950a8bd1dd391d56d192a7",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Si": {
+   "basename": "Si.LDA_PW-JTH.xml",
+   "Z_val": 14.0,
+   "l_max": 1,
+   "md5": "f9123ba6623a9ddcc950a177eefb6302",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "P": {
+   "basename": "P.LDA_PW-JTH.xml",
+   "Z_val": 15.0,
+   "l_max": 1,
+   "md5": "730d83ff2af800ab0f2081c29b0900aa",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "S": {
+   "basename": "S.LDA_PW-JTH.xml",
+   "Z_val": 16.0,
+   "l_max": 1,
+   "md5": "db2a2bdaf7a1b43052f9f04231d296ff",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cl": {
+   "basename": "Cl.LDA_PW-JTH.xml",
+   "Z_val": 17.0,
+   "l_max": 1,
+   "md5": "4712a9cbe8851876cc2d6a0ccd2eaa2b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ar": {
+   "basename": "Ar.LDA_PW-JTH.xml",
+   "Z_val": 18.0,
+   "l_max": 1,
+   "md5": "6536b15ad8f175c98d8a21881868d27a",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "K": {
+   "basename": "K.LDA_PW-JTH.xml",
+   "Z_val": 19.0,
+   "l_max": 2,
+   "md5": "3b837ae0eb68432d9f359eae6ff64e96",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ca": {
+   "basename": "Ca.LDA_PW-JTH.xml",
+   "Z_val": 20.0,
+   "l_max": 2,
+   "md5": "597a5bcdce54bb5bf9d974bb242b8dce",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sc": {
+   "basename": "Sc.LDA_PW-JTH.xml",
+   "Z_val": 21.0,
+   "l_max": 2,
+   "md5": "0f0822494b1102afc0fef4d4991dc798",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ti": {
+   "basename": "Ti.LDA_PW-JTH.xml",
+   "Z_val": 22.0,
+   "l_max": 2,
+   "md5": "f7e2b5657e2d3ca25372fd777650e96f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "V": {
+   "basename": "V.LDA_PW-JTH.xml",
+   "Z_val": 23.0,
+   "l_max": 2,
+   "md5": "0516b1e85f574b1ed376b385553196e4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cr": {
+   "basename": "Cr.LDA_PW-JTH.xml",
+   "Z_val": 24.0,
+   "l_max": 2,
+   "md5": "9196c0798a58164c71ec9432f2dea926",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mn": {
+   "basename": "Mn.LDA_PW-JTH.xml",
+   "Z_val": 25.0,
+   "l_max": 2,
+   "md5": "7bbc09c32164699bf2831b44186aafdc",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Fe": {
+   "basename": "Fe.LDA_PW-JTH.xml",
+   "Z_val": 26.0,
+   "l_max": 2,
+   "md5": "ac19cc887d87c6ef7451b80f86f78599",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Co": {
+   "basename": "Co.LDA_PW-JTH.xml",
+   "Z_val": 27.0,
+   "l_max": 2,
+   "md5": "1551a9c335db1ad232b853a2c6c01adf",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ni": {
+   "basename": "Ni.LDA_PW-JTH.xml",
+   "Z_val": 28.0,
+   "l_max": 2,
+   "md5": "dd5f5babf037c3d913fb814e2e0b2f9c",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cu": {
+   "basename": "Cu.LDA_PW-JTH.xml",
+   "Z_val": 29.0,
+   "l_max": 2,
+   "md5": "96a83e77dd03150549292050d33b0891",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Zn": {
+   "basename": "Zn.LDA_PW-JTH.xml",
+   "Z_val": 30.0,
+   "l_max": 2,
+   "md5": "99614acba9ff022b07295bc9d0d266b4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ga": {
+   "basename": "Ga.LDA_PW-JTH.xml",
+   "Z_val": 31.0,
+   "l_max": 2,
+   "md5": "ff2144fe1b267eb6cd190d3556b8b7c8",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ge": {
+   "basename": "Ge.LDA_PW-JTH.xml",
+   "Z_val": 32.0,
+   "l_max": 2,
+   "md5": "de71f5d0923897d312f3802b5c940b2b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "As": {
+   "basename": "As.LDA_PW-JTH.xml",
+   "Z_val": 33.0,
+   "l_max": 2,
+   "md5": "11cf479210775dcaf06146258707903f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Se": {
+   "basename": "Se.LDA_PW-JTH.xml",
+   "Z_val": 34.0,
+   "l_max": 1,
+   "md5": "fa6be30a92b4e14881dd53643a2092bc",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Br": {
+   "basename": "Br.LDA_PW-JTH.xml",
+   "Z_val": 35.0,
+   "l_max": 1,
+   "md5": "3931717fdf1521af7943d166edcdc5ba",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Kr": {
+   "basename": "Kr.LDA_PW-JTH.xml",
+   "Z_val": 36.0,
+   "l_max": 2,
+   "md5": "ec2d01b29a96fb1e3181bd1e525b1203",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rb": {
+   "basename": "Rb.LDA_PW-JTH.xml",
+   "Z_val": 37.0,
+   "l_max": 2,
+   "md5": "229597b39edcff0331c3c9dc182ebbc5",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sr": {
+   "basename": "Sr.LDA_PW-JTH.xml",
+   "Z_val": 38.0,
+   "l_max": 2,
+   "md5": "01d9dfc834c8e87b0f4a6b48edd7286b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Y": {
+   "basename": "Y.LDA_PW-JTH.xml",
+   "Z_val": 39.0,
+   "l_max": 2,
+   "md5": "5324e5fcfbea1121f4c2d6a77697f9f6",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Zr": {
+   "basename": "Zr.LDA_PW-JTH.xml",
+   "Z_val": 40.0,
+   "l_max": 2,
+   "md5": "0a7884419aa370084eafb424a704b521",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Nb": {
+   "basename": "Nb.LDA_PW-JTH.xml",
+   "Z_val": 41.0,
+   "l_max": 2,
+   "md5": "6fb841142b45af0f0ef7594f566037ff",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mo": {
+   "basename": "Mo.LDA_PW-JTH.xml",
+   "Z_val": 42.0,
+   "l_max": 2,
+   "md5": "93627a37a2d718bb2f5c1b247f52e5dd",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tc": {
+   "basename": "Tc.LDA_PW-JTH.xml",
+   "Z_val": 43.0,
+   "l_max": 2,
+   "md5": "4ba34ada7bc5445d92b0a7ef992f4cab",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ru": {
+   "basename": "Ru.LDA_PW-JTH.xml",
+   "Z_val": 44.0,
+   "l_max": 2,
+   "md5": "af9fd098bcb0b8756436350c6cfddb5b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rh": {
+   "basename": "Rh.LDA_PW-JTH.xml",
+   "Z_val": 45.0,
+   "l_max": 2,
+   "md5": "c9cb27fa8e4d9f6b0e20c1b1bfb5fbe4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pd": {
+   "basename": "Pd.LDA_PW-JTH.xml",
+   "Z_val": 46.0,
+   "l_max": 2,
+   "md5": "feeed9f37cdf6d831dff07142603d1b1",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ag": {
+   "basename": "Ag.LDA_PW-JTH.xml",
+   "Z_val": 47.0,
+   "l_max": 2,
+   "md5": "d923fa99c9da0dedb0cbc3902aa1a3fe",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cd": {
+   "basename": "Cd.LDA_PW-JTH.xml",
+   "Z_val": 48.0,
+   "l_max": 2,
+   "md5": "398017435760f9ba40b351cd650dd957",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "In": {
+   "basename": "In.LDA_PW-JTH.xml",
+   "Z_val": 49.0,
+   "l_max": 2,
+   "md5": "792b105b2dbbc09b4238ae766a9bb0b4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sn": {
+   "basename": "Sn.LDA_PW-JTH.xml",
+   "Z_val": 50.0,
+   "l_max": 2,
+   "md5": "6482d9c880e0617dbd6eb7520ba83446",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sb": {
+   "basename": "Sb.LDA_PW-JTH.xml",
+   "Z_val": 51.0,
+   "l_max": 2,
+   "md5": "dec8dbb37bb234b4d268842c02e67fff",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Te": {
+   "basename": "Te.LDA_PW-JTH.xml",
+   "Z_val": 52.0,
+   "l_max": 1,
+   "md5": "000e88426613185f0d13e36c79361d4b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "I": {
+   "basename": "I.LDA_PW-JTH.xml",
+   "Z_val": 53.0,
+   "l_max": 1,
+   "md5": "c96430b7651b1db17941a144cf74a8f4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Xe": {
+   "basename": "Xe.LDA_PW-JTH.xml",
+   "Z_val": 54.0,
+   "l_max": 1,
+   "md5": "2e8385aa04051a12cf359cdc9487358c",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cs": {
+   "basename": "Cs.LDA_PW-JTH.xml",
+   "Z_val": 55.0,
+   "l_max": 2,
+   "md5": "656166f9a5dfe3518313476061c2dee1",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ba": {
+   "basename": "Ba.LDA_PW-JTH.xml",
+   "Z_val": 56.0,
+   "l_max": 2,
+   "md5": "dfb21dbf414157583584bc307ec6f765",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "La": {
+   "basename": "La.LDA_PW-JTH.xml",
+   "Z_val": 57.0,
+   "l_max": 3,
+   "md5": "7634cbf373c05d906ae2c7f69218f05a",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ce": {
+   "basename": "Ce.LDA_PW-JTH.xml",
+   "Z_val": 58.0,
+   "l_max": 3,
+   "md5": "c7e7197ac59d6640041a12c5d49e7457",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pr": {
+   "basename": "Pr.LDA_PW-JTH.xml",
+   "Z_val": 59.0,
+   "l_max": 3,
+   "md5": "e51fc0bbda104a66a4fa8029676a901d",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Nd": {
+   "basename": "Nd.LDA_PW-JTH.xml",
+   "Z_val": 60.0,
+   "l_max": 3,
+   "md5": "cf4dcfad1868f454580a10141261258f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pm": {
+   "basename": "Pm.LDA_PW-JTH.xml",
+   "Z_val": 61.0,
+   "l_max": 3,
+   "md5": "48692306e3473ad4a8963d2752a8777c",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sm": {
+   "basename": "Sm.LDA_PW-JTH.xml",
+   "Z_val": 62.0,
+   "l_max": 3,
+   "md5": "f49ca1a42cce161dd6bfe5051284bdfc",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Eu": {
+   "basename": "Eu.LDA_PW-JTH.xml",
+   "Z_val": 63.0,
+   "l_max": 3,
+   "md5": "13777fae5df48aff8193a409aec9163a",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Gd": {
+   "basename": "Gd.LDA_PW-JTH.xml",
+   "Z_val": 64.0,
+   "l_max": 3,
+   "md5": "66eca0535cc94a269be81347124a10ee",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tb": {
+   "basename": "Tb.LDA_PW-JTH.xml",
+   "Z_val": 65.0,
+   "l_max": 3,
+   "md5": "3d9c86abff03cc7c4dd660af72978855",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Dy": {
+   "basename": "Dy.LDA_PW-JTH.xml",
+   "Z_val": 66.0,
+   "l_max": 3,
+   "md5": "546e8ab0e0ec3cee9db47e16791b728e",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ho": {
+   "basename": "Ho.LDA_PW-JTH.xml",
+   "Z_val": 67.0,
+   "l_max": 3,
+   "md5": "5bbe39a2d733d86f11cc2d325ff548c7",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Er": {
+   "basename": "Er.LDA_PW-JTH.xml",
+   "Z_val": 68.0,
+   "l_max": 3,
+   "md5": "c83f52a8217132050a45222180a48cc2",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tm": {
+   "basename": "Tm.LDA_PW-JTH.xml",
+   "Z_val": 69.0,
+   "l_max": 3,
+   "md5": "ad5d03bc1f377d11fae5299754d0f72d",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Yb": {
+   "basename": "Yb.LDA_PW-JTH.xml",
+   "Z_val": 70.0,
+   "l_max": 3,
+   "md5": "b0cfe648c6cbafc5640cb881c9a56805",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Lu": {
+   "basename": "Lu.LDA_PW-JTH.xml",
+   "Z_val": 71.0,
+   "l_max": 3,
+   "md5": "57833b076c494487e7439eb9220f1da9",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Hf": {
+   "basename": "Hf.LDA_PW-JTH.xml",
+   "Z_val": 72.0,
+   "l_max": 2,
+   "md5": "33c8c9480fd9debc9ad3965bd389e362",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ta": {
+   "basename": "Ta.LDA_PW-JTH.xml",
+   "Z_val": 73.0,
+   "l_max": 2,
+   "md5": "966ca1b06b24756b6b8dca363f277693",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "W": {
+   "basename": "W.LDA_PW-JTH.xml",
+   "Z_val": 74.0,
+   "l_max": 2,
+   "md5": "1e8ee6f0db723ef35b8540a104f4af62",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Re": {
+   "basename": "Re.LDA_PW-JTH.xml",
+   "Z_val": 75.0,
+   "l_max": 2,
+   "md5": "68d8cb59a31cc67dd2b5d3a5aee329b9",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Os": {
+   "basename": "Os.LDA_PW-JTH.xml",
+   "Z_val": 76.0,
+   "l_max": 2,
+   "md5": "93f28e55da767fd8ade907339576e20b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ir": {
+   "basename": "Ir.LDA_PW-JTH.xml",
+   "Z_val": 77.0,
+   "l_max": 2,
+   "md5": "1c4a962742ba5fe94673fe8ac51e12f4",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pt": {
+   "basename": "Pt.LDA_PW-JTH.xml",
+   "Z_val": 78.0,
+   "l_max": 2,
+   "md5": "b2358b6612b2a3201afedabeaa48e502",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Au": {
+   "basename": "Au.LDA_PW-JTH.xml",
+   "Z_val": 79.0,
+   "l_max": 2,
+   "md5": "2ac27cc2342fa281c8cdf608e0fc22ce",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Hg": {
+   "basename": "Hg.LDA_PW-JTH.xml",
+   "Z_val": 80.0,
+   "l_max": 2,
+   "md5": "0768c4836bff8898cf5ec6c54a2cb262",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tl": {
+   "basename": "Tl.LDA_PW-JTH.xml",
+   "Z_val": 81.0,
+   "l_max": 2,
+   "md5": "be189c6a9e121d60813d037d2d94f490",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pb": {
+   "basename": "Pb.LDA_PW-JTH.xml",
+   "Z_val": 82.0,
+   "l_max": 2,
+   "md5": "310375cc7e6f3b769d2232eddbd3ddc2",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Bi": {
+   "basename": "Bi.LDA_PW-JTH.xml",
+   "Z_val": 83.0,
+   "l_max": 2,
+   "md5": "fa09ed05504c1e41a0e21288e5fc831b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Po": {
+   "basename": "Po.LDA_PW-JTH.xml",
+   "Z_val": 84.0,
+   "l_max": 1,
+   "md5": "f9caa84221b9e29e39ac8f72b03692f6",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "At": {
+   "basename": "At.LDA_PW-JTH.xml",
+   "Z_val": 85.0,
+   "l_max": 2,
+   "md5": "5d56f156399072edadcb2d9ff6ac194f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rn": {
+   "basename": "Rn.LDA_PW-JTH.xml",
+   "Z_val": 86.0,
+   "l_max": 1,
+   "md5": "d64e8eda776ec03b490af959572ee5fe",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  }
+ }
+}

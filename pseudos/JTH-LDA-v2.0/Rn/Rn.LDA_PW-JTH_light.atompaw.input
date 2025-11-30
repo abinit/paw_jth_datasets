@@ -1,0 +1,38 @@
+Rn 86
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2001
+6 6 5 4 0 0
+0 0 0
+c
+c
+c
+c
+c
+v
+c
+c
+c
+c
+v
+c
+c
+c
+c
+1
+2.3 2.0 2.3 2.1
+y
+2.0
+n
+y
+3.0
+n
+Vanderbilt
+2 1.0 ultrasoft
+2.1
+2.1
+2.3
+2.3
+XMLOUT
+default withsplgrid 500 prtcorewf
+UPFOUT
+UPFDX 1.25d-2 UPFXMIN -7. UPFZMESH 86.0
+END

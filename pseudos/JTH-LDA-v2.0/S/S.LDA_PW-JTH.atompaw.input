@@ -1,0 +1,29 @@
+S 16
+XC_LDA_X+XC_LDA_C_PW scalarrelativistic loggrid 2000
+3 3 0 0 0 0
+3 1 4
+0 0 0
+c
+c
+v
+c
+v
+1
+1.9 1.40 1.7 1.1
+y
+4.0
+n
+y
+0.50
+n
+custom rrkj
+2 0.0
+1.9
+1.9
+1.9
+1.9
+XMLOUT
+default prtcorewf  lda12 3 1 0.5 3.39
+PWSCFOUT
+UPFDX 1.25d-2 UPFXMIN -7. UPFZMESH 16.0
+END

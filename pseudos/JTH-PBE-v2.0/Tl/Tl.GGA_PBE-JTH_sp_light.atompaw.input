@@ -1,0 +1,41 @@
+Tl 81
+XC_GGA_X_PBE+XC_GGA_C_PBE scalarrelativistic loggrid 2000
+6 6 5 4 0 0
+6 0 2
+6 1 1
+0 0 0
+c
+c
+c
+c
+c
+v
+c
+c
+c
+c
+v
+c
+c
+c
+c
+2
+2.9 2.2 2.85 2.2
+y
+2.75
+n
+y
+4.
+n
+n
+Vanderbilt
+2 -0.20 ultrasoft
+2.6
+2.6
+2.9
+2.9
+XMLOUT
+default withsplgrid 500 prtcorewf
+UPFOUT
+UPFDX 1.25d-2 UPFXMIN -7. UPFZMESH 81.0
+END

@@ -1,0 +1,1738 @@
+{
+ "dojo_info": {
+  "pp_type": "PAW",
+  "description": "Standard table designed for GS applications",
+  "xc_name": "PBE",
+  "references": [
+   "Comp. Phys. Comm. 185, 1246 (2014)"
+  ],
+  "authors": [
+   "F. Jollet",
+   "M. Torrent",
+   "N. Holzwarth"
+  ],
+  "dojo_dir": "JTH-PBE-v2.0"
+ },
+ "pseudo_metadata": {
+  "H": {
+   "basename": "H.GGA_PBE-JTH.xml",
+   "Z_val": 1.0,
+   "l_max": 1,
+   "md5": "5e2f8fe0ef3754380a3c1c63efe9c69a",
+   "dfact_meV": "0.237",
+   "dfactprime_meV": "3.972",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "He": {
+   "basename": "He.GGA_PBE-JTH.xml",
+   "Z_val": 2.0,
+   "l_max": 1,
+   "md5": "83421c6688f3103ca7c9f3c617ebc2d5",
+   "dfact_meV": "0.008",
+   "dfactprime_meV": "1.630",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Li": {
+   "basename": "Li.GGA_PBE-JTH.xml",
+   "Z_val": 3.0,
+   "l_max": 1,
+   "md5": "14964ad2c8e35b61718820374560e761",
+   "dfact_meV": "0.011",
+   "dfactprime_meV": "0.121",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Be": {
+   "basename": "Be.GGA_PBE-JTH.xml",
+   "Z_val": 4.0,
+   "l_max": 1,
+   "md5": "86d40a69fe2b5d013a2e2045aa8e0a8d",
+   "dfact_meV": "0.093",
+   "dfactprime_meV": "0.288",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "B": {
+   "basename": "B.GGA_PBE-JTH.xml",
+   "Z_val": 5.0,
+   "l_max": 1,
+   "md5": "1692dc5f3d227f3c4b526bd7888aea1b",
+   "dfact_meV": "0.271",
+   "dfactprime_meV": "0.472",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "C": {
+   "basename": "C.GGA_PBE-JTH.xml",
+   "Z_val": 6.0,
+   "l_max": 1,
+   "md5": "10a7e41305bc6547419608ac7fe9b281",
+   "dfact_meV": "0.143",
+   "dfactprime_meV": "0.175",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "N": {
+   "basename": "N.GGA_PBE-JTH.xml",
+   "Z_val": 7.0,
+   "l_max": 1,
+   "md5": "db4370b0088af07de26e82e148091772",
+   "dfact_meV": "0.524",
+   "dfactprime_meV": "0.995",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "O": {
+   "basename": "O.GGA_PBE-JTH.xml",
+   "Z_val": 8.0,
+   "l_max": 1,
+   "md5": "18b781fc6cd05cc79943ff803a3f73c3",
+   "dfact_meV": "0.255",
+   "dfactprime_meV": "0.800",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "F": {
+   "basename": "F.GGA_PBE-JTH.xml",
+   "Z_val": 9.0,
+   "l_max": 1,
+   "md5": "9aaa6bce0fa325930092438f97d15452",
+   "dfact_meV": "0.224",
+   "dfactprime_meV": "1.003",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ne": {
+   "basename": "Ne.GGA_PBE-JTH.xml",
+   "Z_val": 10.0,
+   "l_max": 1,
+   "md5": "fe3ea46dd6175fca5e54ab9faf60056f",
+   "dfact_meV": "0.011",
+   "dfactprime_meV": "0.967",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Na": {
+   "basename": "Na.GGA_PBE-JTH.xml",
+   "Z_val": 11.0,
+   "l_max": 1,
+   "md5": "e0bb3d89f9d8910e4ae025e31a65e756",
+   "dfact_meV": "0.500",
+   "dfactprime_meV": "5.209",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mg": {
+   "basename": "Mg.GGA_PBE-JTH.xml",
+   "Z_val": 12.0,
+   "l_max": 1,
+   "md5": "526834a8148aaba22aaaed73bc3a13fa",
+   "dfact_meV": "0.251",
+   "dfactprime_meV": "0.916",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Al": {
+   "basename": "Al.GGA_PBE-JTH.xml",
+   "Z_val": 13.0,
+   "l_max": 1,
+   "md5": "27040000e79210cc12a4b4cdac6674bc",
+   "dfact_meV": "0.093",
+   "dfactprime_meV": "0.217",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Si": {
+   "basename": "Si.GGA_PBE-JTH.xml",
+   "Z_val": 14.0,
+   "l_max": 1,
+   "md5": "7b2a44a6d7f38f2b705bf159ee8385de",
+   "dfact_meV": "0.320",
+   "dfactprime_meV": "0.529",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "P": {
+   "basename": "P.GGA_PBE-JTH.xml",
+   "Z_val": 15.0,
+   "l_max": 1,
+   "md5": "14d9826bcbd5a216ba15c349ae3b4473",
+   "dfact_meV": "0.358",
+   "dfactprime_meV": "0.734",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "S": {
+   "basename": "S.GGA_PBE-JTH.xml",
+   "Z_val": 16.0,
+   "l_max": 1,
+   "md5": "0f4fffb855ed5391ed63f621392b5ccd",
+   "dfact_meV": "0.325",
+   "dfactprime_meV": "0.678",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cl": {
+   "basename": "Cl.GGA_PBE-JTH.xml",
+   "Z_val": 17.0,
+   "l_max": 1,
+   "md5": "456c26a967243cd9f9f0f13860bb6e20",
+   "dfact_meV": "0.205",
+   "dfactprime_meV": "0.815",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ar": {
+   "basename": "Ar.GGA_PBE-JTH.xml",
+   "Z_val": 18.0,
+   "l_max": 1,
+   "md5": "8ba993bebd14044d0de45fc4a81d4a79",
+   "dfact_meV": "0.019",
+   "dfactprime_meV": "1.468",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "K": {
+   "basename": "K.GGA_PBE-JTH.xml",
+   "Z_val": 19.0,
+   "l_max": 2,
+   "md5": "3d6f21e92ecc410ed700185ec874cb6d",
+   "dfact_meV": "0.071",
+   "dfactprime_meV": "0.806",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ca": {
+   "basename": "Ca.GGA_PBE-JTH.xml",
+   "Z_val": 20.0,
+   "l_max": 2,
+   "md5": "7d3212946240255c98392b3bdfaeb9db",
+   "dfact_meV": "0.115",
+   "dfactprime_meV": "0.473",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sc": {
+   "basename": "Sc.GGA_PBE-JTH.xml",
+   "Z_val": 21.0,
+   "l_max": 2,
+   "md5": "00373b5fdbeed5de15cab01b443e484f",
+   "dfact_meV": "0.274",
+   "dfactprime_meV": "0.615",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ti": {
+   "basename": "Ti.GGA_PBE-JTH.xml",
+   "Z_val": 22.0,
+   "l_max": 2,
+   "md5": "af59e31abbaf687c4a8f79a7e6df289b",
+   "dfact_meV": "0.915",
+   "dfactprime_meV": "1.410",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "V": {
+   "basename": "V.GGA_PBE-JTH.xml",
+   "Z_val": 23.0,
+   "l_max": 2,
+   "md5": "f218a6832f3ad942d6426941e512708d",
+   "dfact_meV": "2.116",
+   "dfactprime_meV": "2.598",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cr": {
+   "basename": "Cr.GGA_PBE-JTH.xml",
+   "Z_val": 24.0,
+   "l_max": 2,
+   "md5": "72dc239e2b8bdc6d514a323d90b24a5c",
+   "dfact_meV": "0.718",
+   "dfactprime_meV": "1.017",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mn": {
+   "basename": "Mn.GGA_PBE-JTH.xml",
+   "Z_val": 25.0,
+   "l_max": 2,
+   "md5": "13b2f01a239c096b9fe623f67491fef7",
+   "dfact_meV": "0.901",
+   "dfactprime_meV": "2.070",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Fe": {
+   "basename": "Fe.GGA_PBE-JTH.xml",
+   "Z_val": 26.0,
+   "l_max": 2,
+   "md5": "9b79cbe0025ee61aeece0e586bf9ae95",
+   "dfact_meV": "0.554",
+   "dfactprime_meV": "0.760",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Co": {
+   "basename": "Co.GGA_PBE-JTH.xml",
+   "Z_val": 27.0,
+   "l_max": 2,
+   "md5": "930c833f43c3c7c580f9ef2f6ef1c62b",
+   "dfact_meV": "1.081",
+   "dfactprime_meV": "1.389",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ni": {
+   "basename": "Ni.GGA_PBE-JTH.xml",
+   "Z_val": 28.0,
+   "l_max": 2,
+   "md5": "473ce18aea30b5b464ed013aea858491",
+   "dfact_meV": "1.498",
+   "dfactprime_meV": "2.085",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cu": {
+   "basename": "Cu.GGA_PBE-JTH.xml",
+   "Z_val": 29.0,
+   "l_max": 2,
+   "md5": "7db1abb115734d914287bff770893a4a",
+   "dfact_meV": "0.284",
+   "dfactprime_meV": "0.502",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Zn": {
+   "basename": "Zn.GGA_PBE-JTH.xml",
+   "Z_val": 30.0,
+   "l_max": 2,
+   "md5": "a37f415a2fd5869f2bc6f9c23d6d8b93",
+   "dfact_meV": "0.282",
+   "dfactprime_meV": "0.743",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ga": {
+   "basename": "Ga.GGA_PBE-JTH.xml",
+   "Z_val": 31.0,
+   "l_max": 2,
+   "md5": "3b317f02f11279f4161cf2bcac939311",
+   "dfact_meV": "0.189",
+   "dfactprime_meV": "0.566",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ge": {
+   "basename": "Ge.GGA_PBE-JTH.xml",
+   "Z_val": 32.0,
+   "l_max": 2,
+   "md5": "1a18e8161fb8138117713baf32239ad2",
+   "dfact_meV": "0.583",
+   "dfactprime_meV": "1.241",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "As": {
+   "basename": "As.GGA_PBE-JTH.xml",
+   "Z_val": 33.0,
+   "l_max": 2,
+   "md5": "b54568ee14f4a76c4e6c8a5f4d6e7547",
+   "dfact_meV": "0.479",
+   "dfactprime_meV": "0.929",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Se": {
+   "basename": "Se.GGA_PBE-JTH.xml",
+   "Z_val": 34.0,
+   "l_max": 1,
+   "md5": "22995067e86d242a4b7cf16bd0beff42",
+   "dfact_meV": "0.129",
+   "dfactprime_meV": "0.275",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Br": {
+   "basename": "Br.GGA_PBE-JTH.xml",
+   "Z_val": 35.0,
+   "l_max": 1,
+   "md5": "29dda90c8b4308a0559ab317b6296774",
+   "dfact_meV": "0.029",
+   "dfactprime_meV": "0.098",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Kr": {
+   "basename": "Kr.GGA_PBE-JTH.xml",
+   "Z_val": 36.0,
+   "l_max": 2,
+   "md5": "f3d6c362fd87198d497f05624dffab52",
+   "dfact_meV": "0.030",
+   "dfactprime_meV": "1.916",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rb": {
+   "basename": "Rb.GGA_PBE-JTH.xml",
+   "Z_val": 37.0,
+   "l_max": 2,
+   "md5": "601e7a8f0a188baddcc57114d7e0767d",
+   "dfact_meV": "0.300",
+   "dfactprime_meV": "3.537",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sr": {
+   "basename": "Sr.GGA_PBE-JTH.xml",
+   "Z_val": 38.0,
+   "l_max": 2,
+   "md5": "465ddb39bc234ae72bdaed8b8dd9afb3",
+   "dfact_meV": "0.817",
+   "dfactprime_meV": "3.917",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Y": {
+   "basename": "Y.GGA_PBE-JTH.xml",
+   "Z_val": 39.0,
+   "l_max": 2,
+   "md5": "46820023939da32b8a45a8b27de0754c",
+   "dfact_meV": "0.308",
+   "dfactprime_meV": "0.683",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Zr": {
+   "basename": "Zr.GGA_PBE-JTH.xml",
+   "Z_val": 40.0,
+   "l_max": 2,
+   "md5": "273106e0c6664007c1dcf59b504431b2",
+   "dfact_meV": "0.144",
+   "dfactprime_meV": "0.197",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Nb": {
+   "basename": "Nb.GGA_PBE-JTH.xml",
+   "Z_val": 41.0,
+   "l_max": 2,
+   "md5": "13173822df8069cb53250d68dc83c5ed",
+   "dfact_meV": "0.307",
+   "dfactprime_meV": "0.299",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Mo": {
+   "basename": "Mo.GGA_PBE-JTH.xml",
+   "Z_val": 42.0,
+   "l_max": 2,
+   "md5": "307d876cbec38ef02b250dd8ce643221",
+   "dfact_meV": "1.506",
+   "dfactprime_meV": "1.103",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tc": {
+   "basename": "Tc.GGA_PBE-JTH.xml",
+   "Z_val": 43.0,
+   "l_max": 2,
+   "md5": "8ea6acf59dd573e7231b2c00a56fa362",
+   "dfact_meV": "0.402",
+   "dfactprime_meV": "0.279",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ru": {
+   "basename": "Ru.GGA_PBE-JTH.xml",
+   "Z_val": 44.0,
+   "l_max": 2,
+   "md5": "1e1a0a9eff80aea9f54851d4525e6901",
+   "dfact_meV": "0.386",
+   "dfactprime_meV": "0.269",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rh": {
+   "basename": "Rh.GGA_PBE-JTH.xml",
+   "Z_val": 45.0,
+   "l_max": 2,
+   "md5": "c8c96d2ec9d923ef9ea8df810c158a6b",
+   "dfact_meV": "0.335",
+   "dfactprime_meV": "0.277",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pd": {
+   "basename": "Pd.GGA_PBE-JTH.xml",
+   "Z_val": 46.0,
+   "l_max": 2,
+   "md5": "0cb93a8802fd3c8b2f429c7309a95f1b",
+   "dfact_meV": "0.131",
+   "dfactprime_meV": "0.153",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ag": {
+   "basename": "Ag.GGA_PBE-JTH.xml",
+   "Z_val": 47.0,
+   "l_max": 2,
+   "md5": "0efbf32cf15d5804585d6ec2a3299e6c",
+   "dfact_meV": "0.367",
+   "dfactprime_meV": "0.680",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cd": {
+   "basename": "Cd.GGA_PBE-JTH.xml",
+   "Z_val": 48.0,
+   "l_max": 2,
+   "md5": "351cd696841dd297c24dfa91223f0cc1",
+   "dfact_meV": "0.121",
+   "dfactprime_meV": "0.362",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "In": {
+   "basename": "In.GGA_PBE-JTH.xml",
+   "Z_val": 49.0,
+   "l_max": 2,
+   "md5": "6c3b1e08e26e95cc05ffe8f512af50bb",
+   "dfact_meV": "0.208",
+   "dfactprime_meV": "0.637",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sn": {
+   "basename": "Sn.GGA_PBE-JTH.xml",
+   "Z_val": 50.0,
+   "l_max": 2,
+   "md5": "fd925cbde6012ea7e38fcae399288b5f",
+   "dfact_meV": "0.137",
+   "dfactprime_meV": "0.311",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sb": {
+   "basename": "Sb.GGA_PBE-JTH.xml",
+   "Z_val": 51.0,
+   "l_max": 2,
+   "md5": "2747d94537a10727c56b00ef47978f2d",
+   "dfact_meV": "0.265",
+   "dfactprime_meV": "0.497",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Te": {
+   "basename": "Te.GGA_PBE-JTH.xml",
+   "Z_val": 52.0,
+   "l_max": 1,
+   "md5": "bad8d6467c3b885062014c4af3a10ffc",
+   "dfact_meV": "0.068",
+   "dfactprime_meV": "0.129",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "I": {
+   "basename": "I.GGA_PBE-JTH.xml",
+   "Z_val": 53.0,
+   "l_max": 1,
+   "md5": "9f281588d767a7d4ff5a98942c40f55c",
+   "dfact_meV": "0.733",
+   "dfactprime_meV": "2.339",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Xe": {
+   "basename": "Xe.GGA_PBE-JTH.xml",
+   "Z_val": 54.0,
+   "l_max": 1,
+   "md5": "f2c1dac37a47f10f15f16f5de2b447e1",
+   "dfact_meV": "0.012",
+   "dfactprime_meV": "0.764",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Cs": {
+   "basename": "Cs.GGA_PBE-JTH.xml",
+   "Z_val": 55.0,
+   "l_max": 2,
+   "md5": "ee7c1db031bb4ea1b392a5ed48fdec36",
+   "dfact_meV": "0.106",
+   "dfactprime_meV": "1.380",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ba": {
+   "basename": "Ba.GGA_PBE-JTH.xml",
+   "Z_val": 56.0,
+   "l_max": 2,
+   "md5": "7247f13ecaa07a212aa150b048b2ba02",
+   "dfact_meV": "0.812",
+   "dfactprime_meV": "4.506",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "La": {
+   "basename": "La.GGA_PBE-JTH.xml",
+   "Z_val": 57.0,
+   "l_max": 3,
+   "md5": "78eac824a459c846cd2ec508be7bbd4c",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ce": {
+   "basename": "Ce.GGA_PBE-JTH.xml",
+   "Z_val": 58.0,
+   "l_max": 3,
+   "md5": "b949221c9be9321fc4159ba3bfcc4572",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pr": {
+   "basename": "Pr.GGA_PBE-JTH.xml",
+   "Z_val": 59.0,
+   "l_max": 3,
+   "md5": "b8fd52a689c4db835a82ceda879804ab",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Nd": {
+   "basename": "Nd.GGA_PBE-JTH.xml",
+   "Z_val": 60.0,
+   "l_max": 3,
+   "md5": "85b1e1d0b4b8022873d1b880340865c9",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pm": {
+   "basename": "Pm.GGA_PBE-JTH.xml",
+   "Z_val": 61.0,
+   "l_max": 3,
+   "md5": "17f42393ef3d7fb6d89fa8957d3972df",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Sm": {
+   "basename": "Sm.GGA_PBE-JTH.xml",
+   "Z_val": 62.0,
+   "l_max": 3,
+   "md5": "865ec3b91ddceeb8639843dba99cee2a",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Eu": {
+   "basename": "Eu.GGA_PBE-JTH.xml",
+   "Z_val": 63.0,
+   "l_max": 3,
+   "md5": "a6bd6789a93c940bbc50b3ab064ba4b6",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Gd": {
+   "basename": "Gd.GGA_PBE-JTH.xml",
+   "Z_val": 64.0,
+   "l_max": 3,
+   "md5": "20d9b29c6780633c21f81ee5d70e9d24",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tb": {
+   "basename": "Tb.GGA_PBE-JTH.xml",
+   "Z_val": 65.0,
+   "l_max": 3,
+   "md5": "9f7b27162f1a31d15e85562fe47f979b",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Dy": {
+   "basename": "Dy.GGA_PBE-JTH.xml",
+   "Z_val": 66.0,
+   "l_max": 3,
+   "md5": "0d29d1abed05e571fd1a1ca98d32631a",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ho": {
+   "basename": "Ho.GGA_PBE-JTH.xml",
+   "Z_val": 67.0,
+   "l_max": 3,
+   "md5": "16094771d800bc2eaf8d0f05689f935f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Er": {
+   "basename": "Er.GGA_PBE-JTH.xml",
+   "Z_val": 68.0,
+   "l_max": 3,
+   "md5": "4907e4ccdce1141877a2aadb8cffe87f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tm": {
+   "basename": "Tm.GGA_PBE-JTH.xml",
+   "Z_val": 69.0,
+   "l_max": 3,
+   "md5": "30dfab5c89b6ade1bb6849e6065c9d32",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Yb": {
+   "basename": "Yb.GGA_PBE-JTH.xml",
+   "Z_val": 70.0,
+   "l_max": 3,
+   "md5": "cb48163334ff02f821f841a2b113863f",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Lu": {
+   "basename": "Lu.GGA_PBE-JTH.xml",
+   "Z_val": 71.0,
+   "l_max": 3,
+   "md5": "ad3335fd54c8b638d2ed0420d0d2e1b8",
+   "dfact_meV": "0.548",
+   "dfactprime_meV": "1.202",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Hf": {
+   "basename": "Hf.GGA_PBE-JTH.xml",
+   "Z_val": 72.0,
+   "l_max": 2,
+   "md5": "54b27c9d655efb186f740d6e19031b74",
+   "dfact_meV": "0.076",
+   "dfactprime_meV": "0.094",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ta": {
+   "basename": "Ta.GGA_PBE-JTH.xml",
+   "Z_val": 73.0,
+   "l_max": 2,
+   "md5": "e357fa570250b55a0cd274aef0ec87e1",
+   "dfact_meV": "0.695",
+   "dfactprime_meV": "0.579",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "W": {
+   "basename": "W.GGA_PBE-JTH.xml",
+   "Z_val": 74.0,
+   "l_max": 2,
+   "md5": "427277a87c2bfc28de1fe066b633da6d",
+   "dfact_meV": "1.289",
+   "dfactprime_meV": "0.791",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Re": {
+   "basename": "Re.GGA_PBE-JTH.xml",
+   "Z_val": 75.0,
+   "l_max": 2,
+   "md5": "3edbe9bcfeb704f792bffcf3264652cb",
+   "dfact_meV": "0.217",
+   "dfactprime_meV": "0.120",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Os": {
+   "basename": "Os.GGA_PBE-JTH.xml",
+   "Z_val": 76.0,
+   "l_max": 2,
+   "md5": "fa9df7aab23249de7dc02dabecd4f5ba",
+   "dfact_meV": "0.354",
+   "dfactprime_meV": "0.186",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Ir": {
+   "basename": "Ir.GGA_PBE-JTH.xml",
+   "Z_val": 77.0,
+   "l_max": 2,
+   "md5": "2aefc051cda86f8582ee5628d71cbc89",
+   "dfact_meV": "0.619",
+   "dfactprime_meV": "0.367",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pt": {
+   "basename": "Pt.GGA_PBE-JTH.xml",
+   "Z_val": 78.0,
+   "l_max": 2,
+   "md5": "ae14153dcd9a937e3731883538922c87",
+   "dfact_meV": "2.162",
+   "dfactprime_meV": "1.661",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Au": {
+   "basename": "Au.GGA_PBE-JTH.xml",
+   "Z_val": 79.0,
+   "l_max": 2,
+   "md5": "a471b99ea9c871d7c1ce432b6219256b",
+   "dfact_meV": "1.010",
+   "dfactprime_meV": "1.205",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Hg": {
+   "basename": "Hg.GGA_PBE-JTH.xml",
+   "Z_val": 80.0,
+   "l_max": 2,
+   "md5": "66b7b12f442b0a6d91d8665cdfa664e7",
+   "dfact_meV": "0.141",
+   "dfactprime_meV": "1.677",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Tl": {
+   "basename": "Tl.GGA_PBE-JTH.xml",
+   "Z_val": 81.0,
+   "l_max": 2,
+   "md5": "884822cedea083adc87ee92ca1cc9bb7",
+   "dfact_meV": "0.045",
+   "dfactprime_meV": "0.160",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Pb": {
+   "basename": "Pb.GGA_PBE-JTH.xml",
+   "Z_val": 82.0,
+   "l_max": 2,
+   "md5": "625ba44aa3a9e01b97e34e99352d551a",
+   "dfact_meV": "0.323",
+   "dfactprime_meV": "0.759",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Bi": {
+   "basename": "Bi.GGA_PBE-JTH.xml",
+   "Z_val": 83.0,
+   "l_max": 2,
+   "md5": "0627cd36f94eb53ab03391216975b51c",
+   "dfact_meV": "0.097",
+   "dfactprime_meV": "0.185",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Po": {
+   "basename": "Po.GGA_PBE-JTH.xml",
+   "Z_val": 84.0,
+   "l_max": 1,
+   "md5": "163716c2417ce4981f5d5c6efd6e0466",
+   "dfact_meV": "0.284",
+   "dfactprime_meV": "0.497",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "At": {
+   "basename": "At.GGA_PBE-JTH.xml",
+   "Z_val": 85.0,
+   "l_max": 2,
+   "md5": "4ee8006ebe15347b59a73eb40dba84e7",
+   "dfact_meV": null,
+   "dfactprime_meV": null,
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  },
+  "Rn": {
+   "basename": "Rn.GGA_PBE-JTH.xml",
+   "Z_val": 86.0,
+   "l_max": 1,
+   "md5": "ba117d03552001387a20bb944d967f33",
+   "dfact_meV": "0.026",
+   "dfactprime_meV": "1.538",
+   "tags": [],
+   "hints": {
+    "high": {
+     "ecut": null
+    },
+    "low": {
+     "ecut": null
+    },
+    "normal": {
+     "ecut": null
+    }
+   }
+  }
+ }
+}

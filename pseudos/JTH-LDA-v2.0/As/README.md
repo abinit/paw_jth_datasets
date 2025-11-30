@@ -1,0 +1,41 @@
+### JTH PAW atomic dataset(s) for element As
+  
+_These atomic data have been carefully tested against all-electron calculations and other available atomic datasets_
+_They are recommended for use, although they have to be tested again by users._  
+<br>
+**PAW dataset:**  
+ [As.LDA_PW-JTH.xml](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH.xml), [As.LDA_PW-JTH.UPF](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH.UPF)  
+Status: **recommended**  
+Exchange-correlation functional: LDA - PW  
+Electronic structure ([core] val): [Ar] 3d10 4s2 4p3  
+Augmentation radius: 2.10 a.u.  
+Suggested PW cut-off energies: low= 10.0 Ha, medium= 10.0 Ha, high= 10.0 Ha  
+Generator: atompaw-4.2.0.4 - [input file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH.atompaw.input)  
+Core wavefunction file (XML): [corewf file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH.corewf.xml)  
+<br>
+**PAW dataset:**  
+ [As.LDA_PW-JTH_sp.xml](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp.xml), [As.LDA_PW-JTH_sp.UPF](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp.UPF)  
+Exchange-correlation functional: LDA - PW  
+Electronic structure ([core] val): [Ar 3d10] 4s2 4p3  
+Augmentation radius: 2.10 a.u.  
+Suggested PW cut-off energies: low= 10.0 Ha, medium= 10.0 Ha, high= 10.0 Ha  
+Generator: atompaw-4.2.0.4 - [input file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp.atompaw.input)  
+Core wavefunction file (XML): [corewf file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp.corewf.xml)  
+<br>
+**PAW dataset:**  
+ [As.LDA_PW-JTH_light.xml](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_light.xml)  
+Status: **light**  
+Exchange-correlation functional: LDA - PW  
+Electronic structure ([core] val): [Ar] 3d10 4s2 4p3  
+Augmentation radius: 2.10 a.u.  
+Suggested PW cut-off energies: low= 10.0 Ha, medium= 10.0 Ha, high= 10.0 Ha  
+Generator: atompaw-4.2.0.4 - [input file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_light.atompaw.input)  
+<br>
+**PAW dataset:**  
+ [As.LDA_PW-JTH_sp_light.xml](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp_light.xml)  
+Status: **light**  
+Exchange-correlation functional: LDA - PW  
+Electronic structure ([core] val): [Ar 3d10] 4s2 4p3  
+Augmentation radius: 2.10 a.u.  
+Suggested PW cut-off energies: low= 10.0 Ha, medium= 10.0 Ha, high= 10.0 Ha  
+Generator: atompaw-4.2.0.4 - [input file](https://github.com/abinit/paw_jth_datasets/raw/main/pseudos/JTH-LDA-v2.0/As/As.LDA_PW-JTH_sp_light.atompaw.input)  

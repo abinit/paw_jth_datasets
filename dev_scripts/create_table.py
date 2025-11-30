@@ -16,8 +16,9 @@ info_filename        = "dataset_info.txt"
 readme_filename      = "README.md"
 comment_filename     = "Comments"
 atomicdata_folder    = "ATOMICDATA"
+corewf_folder        = "COREWF"
 input_xml_lines_def  = ['XMLOUT\n','default\n']
-input_upf_lines_def  = ['UPFOUT\n','default\n']
+input_upf_lines_def  = ['UPFOUT\n','UPFDX 1.25d-2 UPFXMIN -7. UPFZMESH $${Z}\n']
 indexhtml_filename   = "index.html"
 globalindex_template = "index-table.html"
 specie_html_template = "index-specie.html" 
@@ -27,12 +28,12 @@ github_subfolder     = "pseudos"
 github_folder_def    = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/pseudos"
 link_to_error404     = "https://abinit.github.io/404"
 website_template     = "/Users/torrentm/WORK/JTH-TABLE/GITHUB/paw_jth_datasets/jth_website_template"
-last_modif_date      = "nov. 1, 2025"
+last_modif_date      = "Dec 1, 2025"
 web_master           = "M. Torrent, F. Jollet"
 
 shell_name = ('s','p','d','f','g')
 shell_charge = (2,6,10,14,18)
-shell_core = ([1,0],[2,0],[2,1],[3,0],[3,1],[4,0],[3,2],[4,1],[5,0],[4,2],[5,1], \
+shell_core_list = ([1,0],[2,0],[2,1],[3,0],[3,1],[4,0],[3,2],[4,1],[5,0],[4,2],[5,1], \
               [6,0],[4,3],[5,2],[6,1],[7,0],[5,3],[6,2],[7,1],[8,0],[5,4],[6,3],[7,2])
 rare_gas= (['1s2','He'], \
            ['1s2 2s2 2p6','Ne'], \
@@ -121,6 +122,10 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
   for root, dirs, files in os.walk(table_folder):
     for file_name in files:
       file_bodyname, file_ext = os.path.splitext(file_name)
+      file_bodyname2, file_ext2 = os.path.splitext(file_bodyname)
+      if file_ext2 == '.corewf':
+        file_bodyname = file_bodyname2
+        file_ext = file_ext2 + file_ext
       file_fullname = os.path.join(root,file_name)
       file_specie = specie_from_filename(file_name)
       if os.path.isfile(file_fullname):
@@ -128,9 +133,15 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
         if file_specie in specie.keys():
           dir_dest = os.path.join(github_table_folder,file_specie)
    
+#         Process corewf.XML file(s)
+          if file_ext == '.corewf.xml' or file_ext == ".corewf.XML":
+            if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
+              #Copy file
+              shutil.copy2(file_fullname,dir_dest)
+
 #         Process XML file(s)
-          if file_ext == '.xml' or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
+          elif file_ext == '.xml' or file_ext == ".XML":
+            if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
               #Copy file
               shutil.copy2(file_fullname,dir_dest)
               #Create input file
@@ -149,7 +160,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
 
 #         Process UPF file(s)
           elif file_ext == '.upf' or file_ext == ".UPF":
-            if string_is_in_file(["<UPF version="],file_fullname):
+            if string_is_in_file(file_fullname,["<UPF version="]):
               shutil.copy2(file_fullname,dir_dest)
 
 #       Process PDF file(s)
@@ -202,19 +213,38 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
           pawdt_info = ddb.info_list[iat]
           basename = pawdt_info[1]
           file_base, file_ext = os.path.splitext(basename) 
+          file_base2, file_ext2 = os.path.splitext(file_base)
+          if file_ext2 == '.corewf':
+            file_base = filefile_base2
+            file_ext = file_ext2 + file_ext
           pawdt = paw_dataset()
+
+#         Process corewf.XML
+          for f_ext in ['.corewf.xml','.corewf.XML']:
+            pawdt_path_corexml = os.path.join(dir_fullname,file_base+f_ext)
+            if isfile_case_sensitive(pawdt_path_corexml):
+              file_is_corexml = True
+              pawdt.read_from_corexml(corexml_filename=pawdt_path_corexml)
+              pawdt.read_from_info(dataset_info=pawdt_info)
+              #Store file for tarball
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+ \
+                pawdt.xc_type+"-"+pawdt.xc_name+"-"+corewf_folder.lower()+"-xml")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
+              shutil.copy2(pawdt_path_corexml,xc_dir)            
 
 #         Process XML
           for f_ext in ['.xml','.XML']:
             pawdt_path_xml = os.path.join(dir_fullname,file_base+f_ext)
             if isfile_case_sensitive(pawdt_path_xml):
               pawdt.read_from_xml(xml_filename=pawdt_path_xml)
+              pawdt.read_from_info(dataset_info=pawdt_info)
               #Store file for tarball
               xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+ \
-                                    pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
-              if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
-                ddb.xc_names.append(pawdt.xc_name)
-                os.makedirs(xc_dir,exist_ok=True)
+                pawdt.xc_type+"-"+pawdt.xc_name+"-"+atomicdata_folder.lower()+"-xml")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if pawdt.xc_name not in ddb.xc_names: ddb.xc_names.append(pawdt.xc_name)
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
               shutil.copy2(pawdt_path_xml,xc_dir)            
 
 #         Process UPF
@@ -222,12 +252,13 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
             pawdt_path_upf = os.path.join(dir_fullname,file_base+f_ext)
             if isfile_case_sensitive(pawdt_path_upf):
               pawdt.read_from_upf(upf_filename=pawdt_path_upf)
+              pawdt.read_from_info(dataset_info=pawdt_info)
               #Store file for tarball
               xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+ \
-                                    pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
-              if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
-                ddb.xc_names.append(pawdt.xc_name)
-                os.makedirs(xc_dir,exist_ok=True)
+                pawdt.xc_type+"-"+pawdt.xc_name+"-"+atomicdata_folder.lower()+"-upf")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if pawdt.xc_name not in ddb.xc_names: ddb.xc_names.append(pawdt.xc_name)
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
               shutil.copy2(pawdt_path_upf,xc_dir)            
 
 #         Process atompaw.input
@@ -236,9 +267,6 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
           if isfile_case_sensitive(pawdt_path_inp):
             pawdt.inp_file_name = os.path.split(pawdt_path_inp)[-1]
           
-#         Read other dataset info
-          pawdt.read_from_info(dataset_info=pawdt_info)
-
 #         Check atom vs symbol
           if atom != pawdt.symbol:
             raise ValueError("Inconsistency atom=%s and symbol=%s!" % (atom, pawdt.symbol))
@@ -289,7 +317,7 @@ def main_create_github_from_table(table_folder,github_folder=github_folder_def):
     fjson.close()
 
 # Build tarball(s) with entire table
-  for root, dirs, files in os.walk(tmp_dir):
+  for root, dirs, files in walk_level(tmp_dir,depth=0):
     for dir_name in dirs:
       tar_name = os.path.join(github_table_folder,dir_name)+'.tar.gz'
       if isfile_case_sensitive(tar_name): os.remove(tar_name)
@@ -349,23 +377,41 @@ def main_create_html_from_table(table_folder,html_folder):
   for root, dirs, files in os.walk(table_folder):
     for file_name in files:
       file_bodyname, file_ext = os.path.splitext(file_name)
+      file_bodyname2, file_ext2 = os.path.splitext(file_bodyname)
+      if file_ext2 == '.corewf':
+        file_bodyname = file_bodyname2
+        file_ext = file_ext2 + file_ext
       file_fullname = os.path.join(root,file_name)
       file_specie = specie_from_filename(file_name)
       if isfile_case_sensitive(file_fullname):
 
         if file_specie in specie.keys():
-          specie_dirname=os.path.join(atomicdata_folder,"%03d-%s" % (int(specie[file_specie][1]),file_specie.lower()))
+          specie_dirname=os.path.join(atomicdata_folder,"%03d-%s" \
+                        % (int(specie[file_specie][1]),file_specie.lower()))
           specie_dir_dest = os.path.join(html_folder,specie_dirname)
 
-#         Process XML file(s)
-          if file_ext == '.xml' or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
+#         Process corewf.XML file(s)
+          if file_ext == '.corewf.xml' or file_ext == ".corewf.XML":
+            if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
               pawdt = paw_dataset(xml_filename=file_fullname)
               #Store file for tarball
-              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
-              if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
-                ddb.xc_names.append(pawdt.xc_name)
-                os.makedirs(xc_dir,exist_ok=True)
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type \
+                          +"-"+pawdt.xc_name+"-"+corewf_folder.lower()+"-xml")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
+              shutil.copy2(file_fullname,xc_dir)            
+              shutil.copy2(file_fullname,specie_dir_dest)                           
+
+#         Process XML file(s)
+          elif file_ext == '.xml' or file_ext == ".XML":
+            if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
+              pawdt = paw_dataset(xml_filename=file_fullname)
+              #Store file for tarball
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type \
+                          +"-"+pawdt.xc_name+"-"+atomicdata_folder.lower()+"-xml")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if pawdt.xc_name not in ddb.xc_names: ddb.xc_names.append(pawdt.xc_name)
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
               shutil.copy2(file_fullname,xc_dir)            
               #Copy file
               shutil.copy2(file_fullname,specie_dir_dest)                           
@@ -383,13 +429,14 @@ def main_create_html_from_table(table_folder,html_folder):
 
 #         Process UPF file(s)
           elif file_ext == '.upf' or file_ext == ".UPF":
-            if string_is_in_file(["<UPF version="],file_fullname):
+            if string_is_in_file(file_fullname,["<UPF version="]):
               pawdt = paw_dataset(upf_filename=file_fullname)
               #Store file for tarball
-              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type+"-"+pawdt.xc_name+"-atomicdata")
-              if len(pawdt.xc_name)>0 and pawdt.xc_name not in ddb.xc_names:
-                ddb.xc_names.append(pawdt.xc_name)
-                os.makedirs(xc_dir,exist_ok=True)
+              xc_dir = os.path.join(tmp_dir,jth_short_name+"-v"+table_version+"-"+pawdt.xc_type \
+                          +"-"+pawdt.xc_name+"-"+atomicdata_folder.lower()+"-upf")
+              if pawdt.status.lower().strip()=="light": xc_dir = os.path.join(xc_dir,"_light")
+              if pawdt.xc_name not in ddb.xc_names: ddb.xc_names.append(pawdt.xc_name)
+              if len(pawdt.xc_name)>0: os.makedirs(xc_dir,exist_ok=True)
               shutil.copy2(file_fullname,xc_dir)            
               #Copy file
               shutil.copy2(file_fullname,specie_dir_dest)
@@ -420,29 +467,39 @@ def main_create_html_from_table(table_folder,html_folder):
       file_list = {}
       for ff in os.listdir(dir_fullname):
         ff_name, ff_ext = os.path.splitext(ff)
+        ff_name2, ff_ext2 = os.path.splitext(ff_name)
         ff_name = os.path.split(ff_name)[-1]
         if ff_ext == ".input" and os.path.splitext(ff_name)[1] == ".atompaw":
           ff_name = os.path.splitext(ff_name)[0] ; ff_ext = ".atompaw.input"
-        if ff_ext in (".xml",".XML",".upf",".UPF",".atompaw.input"):
+        if ff_ext.lower() == ".xml" and os.path.splitext(ff_name)[1] == ".corewf":
+          ff_name = os.path.splitext(ff_name)[0] ; ff_ext = ".corewf"+ff_ext
+        if ff_ext in (".xml",".XML",".upf",".UPF",".atompaw.input",".corewf.xml",".corewf.XML"):
           if ff_name in file_list.keys():
             file_list[ff_name].append(ff_ext)
           else:
             file_list[ff_name] = [ff_ext]
 
+#     Sort files, putting "_sp" ones at the end
+      files_sorted = sorted(file_list.keys(), key=lambda k: (1 if "_sp" in k else 0))
+      file_list_sorted = {cle: file_list[cle] for cle in files_sorted}
+
 #     Modify index.html file
-      html_lines = []
-      for dtset in file_list.keys():
-        if file_list[dtset]:
+      for dtset in file_list_sorted.keys():
+        if file_list_sorted[dtset]:
+          html_lines = []
+          html_fname = os.path.join(dir_fullname,indexhtml_filename)
       
 #         Retrieve dataset info from different xml/upf files
           pawdt = paw_dataset()
-          for f_ext in file_list[dtset]:
+          for f_ext in file_list_sorted[dtset]:
             if f_ext.lower() == ".xml":
               pawdt.read_from_xml(xml_filename=os.path.join(dir_fullname,dtset+f_ext))
             if f_ext.lower() == ".upf":
               pawdt.read_from_upf(upf_filename=os.path.join(dir_fullname,dtset+f_ext))
             if f_ext.lower() == ".atompaw.input":
               pawdt.inp_file_name = dtset+f_ext
+            if f_ext.lower() == ".corewf.xml":
+              pawdt.read_from_corexml(corexml_filename=os.path.join(dir_fullname,dtset+f_ext))
           if pawdt.xml_file_name in ddb.filename_list:
             pawdt_info = ddb.info_list[ddb.filename_list.index(pawdt.xml_file_name)]
             pawdt.read_from_info(dataset_info=pawdt_info)
@@ -450,19 +507,39 @@ def main_create_html_from_table(table_folder,html_folder):
             pawdt_info = ddb.info_list[ddb.filename_list.index(pawdt.upf_file_name)]
             pawdt.read_from_info(dataset_info=pawdt_info)
 
-#         Define content to write in index.html file
-          html_lines += pawdt.html_lines(".")
+          #Write html lines only if not already present in file
+          if not string_is_in_file(html_fname,[pawdt.xml_file_name,pawdt.upf_file_name]):
 
-#     Write new lines in index.html, if any
-      if len(html_lines)>0:
-        fname = os.path.join(dir_fullname,indexhtml_filename)
-        #Delete "Not available" line if present
-        file_delete_lines(fname,line_list=["ot available"])
-        #Write new lines
-        file_add_lines(fname,line_before="INSERT HERE PAW DATASETS - BOTTOM",line_list=html_lines)
+#           Define content to write in index.html file
+            html_lines += pawdt.html_lines(".")
+
+#           Write new lines in index.html, if any
+            if len(html_lines)>0:
+              #Delete "Not available" line if present
+              file_delete_lines(html_fname,line_list=['ot available'])
+              #Add "Light datasets" line if not present (only for "light" datasets
+              if pawdt.status == 'light':
+                if not string_is_in_file(html_fname,['Following datasets are "light" versions']):
+                  file_add_lines_after(html_fname, \
+                    line_after='INSERT HERE LIGHT PAW DATASETS - START', \
+                    line_list=['  <br><u>Following datasets are "light" versions' \
+                              +' with less radial points</u><br>\n'])
+              #Write new lines
+              if pawdt.status.lower().strip() == "recommended":
+                file_add_lines_before(html_fname, \
+                      line_before="INSERT HERE RECOMMENDED PAW DATASETS - END", \
+                      line_list=html_lines)
+              elif pawdt.status.lower().strip() == "light":
+                file_add_lines_before(html_fname,
+                      line_before="INSERT HERE LIGHT PAW DATASETS - END", \
+                      line_list=html_lines)
+              else:
+                file_add_lines_before(html_fname,
+                      line_before="INSERT HERE PAW DATASETS - END", \
+                      line_list=html_lines)
 
 # Build tarball(s) with entire table
-  for root, dirs, files in os.walk(tmp_dir):
+  for root, dirs, files in walk_level(tmp_dir,depth=0):
     for dir_name in dirs:
       tar_name = os.path.join(html_folder,atomicdata_folder,dir_name)+'.tar.gz'
       if isfile_case_sensitive(tar_name): os.remove(tar_name)
@@ -473,15 +550,17 @@ def main_create_html_from_table(table_folder,html_folder):
 # Modify global index file
   tarball_src_folder = os.path.join(html_folder,atomicdata_folder)
   tarball_folder_link = atomicdata_folder
-  modify_global_index(ddb,table_name,pdf_name,html_folder,tarball_src_folder, \
+  table_pdf_link = os.path.join(".",atomicdata_folder,pdf_name) if pdf_name is not None else None
+  modify_global_index(ddb,table_name,table_pdf_link,html_folder,tarball_src_folder, \
                       tarball_folder_link,reset_tarbal=True)
 
 # Remove tmp dir
-  shutil.rmtree(tmp_dir,ignore_errors=True)
+  #shutil.rmtree(tmp_dir,ignore_errors=True)
 
 
 #=========================================
-def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
+def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False, \
+                                  force_xml_default=False,force_upf_default=False):
   """Read data in table_folder and create a folder containing all Atompaw inputs"""
 
 # Read table info
@@ -501,6 +580,10 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
   for root, dirs, files in os.walk(table_folder):
     for file_name in files:
       file_bodyname, file_ext = os.path.splitext(file_name)
+      file_bodyname2, file_ext2 = os.path.splitext(file_bodyname)
+      if file_ext2 == '.corewf':
+        file_bodyname = file_bodyname2
+        file_ext = file_ext2 + file_ext
       file_fullname = os.path.join(root,file_name)
       file_specie = specie_from_filename(file_name)
       if os.path.isfile(file_fullname):
@@ -508,15 +591,21 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
         if file_specie in specie.keys():
           dir_dest = os.path.join(inputs_table_folder,file_specie)
 
+#         Process corewf.XML file
+          #if file_ext == '.corewf.xml' or file_ext == ".corewf.XML":
+          #  if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
+          #   #Dont create input for corewf.xml
+
 #         Process XML file
           if file_ext == ".xml" or file_ext == ".XML":
-            if string_is_in_file(["<paw_dataset version=","<paw_setup version="],file_fullname):
+            if string_is_in_file(file_fullname,["<paw_dataset version=","<paw_setup version="]):
               pawdt = paw_dataset(xml_filename=file_fullname)
               upf_name1=os.path.join(root,file_bodyname + ".upf")
               upf_name2=os.path.join(root,file_bodyname + ".UPF")
               if isfile_case_sensitive(upf_name1): pawdt.read_from_upf(upf_name1)
               if isfile_case_sensitive(upf_name2): pawdt.read_from_upf(upf_name2)
-              merged_input_file=pawdt.merge_xml_upf_input(add_corewf=add_corewf)
+              merged_input_file=pawdt.merge_xml_upf_input(add_corewf=add_corewf, \
+                 force_xml_default=force_xml_default,force_upf_default=force_upf_default)
               file_input_dest = os.path.join(dir_dest,file_bodyname+".atompaw.input")
               if len(merged_input_file) > 0:
                 finput = open(file_input_dest,'w')
@@ -525,7 +614,7 @@ def main_create_inputs_from_table(table_folder,inputs_folder,add_corewf=False):
 
 #         Process UPF file, if XML file does not exist
           if file_ext == ".upf" or file_ext == ".UPF":
-            if string_is_in_file(["<UPF version="],file_fullname):
+            if string_is_in_file(file_fullname,["<UPF version="]):
               xml_name1=os.path.join(root,file_bodyname + ".xml")
               xml_name2=os.path.join(root,file_bodyname + ".XML")
               if not isfile_case_sensitive(xml_name1) and not isfile_case_sensitive(xml_name2):
@@ -559,10 +648,10 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
     table_pdf_name = table_name+".pdf" if table_pdf_found else None
     if table_pdf_found:
       copy_html_template(html_folder,with_subdirs=with_subdirs, \
-           pdf_table_path=os.path.join(github_table_link,table_name+".pdf"))
+           pdf_table_path=os.path.join(github_table_link,table_pdf_name))
     else:
       copy_html_template(html_folder,with_subdirs=with_subdirs)
- 
+
 # Initialize database from info file
   ddb_info_filename = os.path.join(github_table_folder,info_filename)
   if isfile_case_sensitive(ddb_info_filename):
@@ -584,7 +673,6 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
         else:
           specie_dir_dest=os.path.join(html_folder,atomicdata_folder)
           specie_indexfile_dest="%03d-%s.html" % (int(specie[dir_specie][1]),dir_specie.lower())
-
 #       Search all relevant files in directory
         file_list = {}
         for ff in os.listdir(dir_fullname):
@@ -592,26 +680,35 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
           ff_name = os.path.split(ff_name)[-1]
           if ff_ext == ".input" and os.path.splitext(ff_name)[1] == ".atompaw":
             ff_name = os.path.splitext(ff_name)[0] ; ff_ext = ".atompaw.input"
-          if ff_ext in (".xml",".XML",".upf",".UPF",".atompaw.input"):
+          if ff_ext.lower() == ".xml" and os.path.splitext(ff_name)[1] == ".corewf":
+            ff_name = os.path.splitext(ff_name)[0] ; ff_ext = ".corewf"+ff_ext
+          if ff_ext in (".xml",".XML",".upf",".UPF",".atompaw.input",".corewf.xml",".corewf.XML"):
             if ff_name in file_list.keys():
               file_list[ff_name].append(ff_ext)
             else:
               file_list[ff_name] = [ff_ext]
 
+#       Sort files, putting "_sp" ones at the end
+        files_sorted = sorted(file_list.keys(), key=lambda k: (1 if "_sp" in k else 0))
+        file_list_sorted = {cle: file_list[cle] for cle in files_sorted}
+
 #       Modify index.html file
-        html_lines = []
-        for dtset in file_list.keys():
-          if file_list[dtset]:
+        for dtset in file_list_sorted.keys():
+          if file_list_sorted[dtset]:
+            html_lines = []
+            html_fname = os.path.join(specie_dir_dest,specie_indexfile_dest)
 
 #           Retrieve dataset info from different xml/upf files
             pawdt = paw_dataset()
-            for f_ext in file_list[dtset]:
+            for f_ext in file_list_sorted[dtset]:
               if f_ext.lower() == ".xml":
                 pawdt.read_from_xml(xml_filename=os.path.join(dir_fullname,dtset+f_ext))
               if f_ext.lower() == ".upf":
                 pawdt.read_from_upf(upf_filename=os.path.join(dir_fullname,dtset+f_ext))
               if f_ext.lower() == ".atompaw.input":
                 pawdt.inp_file_name = dtset+f_ext
+              if f_ext.lower() == ".corewf.xml":
+                pawdt.read_from_corexml(corexml_filename=os.path.join(dir_fullname,dtset+f_ext))
             if pawdt.xml_file_name in ddb.filename_list:
               pawdt_info = ddb.info_list[ddb.filename_list.index(pawdt.xml_file_name)]
               pawdt.read_from_info(dataset_info=pawdt_info)
@@ -624,18 +721,36 @@ def main_create_html_from_github(html_folder,github_table_folder,with_subdirs=Fa
 #           Define content to write in index.html file
             html_lines += pawdt.html_lines(os.path.join(github_table_link,dir_specie))
 
-#       Write new lines in index.html, if any
-        if len(html_lines)>0:
-          fname = os.path.join(specie_dir_dest,specie_indexfile_dest)
-          #Delete "Not available" line if present
-          file_delete_lines(fname,line_list=["ot available"])
-          #Write new lines
-          file_add_lines(fname,line_before="INSERT HERE PAW DATASETS - BOTTOM",line_list=html_lines)
+#           Write new lines in index.html, if any
+            if len(html_lines)>0:
+              #Delete "Not available" line if present
+              file_delete_lines(html_fname,line_list=["ot available"])
+              #Add "Light datasets" line if not present (only for "light" datasets
+              if pawdt.status == 'light':
+                if not string_is_in_file(html_fname,['Following datasets are "light" versions']):
+                  file_add_lines_after(html_fname, \
+                    line_after='INSERT HERE LIGHT PAW DATASETS - START', \
+                    line_list=['  <br><u>Following datasets are "light" versions' \
+                              +' with less radial points</u><br>\n'])
+              #Write new lines
+              if pawdt.status.lower().strip() == "recommended":
+                file_add_lines_before(html_fname, \
+                        line_before="INSERT HERE RECOMMENDED PAW DATASETS - END", \
+                        line_list=html_lines)
+              elif pawdt.status.lower().strip() == "light":
+                file_add_lines_before(html_fname, \
+                        line_before="INSERT HERE LIGHT PAW DATASETS - END", \
+                        line_list=html_lines)
+              else:
+                file_add_lines_before(html_fname, \
+                        line_before="INSERT HERE PAW DATASETS - END", \
+                        line_list=html_lines)
 
 # Modify global index file
   tarball_src_folder = github_table_folder
   tarball_folder_link = github_table_link
-  modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_folder,\
+  table_pdf_link = os.path.join(github_table_link,table_pdf_name) if table_pdf_name is not None else None
+  modify_global_index(ddb,table_name,table_pdf_link,html_folder,tarball_src_folder, \
                       tarball_folder_link,with_subdirs=with_subdirs)
 
 
@@ -653,6 +768,7 @@ class paw_dataset:
     self.xml_file_name   = "unknown"
     self.upf_file_name   = "unknown"
     self.inp_file_name   = "unknown"
+    self.cwf_file_name   = "unknown"
     self.file_xml_md5    = None
     self.file_upf_md5    = None
     self.symbol          = None
@@ -672,12 +788,15 @@ class paw_dataset:
     self.rpaw            = None
     self.delta           = None
     self.delta1          = None
-    self.valence         = []
+    self.d_mean          = False
+    self.valence_list    = []
+    self.core_list       = []
     self.comment         = []
     self.input_file_xml  = []
     self.input_file_upf  = []
     self.input_xml_lines = None
     self.input_upf_lines = None
+    self.use_spline_xml  = False
     self.estruct_short   = "unknown"
 
     if xml_filename is not None:
@@ -696,6 +815,7 @@ class paw_dataset:
      + '  XML file_name = '+ self.xml_file_name+'\n' \
      + '  UPF file_name = '+ self.upf_file_name+'\n' \
      + '  INP file_name = '+ self.inp_file_name+'\n' \
+     + '  CWF file_name = '+ self.cwf_file_name+'\n' \
      + '  XML md5   = '+ (self.file_xml_md5 if self.file_xml_md5 is not None else "None") +'\n' \
      + '  UPF md5   = '+ (self.file_upf_md5 if self.file_upf_md5 is not None else "None") +'\n' \
      + '  generator = ('+ self.gen_type+', '+self.gen_name+')\n' \
@@ -706,14 +826,19 @@ class paw_dataset:
      + ', val='+ (str(self.vale) if self.vale is not None else "None") +'\n' \
      + '  rpaw      = '+ (str(self.rpaw) if self.rpaw is not None else "None") +'\n' \
      + '  delta[1]  = ('+ (str(self.delta) if self.delta is not None else "None") +', ' \
-                        + (str(self.delta1) if self.delta1 is not None else "None") +')\n' \
+                        + (str(self.delta1) if self.delta1 is not None else "None") \
+                        + (", D_mean=yes" if self.d_mean else ", D_mean=no")+')\n' \
      + '  ecut      = ('+ (str(self.ecut_low) if self.ecut_low is not None else "None") + ', ' \
                         + (str(self.ecut_medium) if self.ecut_medium is not None else "None") +', ' \
                         + (str(self.ecut_high) if self.ecut_high is not None else "None") +')\n'
-    stg += '  valence:\n'
-    for vv in self.valence:
+    stg += '  valence list:\n'
+    for vv in self.valence_list:
       stg += '    n='+str(vv[0])+', l='+str(vv[1])
       stg += ', e='+str(vv[2])+', f='+str(vv[3])+'\n'
+    stg += '  core list:\n'
+    for cc in self.core_list:
+      stg += '    n='+str(cc[0])+', l='+str(cc[1])
+      stg += ', e='+str(cc[2])+', f='+str(cc[3])+'\n'
     stg += '  comment:\n'
     for cm in self.comment:
       stg += '    ['+str(cm)+']\n'
@@ -729,6 +854,7 @@ class paw_dataset:
     stg += '  input_upf_lines:\n'
     if self.input_upf_lines is not None:
       stg += '    ['+str(self.input_upf_lines[0])+', '+str(self.input_upf_lines[1])+']\n'
+    stg += '  Use spline in XML = '+ self.use_spline_xml+'\n'
 
     return stg
 
@@ -743,7 +869,7 @@ class paw_dataset:
 #   Get MD5 checksum of XML sile
     self.file_xml_md5 = hashlib.md5(open(xml_filename,'rb').read()).hexdigest()
 
-#   Read input file
+#   Read XML file
     if self.input_file_xml == []:
       fxml = open(xml_filename,'r')
       flines = fxml.readlines()
@@ -752,27 +878,41 @@ class paw_dataset:
 #   Get input file
     if self.input_file_xml == []:
       try:
-        ind1 = next((i for i,e in enumerate(flines) if "<!-- Program:  atompaw - input data follows" in e), -1)
-        ind2 = next((i for i,e in enumerate(flines) if "Program:  atompaw - input end -->" in e), -1)
-        self.input_file_xml = flines[ind1+1:ind2]
+        ind1 = next((i for i,e in enumerate(flines) \
+          if "<!-- Program:  atompaw - input data follows" in e), -1)
+        ind2 = next((i for i,e in enumerate(flines) \
+          if "Program:  atompaw - input end -->" in e), -1)
+        if ind1 >= 0 and ind2 >= 0:
+          self.input_file_xml = flines[ind1+1:ind2]
+        else:
+          self.input_file_xml = []
       except:
         self.input_file_xml = []
 
 #   Read XML options in input file
     if len(self.input_file_xml) > 0:
-      index_xml = next((i for i,stg in enumerate(self.input_file_xml) if 'xmlout' in stg.lower()), None)
+      index_xml = next((i for i,stg in enumerate(self.input_file_xml) \
+        if 'xmlout' in stg.lower()), None)
       self.input_xml_lines = self.input_file_xml[index_xml:index_xml+2]
+      self.use_spline_xml = ('withsplgrid' in self.input_xml_lines[-1])
+
+#   Define file status
+    if self.use_spline_xml and self.status == "unknown": self.status = "light"
+    if '_light' in xml_filename and self.status == "unknown": self.status = "light"
 
 #   Read content of the file and fill object
     self.xml_file_name = os.path.split(xml_filename)[-1]
     tree = etree.parse(xml_filename)
     
 #   Get atom data
-    atom = tree.xpath("atom")[0]
-    if self.symbol is None: self.symbol = atom.get("symbol")
-    if self.charge is None: self.charge = float(atom.get("Z"))
-    if self.vale is None: self.vale = float(atom.get("valence"))
-    if self.core is None: self.core = float(atom.get("core"))
+    if tree.find("atom") is not None:
+      atom = tree.xpath("atom")[0]
+      if self.symbol is None: self.symbol = atom.get("symbol")
+      if self.charge is None: self.charge = float(atom.get("Z"))
+      if self.core is None: self.core = float(atom.get("core"))
+      if self.vale is None:
+        vv = atom.get("valence", None)
+        if vv is not None: self.vale = float(vv)
 
 #   Get ecut data
     if tree.find("pw_ecut") is not None:
@@ -786,38 +926,43 @@ class paw_dataset:
       self.ecut_high   = None
 
 #   Get XC data
-    xc = tree.xpath("xc_functional")[0]
-    if self.xc_type == "unknown": self.xc_type = xc.get("type")
-    if self.xc_name == "unknown":
-      self.xc_name = xc.get("name")
-      if self.xc_name == "LDA_X+LDA_C_PW": self.xc_name = "PW"
-      if self.xc_name == "GGA_X_PBE+GGA_C_PBE": self.xc_name = "PBE"
-      if self.xc_name == "GGA_X_PBE_SOL+GGA_C_PBE_SOL": self.xc_name = "PBEsol"
+    if tree.find("xc_functional") is not None:
+      xc = tree.xpath("xc_functional")[0]
+      if self.xc_type == "unknown": self.xc_type = xc.get("type")
+      if self.xc_name == "unknown":
+        self.xc_name = xc.get("name")
+        if self.xc_name == "LDA_X+LDA_C_PW": self.xc_name = "PW"
+        if self.xc_name == "GGA_X_PBE+GGA_C_PBE": self.xc_name = "PBE"
+        if self.xc_name == "GGA_X_PBE_SOL+GGA_C_PBE_SOL": self.xc_name = "PBEsol"
 
 #   Get generator data
-    gen = tree.xpath("generator")[0]
-    if self.gen_type == "unknown": self.gen_type = gen.get("type")
-    if self.gen_name == "unknown": self.gen_name = gen.get("name")
-    # If generator name doesnt contain the version number, try to find it in the comments
-    pattern = r"\b\d+\.\d+\.\d+\.\d+\b"
-    if not re.search(pattern, self.gen_name):
-      index_ver = next((i for i,stg in enumerate(flines) if 'contact info' in stg.lower()), None)
-      if index_ver > 0:
-        wds = flines[index_ver-1].lower().split()
-        index_ver = wds.index("atompaw")+1
-        if index_ver > 0: self.gen_name += "-" + wds[index_ver]
+    if tree.find("generator") is not None:
+      gen = tree.xpath("generator")[0]
+      if self.gen_type == "unknown": self.gen_type = gen.get("type")
+      if self.gen_name == "unknown": self.gen_name = gen.get("name")
+      # If generator name doesnt contain the version number, try to find it in the comments
+      pattern = r"\b\d+\.\d+\.\d+\.\d+\b"
+      if not re.search(pattern, self.gen_name):
+        index_ver = next((i for i,stg in enumerate(flines) \
+                    if 'contact info' in stg.lower()), -1)
+        if index_ver > 0:
+          wds = flines[index_ver-1].lower().split()
+          index_ver = wds.index("atompaw")+1
+          if index_ver > 0: self.gen_name += "-" + wds[index_ver]
 
 #   Get PAW radius
     check_rpaw = tree.xpath("paw_radius")
     if len(check_rpaw) == 0: check_rpaw = tree.xpath("PAW_radius")
-    rpaw = check_rpaw[0]
-    check_rc = rpaw.get("rc")
-    if check_rc is None: check_rc = rpaw.get("rpaw")
-    if self.rpaw is None and check_rc is not None: self.rpaw = float(check_rc)
+    if len(check_rpaw) > 0:
+      rpaw = check_rpaw[0]
+      check_rc = rpaw.get("rc")
+      if check_rc is None: check_rc = rpaw.get("rpaw")
+      if self.rpaw is None and check_rc is not None: self.rpaw = float(check_rc)
 
-    if self.valence == []:
+#   Get valence states
+    if self.valence_list == []:
       valence = tree.xpath("valence_states/state")
-      self.valence = [] ; self.lmax = -1
+      self.valence_list = [] ; self.lmax = -1
       for vale in valence:
         if vale.get("l") is not None:
           self.lmax=max(self.lmax,int(vale.get("l")))
@@ -830,23 +975,81 @@ class paw_dataset:
           ff=-1.0
         else:
           ff=float(vale.get("f"))
-        self.valence.append((nn,int(vale.get("l")),float(vale.get("e")),ff))
+        self.valence_list.append((nn,int(vale.get("l")),float(vale.get("e")),ff))
+
+#   Get core states
+    if self.core_list == []:
+      core = tree.xpath("core_states/state")
+      self.core_list = []
+      for cc in core:
+        if cc.get("n") is None:
+          nn=-1
+        else:
+          nn=int(cc.get("n"))
+          if nn > 10: nn=-1
+        if cc.get("f") is None:
+          ff=-1.0
+        else:
+          ff=float(cc.get("f"))
+        self.core_list.append((nn,int(cc.get("l")),float(cc.get("e")),ff))
     
 #   Check charge
-    vale_charge = sum([vv[3] if vv[0]>0 else 0. for vv in self.valence])
-    if vale_charge != self.vale:
-      if vale_charge < self.vale:
-        print("\nWarning:")     
-      print("Inconsistency between occupations and valence charge!")
-      print("File name : "+self.xml_file_name)
-      print("vale (valence charge)            : "+str(self.vale))
-      print("vale_charge (sum of occupations) : "+str(vale_charge)+"\n")
-      if vale_charge > self.vale: raise ValueError("Check XML file!")
+    if self.vale is not None:
+      vale_charge = sum([vv[3] if vv[0]>0 else 0. for vv in self.valence_list])
+      if vale_charge != self.vale:
+        if vale_charge < self.vale: print("\nWarning:")     
+        print("Inconsistency between occupations and valence charge!")
+        print("File name : "+self.xml_file_name)
+        print("vale (valence charge)            : "+str(self.vale))
+        print("vale_charge (sum of occupations) : "+str(vale_charge)+"\n")
+        if vale_charge > self.vale: raise ValueError("Check XML file!")
 
 #   Get electronic structure
     if self.estruct_short == "unknown":
       self.estruct_short = self.electronic_structure(option="short")
- 
+
+#-----------------------------------------
+# Read properties from core XML file
+  def read_from_corexml(self,corexml_filename):
+  
+#   Check presence of input file
+    if not isfile_case_sensitive(corexml_filename):
+      raise ValueError("File "+corexml_filename+" does not exist!")
+
+#   Read content of the file and fill object
+    self.cwf_file_name = os.path.split(corexml_filename)[-1]
+    tree = etree.parse(corexml_filename)
+    
+#   Get atom symbol
+    if tree.find("atom") is not None:
+      atom = tree.xpath("atom")[0]
+      if self.symbol is None: self.symbol = atom.get("symbol")
+
+#   Get XC data
+    xc = tree.xpath("xc_functional")[0]
+    if self.xc_type == "unknown": self.xc_type = xc.get("type")
+    if self.xc_name == "unknown":
+      self.xc_name = xc.get("name")
+      if self.xc_name == "LDA_X+LDA_C_PW": self.xc_name = "PW"
+      if self.xc_name == "GGA_X_PBE+GGA_C_PBE": self.xc_name = "PBE"
+      if self.xc_name == "GGA_X_PBE_SOL+GGA_C_PBE_SOL": self.xc_name = "PBEsol"
+
+#   Get core states
+    if self.core_list == []:
+      core = tree.xpath("core_states/state")
+      self.core_list = []
+      for cc in core:
+        if cc.get("n") is None:
+          nn=-1
+        else:
+          nn=int(cc.get("n"))
+          if nn > 10: nn=-1
+        if cc.get("f") is None:
+          ff=-1.0
+        else:
+          ff=float(cc.get("f"))
+        self.core_list.append((nn,int(cc.get("l")),float(cc.get("e")),ff))
+     
 #-----------------------------------------
 # Read properties from UPF file
   def read_from_upf(self,upf_filename):
@@ -858,7 +1061,7 @@ class paw_dataset:
 #   Get MD5 checksum of UPF sile
     self.file_upf_md5 = hashlib.md5(open(upf_filename,'rb').read()).hexdigest()
 
-#   Read file
+#   Read UPF file
     fupf = open(upf_filename,'r')
     flines = fupf.readlines()
     fupf.close()
@@ -875,11 +1078,11 @@ class paw_dataset:
 #   Read UPF options in input file
     if len(self.input_file_upf) > 0:
       #index_upf = next((i for i,stg in enumerate(self.input_file_upf) if 'upfout' in stg.lower()), None)
-      index_upf = next((i for i,stg in enumerate(self.input_file_upf) if not any(sub in stg.lower() for sub in ['upfout','pwscfout'])), None)
+      index_upf = next((i for i,stg in enumerate(self.input_file_upf) \
+                  if any(sub in stg.lower() for sub in ['upfout','pwscfout'])), None)
       self.input_upf_lines = self.input_file_upf[index_upf:index_upf+2]
-    
 #   Get UPF file name
-    self.upf_file_name = o.path.split(upf_filename)[-1]
+    self.upf_file_name = os.path.split(upf_filename)[-1]
 
 #   Loop over UPF lines:
     for line in flines:
@@ -918,28 +1121,23 @@ class paw_dataset:
 
 #     Get l_max
       if "l_max=" in line:
-        if self.l_max is None: self.l_max = int(line.split("\"")[1].strip())
+        if self.lmax is None: self.lmax = int(line.split("\"")[1].strip())
 
 #   Get electronic structure
     if self.estruct_short != "unknown":
       self.estruct_short = self.electronic_structure(option="short")
 
-      #self.ecut_low    = float()
-      #self.ecut_medium = float()
-      #self.ecut_high   = float()
-      #self.rpaw        = float()
-      #self.valence     = []
-
 #-----------------------------------------
 # Merge content of UPF and XML input files 
-  def merge_xml_upf_input(self,force_default=False,add_corewf=False):
-  
+  def merge_xml_upf_input(self,force_xml_default=False,force_upf_default=False,add_corewf=False):
+
     merged_input_file=[]
 
     # Suppress XML input lines
     if len(self.input_file_xml) > 0:
       if self.input_xml_lines is not None:
-        merged_input_file = [s for s in self.input_file_xml if not any(sub in s for sub in self.input_xml_lines)]
+        merged_input_file = [s for s in self.input_file_xml \
+                    if not any(sub in s for sub in self.input_xml_lines)]
       else:
         merged_input_file = self.input_file_xml
 
@@ -947,7 +1145,8 @@ class paw_dataset:
     if len(merged_input_file) == 0:
       if len(self.input_file_upf) > 0:
         if self.input_upf_lines is not None:
-          merged_input_file = [s for s in self.input_file_upf if not any(sub in s for sub in self.input_upf_lines)]
+          merged_input_file = [s for s in self.input_file_upf \
+                   if not any(sub in s for sub in self.input_upf_lines)]
         else:
           merged_input_file=self.input_file_upf
 
@@ -955,7 +1154,7 @@ class paw_dataset:
     if len(merged_input_file) > 0:
       index_end = next((i for i, s in enumerate(merged_input_file) if 'END' in s), None)
       if index_end is not None:
-        if self.input_xml_lines is not None and not force_default:
+        if self.input_xml_lines is not None and not force_xml_default:
           xml_lines = self.input_xml_lines
         else:
           xml_lines = input_xml_lines_def
@@ -965,10 +1164,11 @@ class paw_dataset:
         merged_input_file[index_end:index_end] = xml_lines
       index_end = next((i for i, s in enumerate(merged_input_file) if 'END' in s), None)
       if index_end is not None:
-        if self.input_upf_lines is not None and not force_default:
-          merged_input_file[index_end:index_end] = self.input_upf_lines
+        if self.input_upf_lines is not None and not force_upf_default:
+          upf_lines = [ l.strip(' ') for l in self.input_upf_lines]
         else:
-          merged_input_file[index_end:index_end] = input_upf_lines_def
+          upf_lines = [ l.replace('$${Z}',str(self.charge)) for l in input_upf_lines_def ]
+        merged_input_file[index_end:index_end] = upf_lines
 
     return merged_input_file
 
@@ -990,12 +1190,34 @@ class paw_dataset:
       print("xml_file_name=%s, DT_info=%s" % (self.xml_file_name,dataset_info[1]))
       sys.exit()
 
-    if len(dataset_info[2])>0: self.category = dataset_info[2]
-    if len(dataset_info[3])>0: self.status   = dataset_info[3]
-    if len(dataset_info[4])>0: self.delta    = dataset_info[4]
-    if len(dataset_info[5])>0: self.delta1   = dataset_info[5]
-    if len(dataset_info)>6   : self.comment  = dataset_info[6:]
+    if len(dataset_info[2])>0: self.category = dataset_info[2].strip()
+    if len(dataset_info[3])>0: self.status   = dataset_info[3].strip()
+    if len(dataset_info[4])>0: self.delta    = dataset_info[4].strip()
+    if len(dataset_info[5])>0: self.delta1   = dataset_info[5].strip()
+    if len(dataset_info[5])>0: self.d_mean   = (dataset_info[6].strip() == "yes")
+    if len(dataset_info)>6   : self.comment  = dataset_info[7:]
 
+#-----------------------------------------
+ #  Get status from a html index file (if not already known)
+  def get_status_from_html(self,html_file):
+ 
+    if self.status.lower().strip() == "unknown":
+
+      xml_name = os.path.basename(self.xml_file_name)
+      upf_name = os.path.basename(self.upf_file_name)
+
+      ff = open(html_file, "r")
+      found = False
+      while not found:
+        line = ff.readline()
+        if not line: break
+        found_xml = xml_name in line
+        found_upf = upf_name in line
+        if found_xml or found_upf:
+          wd = line.split()
+          self.status = wd[wd.index('Status:')+1].strip()
+          break
+      ff.close()
 
 #-----------------------------------------
 # Set "pseudo-dojo" dictionnary
@@ -1033,10 +1255,9 @@ class paw_dataset:
   def electronic_structure(self,option="full"):
 
     #Valence
-    estruct_vale = ''
-    if len(self.valence)>0:
-      valence_sorted = sorted(self.valence, key=lambda state: state[2])
-      shell_vale = []
+    estruct_vale = '' ; shell_vale = []
+    if len(self.valence_list)>0:
+      valence_sorted = sorted(self.valence_list, key=lambda state: state[2])
       for vv in valence_sorted:
         if vv[0]>0:
           shell_vale.append([vv[0],vv[1]])
@@ -1044,22 +1265,33 @@ class paw_dataset:
           estruct_vale += str(vv[0])+shell_name[vv[1]]+str(int(vv[3]))
 
     #Core
-    estruct_core = ''
-    core_charge=0. ; nn=0
-    if self.core is not None:
-      while core_charge < self.core:
-        if shell_core[nn] not in shell_vale:
-          shl,ll = shell_core[nn]
-          core_charge += shell_charge[ll]
+    core_charge=0. ; estruct_core = ''
+    if len(self.core_list)>0:
+      # Sort core list according to shell_core_list
+      order_map = {tuple(elem): i for i, elem in enumerate(shell_core_list)}
+      core_sorted = sorted(self.core_list, key=lambda x: order_map.get(tuple(x[:2]), float('inf')))
+      for cc in core_sorted:
+        if cc[3]>0:
+          core_charge += cc[3]
           if len(estruct_core)>0: estruct_core += ' '
-          estruct_core += str(shl)+shell_name[ll]+str(shell_charge[ll])
-        nn += 1
-    if core_charge != self.core:
-      print("Inconsistency between occupations and core charge!")
-      print("File name : "+self.xml_file_name)
-      print("core : "+str(self.core))
-      print("core_charge : "+str(core_charge))
-      raise ValueError("Check XML file!")
+          estruct_core += str(cc[0])+shell_name[cc[1]]+str(int(cc[3]))
+    elif len(shell_vale) > 0:
+      nn=0
+      if self.core is not None:
+        while core_charge < self.core:
+          if shell_core_list[nn] not in shell_vale:
+            shl,ll = shell_core_list[nn]
+            core_charge += shell_charge[ll]
+            if len(estruct_core)>0: estruct_core += ' '
+            estruct_core += str(shl)+shell_name[ll]+str(shell_charge[ll])
+          nn += 1
+      if self.core is not None:
+        if core_charge != self.core:
+          print("Inconsistency between occupations and core charge!")
+          print("File name : "+self.xml_file_name)
+          print("core : "+str(self.core))
+          print("core_charge : "+str(core_charge))
+          raise ValueError("Check XML file!")
 
     #Replace by short version
     if option == "short":
@@ -1080,19 +1312,28 @@ class paw_dataset:
 
     if self.xml_file_name == "unknown" and self.upf_file_name == "unknown": return
 
+    my_status = self.status.lower().strip()
+    if my_status != "unknown":
+      status_comment = ' <!-- Status: '+ my_status +' -->'
+    else:
+      status_comment = ''
+ 
     my_html_lines = []
     my_html_lines.append('    <ul>\n')
     my_html_lines.append('      <b>PAW dataset: </b>\n')
     if self.xml_file_name != "unknown":
-      my_html_lines.append('      <a href="'+file_location+'/'+self.xml_file_name+'">'+self.xml_file_name+'</a>\n')
+      my_html_lines.append('      <a href="'+file_location+'/'+self.xml_file_name+'">' \
+                          +self.xml_file_name+'</a>'+ status_comment +'\n')
       if self.upf_file_name != "unknown":
-        my_html_lines.append('      ,&nbsp;<a href="./'+self.upf_file_name+'">'+self.upf_file_name+'</a>\n')
+        my_html_lines.append('      ,&nbsp;<a href="'+file_location+'/'+self.upf_file_name+'">' \
+                          +self.upf_file_name+'</a>'+ status_comment +'\n')
     elif self.upf_file_name != "unknown":
-      my_html_lines.append('      <a href="./'+self.upf_file_name+'">'+self.upf_file_name+'</a>\n')
+      my_html_lines.append('      <a href="./'+self.upf_file_name+'">' \
+                          +self.upf_file_name+'</a>'+ status_comment +'\n')
     my_html_lines.append('    </ul>\n')
     my_html_lines.append('    <dl style="margin-left: 40px;">\n')
-    if self.status != "unknown":
-      my_html_lines.append('      Status: <b>recommended</b><br>\n')
+    if my_status != "unknown":
+      my_html_lines.append('      Status: <b>'+ my_status +'</b><br>\n')
     my_html_lines.append('      Exchange-correlation functional: '+self.xc_type+" - "+self.xc_name+'<br>\n')
     my_html_lines.append('      Electronic structure ([core] val): '+self.estruct_short+'<br>\n')
     if self.rpaw is not None:
@@ -1115,6 +1356,9 @@ class paw_dataset:
         my_html_lines.append(' (input file included in the XML dataset itself)<br>\n')
       elif len(self.input_file_upf) > 0:
         my_html_lines.append(' (input file included in the UPF dataset itself)<br>\n')
+    if self.cwf_file_name != "unknown":
+      my_html_lines.append('      Core wavefunction file (XML): <a href="' + file_location + \
+                           '/'+self.cwf_file_name+'">corewf file</a>)<br>\n')
     for cm in self.comment:
       if len(cm)>0:
         my_html_lines.append('      '+cm+'<br>\n')
@@ -1138,8 +1382,8 @@ class paw_dataset:
     elif self.upf_file_name != "unknown":
       line += ' ['+self.upf_file_name+']('+github_table_link+'/'+self.symbol+'/'+self.upf_file_name+')'
     my_markdown_lines.append(line+'  \n')
-    if self.status != "unknown":
-      my_markdown_lines.append('Status: **'+self.status+'**  \n')
+    if self.status.lower().strip() != "unknown":
+      my_markdown_lines.append('Status: **'+self.status.lower().strip()+'**  \n')
     my_markdown_lines.append('Exchange-correlation functional: '+self.xc_type+' - '+self.xc_name+'  \n')
     my_markdown_lines.append('Electronic structure ([core] val): '+self.estruct_short+'  \n')
     if self.rpaw is not None:
@@ -1162,6 +1406,9 @@ class paw_dataset:
         my_markdown_lines.append(' (input file included in the XML dataset itself)  \n')
       elif len(self.input_file_upf) > 0:
         my_markdown_lines.append(' (input file included in the UPF dataset itself)  \n')
+    if self.cwf_file_name != "unknown":
+      my_markdown_lines.append('Core wavefunction file (XML): [corewf file](' \
+        + github_table_link+'/'+self.symbol+'/'+self.cwf_file_name+')  \n')
     if len(self.comment)>0:
       for cm in self.comment:
         if len(cm)>0:
@@ -1199,8 +1446,12 @@ class database_info:
 
     for i_inf,inf in enumerate(self.info_list):
       stg += '      '+str(i_inf+1)+': '+', '.join(map(str, inf))+'\n'
-
+    stg += '  === atom_list: '+', '.join(map(str, self.atom_list))+'\n'
+    stg += '  === filename_list: '+', '.join(map(str, self.filename_list))+'\n'
+    stg += '  === delta_list: '+', '.join(map(str, self.delta_list))+'\n'
+    stg += '  === category_list: '+', '.join(map(str, self.category_list))+'\n'
     stg += '  === xc_names: '+', '.join(map(str, self.xc_names))+'\n'
+
     return stg
 
 #-----------------------------------------
@@ -1224,6 +1475,16 @@ class database_info:
           self.info_list.append(wd_list)
     file_info.close()
 
+#   Sort DDB: 1-according to Z, 2-according to status, 3-according to filename (if _sp)
+    mapping1 = {val: i for i, val in enumerate(specie.keys())}
+    mapping2 = {'recommended': 0, 'unknown': 1, '': 2, 'light': 3}
+    filenames = [l[1] for l in self.info_list]
+    filenames.sort(key=lambda x: (1 if "_sp" in x else 0))
+    mapping3 = {val: i for i, val in enumerate(filenames)}
+    self.info_list.sort(key=lambda l2: (mapping1.get(l2[0], float('inf')), \
+                                        mapping2.get(l2[3], float('inf')), \
+                                        mapping3.get(l2[1], float('inf'))))
+
 #   Extract some data
     self.extract_data()
 
@@ -1241,19 +1502,20 @@ class database_info:
       if len(info[2])>0 and info[2] not in self.category_list:
         self.category_list.append(info[2])
       if len(info[4])>0 and len(info[5])>0:
-        self.delta_list.append([float(info[4]),float(info[5])])
+        self.delta_list.append([float(info[4]),float(info[5]),(info[6]=="yes")])
     return None
 
 #-----------------------------------------
 # Compute table delta factor (if any)
   def deltafactor(self):
 
-    delta = 0. ; delta1 = 0.
+    delta = 0. ; delta1 = 0. ; nn = 0
     if len(self.delta_list)>0:
       for dlt in self.delta_list:
-        delta += dlt[0] ; delta1 += dlt[1]
-      delta  /= len(self.delta_list)
-      delta1 /= len(self.delta_list)
+        if dlt[2]:
+          delta += dlt[0] ; delta1 += dlt[1] ; nn += 1
+      delta  /= nn
+      delta1 /= nn
 
     return [delta,delta1]
 
@@ -1289,6 +1551,17 @@ def isdir_case_sensitive(path_name) -> bool:
   return my_test
 
 #-----------------------------------------
+#Explore the directory tree up to a given maximum depth
+#  depth=0: only visits the starting directory
+def walk_level(path, depth=0):
+  base_depth = path.rstrip(os.path.sep).count(os.path.sep)
+  for root, dirs, files in os.walk(path):
+    current_depth = root.rstrip(os.path.sep).count(os.path.sep)
+    yield root, dirs, files
+    if current_depth - base_depth >= depth:
+      dirs.clear()
+
+#-----------------------------------------
 #Extract specie from a file name (first characters)
 def specie_from_filename(file_name):
 
@@ -1317,7 +1590,7 @@ def specie_from_dirname(dir_name):
 #-----------------------------------------
 #Check if strings are in a file
 #strg = [list of possible strings] (or)
-def string_is_in_file(strg_list,file_name):
+def string_is_in_file(file_name,strg_list):
 
   ff = open(file_name, "r")
   found = False
@@ -1465,8 +1738,8 @@ def file_delete_lines_between(file_name,line_start="@@@",line_end="@@@"):
 
 #-----------------------------------------
 #Add line(s) in a file before a given line
-#Example: file_add_lines(file_name,line_before,[line1,line2,...])
-def file_add_lines(file_name,line_before="@@@",line_list=[]):
+#Example: file_add_lines_before(file_name,line_before,[line1,line2,...])
+def file_add_lines_before(file_name,line_before="@@@",line_list=[]):
 
   if not isfile_case_sensitive(file_name):
     raise ValueError("File "+file_name+" does not exist!")
@@ -1487,6 +1760,32 @@ def file_add_lines(file_name,line_before="@@@",line_list=[]):
 
   os.remove(file_name+".bak")
   return None
+
+#-----------------------------------------
+#Add line(s) in a file after a given line
+#Example: file_add_lines_after(file_name,line_after,[line1,line2,...])
+def file_add_lines_after(file_name,line_after="@@@",line_list=[]):
+
+  if not isfile_case_sensitive(file_name):
+    raise ValueError("File "+file_name+" does not exist!")
+
+  f_in = open(file_name,'r')
+  flines = f_in.readlines()
+  f_in.close()
+
+  shutil.move(file_name,file_name+".bak")
+  
+  f_out = open(file_name,'w')
+  for fline in flines:
+    f_out.write(fline)
+    if line_after in fline:
+      for line in line_list:
+        f_out.write(line) 
+  f_out.close()
+
+  os.remove(file_name+".bak")
+  return None
+
 
 #-----------------------------------------
 #Copy website template into destination directory
@@ -1525,7 +1824,8 @@ def copy_html_template(dest_dirname,pdf_table_path=None,with_subdirs=True,only_i
         file_index_dest = os.path.join(dest_dirname,atomicdata_folder,dir_name,indexhtml_filename)
       else:
         file_index_dest = os.path.join(dest_dirname,atomicdata_folder,specie_fullname+'.html')
-      shutil.copy(file_index_src,file_index_dest)
+      if not only_index_specie and not exists_case_sensitive(file_index_dest):
+        shutil.copy(file_index_src,file_index_dest)
 
       #Modifiy index.html
       strg_list = []
@@ -1571,20 +1871,118 @@ def modify_global_index(ddb,table_name,table_pdf_name,html_folder,tarball_src_fo
   else:
     strg_list.append(["$${JTH_TABLE_DELTA_VALUE}", "N/A"])
     strg_list.append(["$${JTH_TABLE_DELTA1_VALUE}", "N/A"])
-  html_lines = []
-  for i,file_name in enumerate(tarball_list):
-    strg='<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">'+xc_name_from_string(file_name)+'</a>'
-    if len(tarball_list)>1 and i < len(tarball_list)-1: strg += ',&nbsp;'
-    html_lines.append(strg+'\n')
   index_full_name = os.path.join(html_folder,globalindex_template)
   file_replace_string(index_full_name,strg_list)
 
-  # Handle tar.gz files
+  # Select tar.gz files
+  dtset_xml_tarball_list = list(filter(lambda x: 'xml' in x and 'corewf' not in x, tarball_list))
+  dtset_xml_tarball_list.sort(key=lambda s: 0 if "GGA" in s else 1 if "LDA" in s else 2)
+  dtset_upf_tarball_list = list(filter(lambda x: 'upf' in x and 'corewf' not in x, tarball_list))
+  dtset_upf_tarball_list.sort(key=lambda s: 0 if "GGA" in s else 1 if "LDA" in s else 2)
+  corewf_xml_tarball_list = list(filter(lambda x: 'xml' in x and 'corewf' in x, tarball_list))
+  corewf_xml_tarball_list.sort(key=lambda s: 0 if "GGA" in s else 1 if "LDA" in s else 2)
+  corewf_upf_tarball_list = list(filter(lambda x: 'upf' in x and 'corewf' in x, tarball_list))
+  corewf_upf_tarball_list.sort(key=lambda s: 0 if "GGA" in s else 1 if "LDA" in s else 2)
+
+  # If needed, delete previous lines
   if reset_tarbal:
     file_delete_lines_between(index_full_name, \
-         line_start="<!-- INSERT HERE TARBALLS TO FULL TABLE - START -->", \
-         line_end="<!-- INSERT HERE TARBALLS TO FULL TABLE - END -->")
-  file_add_lines(index_full_name,line_before="INSERT HERE TARBALLS TO FULL TABLE - END",line_list=html_lines)
+         line_start="<!-- INSERT HERE TARBALLS TO FULL XML TABLE - START -->", \
+         line_end="<!-- INSERT HERE TARBALLS TO FULL XML TABLE - END -->")
+    file_delete_lines(index_full_name,['Download the entire PAW dataset table (XML format)'])
+    file_delete_lines_between(index_full_name, \
+         line_start="<!-- INSERT HERE TARBALLS TO FULL UPF TABLE - START -->", \
+         line_end="<!-- INSERT HERE TARBALLS TO FULL UPF TABLE - END -->")
+    file_delete_lines(index_full_name,['Download the entire PAW dataset table (UPF format)'])
+    file_delete_lines_between(index_full_name, \
+         line_start="<!-- INSERT HERE TARBALLS TO XML CORE WAVEFUNCTIONS - START -->", \
+         line_end="<!-- INSERT HERE TARBALLS TO XML CORE WAVEFUNCTIONS - END -->")
+    file_delete_lines(index_full_name,['Download the entire core wavefunction table (XML format)'])
+    file_delete_lines_between(index_full_name, \
+         line_start="<!-- INSERT HERE TARBALLS TO UPF CORE WAVEFUNCTIONS - START -->", \
+         line_end="<!-- INSERT HERE TARBALLS TO UPF CORE WAVEFUNCTIONS - END -->")
+    file_delete_lines(index_full_name,['Download the entire core wavefunction table (UPF format)'])
+
+  # Write XML atomic dataset table(s)
+  if len(dtset_xml_tarball_list) > 0:
+    if not string_is_in_file(index_full_name, \
+           ['Download the entire PAW dataset table (XML format)']):
+      file_add_lines_after(index_full_name, \
+          line_after="INSERT HERE TARBALLS TO FULL XML TABLE - START", \
+          line_list=['</p><p style="text-align: left;">Download the entire PAW ' \
+                    +'dataset table (XML format):\n'])
+    html_lines = []
+    for i,file_name in enumerate(dtset_xml_tarball_list):
+      strg='&nbsp;<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">' \
+          +xc_name_from_string(file_name)+' table</a>'
+      if len(dtset_xml_tarball_list)>1 and i < len(dtset_xml_tarball_list)-1: strg += ','
+      html_lines.append(strg+'\n')
+    file_add_lines_before(index_full_name, \
+                 line_before="INSERT HERE TARBALLS TO FULL XML TABLE - END", \
+                 line_list=html_lines)
+  else:
+    file_delete_lines(index_full_name,['Download the entire PAW dataset table (XML format)'])
+     
+
+  # Write UPF atomic dataset table(s)
+  if len(dtset_upf_tarball_list) > 0:
+    if not string_is_in_file(index_full_name, \
+           ['Download the entire PAW dataset table (UPF format)']):
+      file_add_lines_after(index_full_name, \
+          line_after="INSERT HERE TARBALLS TO FULL UPF TABLE - START", \
+          line_list=['</p><p style="text-align: left;">Download the entire PAW ' \
+                    +'dataset table (UPF format):\n'])
+    html_lines = []
+    for i,file_name in enumerate(dtset_upf_tarball_list):
+      strg='&nbsp;<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">' \
+          +xc_name_from_string(file_name)+' table</a>'
+      if len(dtset_upf_tarball_list)>1 and i < len(dtset_upf_tarball_list)-1: strg += ','
+      html_lines.append(strg+'\n')
+    file_add_lines_before(index_full_name, \
+                 line_before="INSERT HERE TARBALLS TO FULL UPF TABLE - END", \
+                 line_list=html_lines)
+  else:
+    file_delete_lines(index_full_name,['Download the entire PAW dataset table (UPF format)'])
+
+  # Write XML core wave function table(s)
+  if len(corewf_xml_tarball_list) > 0:
+    if not string_is_in_file(index_full_name, \
+           ['Download the entire core wavefunction table (XML format)']):
+      file_add_lines_after(index_full_name, \
+          line_after="INSERT HERE TARBALLS TO XML CORE WAVEFUNCTIONS - START", \
+          line_list=['</p><p style="text-align: left;">Download the entire core ' \
+                    +'wavefunction table (XML format):\n'])
+    html_lines = []
+    for i,file_name in enumerate(corewf_xml_tarball_list):
+      strg='&nbsp;<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">' \
+          +xc_name_from_string(file_name)+' corewf</a>'
+      if len(corewf_xml_tarball_list)>1 and i < len(corewf_xml_tarball_list)-1: strg += ','
+      html_lines.append(strg+'\n')
+    file_add_lines_before(index_full_name, \
+                 line_before="INSERT HERE TARBALLS TO XML CORE WAVEFUNCTIONS - END", \
+                 line_list=html_lines)
+  else:
+    file_delete_lines(index_full_name,['Download the entire core wavefunction table (XML format)'])
+
+  # Write UPF core wave function table(s)
+  if len(corewf_upf_tarball_list) > 0:
+    if not string_is_in_file(index_full_name, \
+           ['Download the entire core wavefunction table (UPF format)']):
+      file_add_lines_after(index_full_name, \
+          line_after="INSERT HERE TARBALLS TO UPF CORE WAVEFUNCTIONS - START", \
+          line_list=['</p><p style="text-align: left;">Download the entire core ' \
+                    +'wavefunction table (UPF format):\n'])
+    html_lines = []
+    for i,file_name in enumerate(corewf_upf_tarball_list):
+      strg='&nbsp;<a href="'+tarball_folder_link+'/'+file_name+'" target="_blank">' \
+          +xc_name_from_string(file_name)+' corewf</a>'
+      if len(corewf_upf_tarball_list)>1 and i < len(corewf_upf_tarball_list)-1: strg += ','
+      html_lines.append(strg+'\n')
+    file_add_lines_before(index_full_name, \
+                 line_before="INSERT HERE TARBALLS TO UPF CORE WAVEFUNCTIONS - END", \
+                 line_list=html_lines)
+  else:
+    file_delete_lines(index_full_name,['Download the entire core wavefunction table (UPF format)'])
 
   # If needed, in global index file, replace subdirs with html files
   if not with_subdirs:
@@ -1616,7 +2014,7 @@ def infofile_from_commentfile(comment_filename,info_filename):
       info_file.write(flines[0])
     else:
       info_file.write("# Comments to the "+table_name+" table\n")
-    info_file.write("# specie / file name / category / status / delta_factor / delta_factor1 / additional comment(s)\n")
+    info_file.write("# specie / file name / category / status / delta_factor / delta_factor1 / delta_mean / other comment(s)\n")
     info_file.write("# =============================================================================================\n")
 
 # Write lines in info_file
@@ -1626,12 +2024,15 @@ def infofile_from_commentfile(comment_filename,info_filename):
       x_specie = fword[0].strip() ; x_filename = fword[1].strip()
       x_core_val = "" ; x_xc = "" ; x_generator = ""
       x_status = "" ; x_category = "" ; x_comment = []
-      x_delta = None ; x_delta1 = None ; x_rpaw = None
+      x_delta = None ; x_delta1 = None ; x_delta_mean = "no"
+      x_rpaw = None
       for ifw,fw in enumerate(fword[2:]):
         fwl = fw.lower().strip()
         if "ecommended" in fwl:
           x_status   = "recommended"
           x_category = "standard"
+        elif "light" in fwl:
+          x_status   = "light"
         elif "gga" in fwl or "lda" in fwl:
           x_xc = fwl
         elif "s1" in fwl or "s2" in fwl:
@@ -1646,11 +2047,12 @@ def infofile_from_commentfile(comment_filename,info_filename):
           for i,w in enumerate(ww):
             if "delta=" in w:  x_delta  = float(ww[i+1])
             if "delta1=" in w: x_delta1 = float(ww[i+1])
+            if "delta_mean=" in w: x_delta_mean = ww[i+1]
         elif "generator" in fwl:
           x_generator = fwl
         else:
            x_comment.append(fwl)
-      info_file.write("%3s / %24s / %8s / %11s / " \
+      info_file.write("%3s / %27s / %8s / %11s / " \
         % (x_specie,x_filename,x_category,x_status))
       if x_delta is not None:
         info_file.write("%6.3f / " % x_delta)
@@ -1660,6 +2062,10 @@ def infofile_from_commentfile(comment_filename,info_filename):
         info_file.write("%6.3f /" % x_delta1)
       else:
         info_file.write("       /")
+      if x_delta is not None or x_delta1 is not None:
+        info_file.write("%4s /" % x_delta_mean)
+      else:
+        info_file.write("     /")
       for cm in x_comment:
         if len(cm.strip())>0:
           info_file.write(" "+cm.strip()+ " /")
@@ -1681,7 +2087,7 @@ def usage():
   +'\n       create_github_from_table, create_html_from_github,' \
   +'\n       create_html_from_table, create_inputs_from_table' \
   +'\n' \
-  +'\n  [--root <root_folder>] (default: current folder, can be table_folder)' \
+  +'\n  [--root <root_folder>] (default: current folder, can be table_folder or table_github_folder)' \
   +'\n  [--dest <dest_folder>] (default: none, can be github_folder or html_folder or inputs_folder)' \
   +'\n' \
   +'\n  [--erase-dest] (default: no. Erase destination folder [be careful])' \
@@ -1690,12 +2096,18 @@ def usage():
   +'\n                    If no,  creates ATOMICDATA/xxx-yyy.html files.' \
   +'\n  [--add-corewf] (default: no. Valid only if action = create_inputs_from_table)' \
   +'\n                    If yes, add printing of core WF in Atompaw XML input files.' \
+  +'\n  [--force-xml-default] (default: no. Valid only if action = create_inputs_from_table)' \
+  +'\n                    If yes, use default XML option line in Atompaw XML input files.' \
+  +'\n  [--force-upf-default] (default: no. Valid only if action = create_inputs_from_table)' \
+  +'\n                    If yes, use default UPF option line in Atompaw UPF input files.' \
   +'\n' \
   +'\nGlossary:' \
   +'\ntable_folder : source folder as written by F. Jollet' \
+  +'\ntable_github_folder : source folder in a github' \
   +'\ngithub_folder: destination folder as present in pseudo-dojo github' \
   +'\nhtml_folder  : destination folder to be uploaded to abinit web site' \
-  +'\ninputs_folder : destination folder containing all input files')
+  +'\ninputs_folder : destination folder containing all input files' \
+  +'\n')
 
 if __name__ == "__main__":
   root = os.getcwd()
@@ -1704,6 +2116,8 @@ if __name__ == "__main__":
   erase_dest = False
   with_subdirs = False
   add_corewf = False
+  force_xml_default = False
+  force_upf_default = False
   for i in range(len(sys.argv)):
     if sys.argv[i]=="--help":
       usage() ; sys.exit()
@@ -1728,6 +2142,10 @@ if __name__ == "__main__":
       with_subdirs = True
     elif sys.argv[i]=="--add-corewf":
       add_corewf = True
+    elif sys.argv[i]=="--force-xml-default":
+      force_xml_default = True
+    elif sys.argv[i]=="--force-upf-default":
+      force_upf_default = True
 
   if root is not None:
     if not isdir_case_sensitive(root):
@@ -1752,7 +2170,8 @@ if __name__ == "__main__":
   elif action =="create_inputs_from_table":
     if dest is None:
       print("Action 'create_inputs_from_table' needs a 'dest' argument!");sys.exit()    
-    main_create_inputs_from_table(root,dest,add_corewf=add_corewf)    
+    main_create_inputs_from_table(root,dest,add_corewf=add_corewf, \
+         force_xml_default=force_xml_default,force_upf_default=force_upf_default)    
   elif action =="create_html_from_github":
     if dest is None:
       print("Action 'create_html_from_github' needs a 'dest' argument!");sys.exit()    

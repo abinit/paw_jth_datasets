@@ -1,0 +1,27 @@
+F 9
+XC_GGA_X_PBE+XC_GGA_C_PBE scalarrelativistic loggrid 2001
+2 2 0 0 0 0
+2 1 5
+0 0 0
+c
+v
+v
+1
+1.4 1.2 1.4 1.2
+y
+2
+n
+y
+2
+n
+VANDERBILT
+2 1.0 ultrasoft
+1.4
+1.4
+1.4
+1.4
+XMLOUT
+default prtcorewf
+PWSCFOUT
+UPFDX 1.25d-2 UPFXMIN -7. UPFZMESH 9.0
+END
