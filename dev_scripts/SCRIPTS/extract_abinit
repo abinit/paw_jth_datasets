@@ -1,0 +1,299 @@
+#!/usr/bin/env python
+# -*- coding: iso-8859-15 -*-
+#set -x
+import sys
+import os
+
+if len(sys.argv) < 4 or sys.argv[1] == "--help" :
+    print("Syntax: extract_abinit x_keyword y_keyword file_abinit_output ndtset", file=sys.stderr)
+    print("        x_keyword= acell, V, P, ecut, tsmear", file=sys.stderr)
+    print("        y_keyword= etot, etot_eV, etot-e0, etot-elast, P, V, c/a, mu", file=sys.stderr)
+    print("        ndtset= number of datasets to extract (default=all)", file=sys.stderr)
+    sys.exit()
+
+current_file = os.path.realpath(__file__)
+current_dir = os.path.dirname(current_file)
+benf_path = os.path.join(current_dir,'benf')
+
+Output_Abinit = open(sys.argv[3],'r')
+x_keyword = sys.argv[1]
+y_keyword = sys.argv[2]
+ndtset_asked = -1
+if len(sys.argv) == 5:
+    ndtset_asked = int(sys.argv[4])
+
+NDTSETMAX= 25
+
+BtoA = 0.5291771
+B3toA3 = BtoA*BtoA*BtoA
+HatoeV=27.21138386
+
+Pressure = list(range(NDTSETMAX))
+Volume   = list(range(NDTSETMAX))
+Acell    = list(range(NDTSETMAX))
+Ccell    = list(range(NDTSETMAX))
+CSA      = list(range(NDTSETMAX))
+Etotal   = list(range(NDTSETMAX))
+EtotmE0  = list(range(NDTSETMAX))
+EmElast  = list(range(NDTSETMAX))
+Ecut     = list(range(NDTSETMAX))
+Mu       = list(range(NDTSETMAX))
+Tsmear   = list(range(NDTSETMAX))
+Natom    = -1
+SpaceGroup = 1
+I_acell = 0
+I_tsmear = 0
+
+ndtset = 0
+for oline in Output_Abinit:
+
+#   DTSET
+    test_dtset  = oline.find('== DATASET')
+    if test_dtset != -1:
+        ndtset = ndtset+1
+        Ecut[ndtset] = float(-1.)
+        if ndtset+1 > NDTSETMAX:
+            print("Too much datasets in file!", file=sys.stderr)
+            sys.exit()
+
+#   NATOM
+    test_natom1 = oline.find('natom')
+    test_natom2 = oline.find('natom =')
+    test_natom3 = oline.find('{natom:')
+    test_natom4 = oline.find('Pmy_natom=')
+    if test_natom1 != -1 and test_natom2==-1 and test_natom3==-1  and test_natom4==-1:
+        Natom = int(oline.split()[1])
+#   SPACE GROUP
+    test_spacegroup = oline.find('Bravais cF')
+    if test_spacegroup != -1:
+        SpaceGroup = 2
+    test_spacegroup = oline.find('Bravais cI')
+    if test_spacegroup != -1:
+        SpaceGroup = 3
+    test_spacegroup = oline.find('Bravais hP')
+    if test_spacegroup != -1:
+        SpaceGroup = 4
+    test_spacegroup = oline.find('Fedorov space group Pm')
+    if test_spacegroup != -1:
+        SpaceGroup = 4
+
+#   UCVOL
+    test_ucvol1 = oline.find('ucvol=')
+    test_ucvol2 = oline.find('Unit cell volume')
+    if test_ucvol1 != -1 :
+        if test_ucvol2 != -1 :
+            Volume[ndtset] = float(oline.split()[4])
+        if test_ucvol2 == -1 :
+            Volume[ndtset] = float(oline.split()[1])
+
+#   PRESSURE
+    test_pressure  = oline.find('Pressure')
+    if test_pressure != -1 :
+        Pressure[ndtset] = float(oline.split()[7])
+
+#   ACELL/CCELL
+    test_acell  = oline.find('acell')
+    if test_acell != -1 and ndtset==0:
+        I_acell = I_acell+1
+        if I_acell == 1:
+            XX = float(oline.split()[1])
+            YY = float(oline.split()[3])
+            for ii in range(NDTSETMAX):
+                Acell[ii] = XX
+                Ccell[ii] = XX
+        else:
+             Acell[I_acell] = float(oline.split()[1])
+             Ccell[I_acell] = float(oline.split()[3])
+    elif ndtset != 0 :
+        test_acell  = oline.find('acell=')
+        if test_acell != -1 :
+            Acell[ndtset] = float(oline.split()[1])
+            Ccell[ndtset] = float(oline.split()[3])
+
+#   ETOTAL
+    test_etot  = oline.find('ETOT')
+    if test_etot != -1 :
+        Etotal[ndtset] = float(oline.split()[2])
+
+#   ECUT
+    test_ecut  = oline.find('ecut(hartree)=')
+    if test_ecut != -1 and Ecut[ndtset] == -1.:
+        Ecut[ndtset] = float(oline.split()[1])
+
+#   MU
+    test_mu  = oline.find('Magnetisation')
+    if test_mu != -1:
+        Mu[ndtset] = float(oline.split()[3])
+
+#   TSMEAR
+    test_tsmear  = oline.find('tsmear')
+    if test_tsmear != -1 and ndtset==0:
+        I_tsmear = I_tsmear+1
+        if I_tsmear == 1:
+            XX = float(oline.split()[1])
+            for ii in range(NDTSETMAX):
+                Tsmear[ii] = XX
+        else:
+                    Tsmear[I_tsmear] = float(oline.split()[1])
+
+if ndtset_asked == -1 or ndtset_asked > ndtset:
+    ndtset_asked = ndtset
+
+Emin= float(10000000.)
+for ii in range(ndtset_asked):
+    Etotal[ii+1] = Etotal[ii+1]/Natom
+    Volume[ii+1] = Volume[ii+1]*B3toA3/Natom
+    CSA[ii+1] = Ccell[ii+1]/Acell[ii+1]
+    Acell[ii+1] = Acell[ii+1]*BtoA
+    Ccell[ii+1] = Ccell[ii+1]*BtoA
+    if Etotal[ii+1]<Emin:
+        Emin= Etotal[ii+1]
+for ii in range(ndtset_asked):
+    EtotmE0[ii+1] = Etotal[ii+1]-Emin
+    EmElast[ii+1] = Etotal[ii+1]-Etotal[ndtset_asked]
+
+if x_keyword == "acell" or x_keyword == "V":
+    if y_keyword == "etot" or y_keyword == "etot_eV" or y_keyword == "etot-e0":
+        if SpaceGroup == 0:
+            print("Unknown space group type!", file=sys.stderr)
+            print("Please enter space group (1=sc, 2=fcc, 3=bcc, 4=hcp)?", file=sys.stderr)
+            SpaceGroup = int(raw_input())
+#            SpaceGroup = 1
+            print(" ", file=sys.stderr)
+            if SpaceGroup == 0:
+                print("Unknown space group type!", file=sys.stderr)
+                sys.exit()
+        FitFileIn = open('fit.inp','w')
+        FitFileIn.write("2\n1\n2\n")
+        if x_keyword == "V":
+            FitFileIn.write("1\n")
+        else:
+            FitFileIn.write("2\n")
+        FitFileIn.write(str(SpaceGroup)+"\n")
+        FitFileIn.write("1\n3\n1\n1\n")
+        FitFileIn.write(str(ndtset_asked)+"\n")
+        for ii in range(ndtset_asked+1) :
+            if ii > 0 :
+                if x_keyword == "acell":
+                    Xtext = "% 03.12f "% (Acell[ii])
+                elif x_keyword == "V":
+                    Xtext = "% 03.12f "% (Volume[ii])
+                if y_keyword == "etot" or y_keyword == "etot_eV" or y_keyword == "etot-e0":
+                    Ytext = "% 03.12f "% (Etotal[ii])
+#               if y_keyword == "etot_eV":
+#                   Ytext = "% 03.12f "% (Etotal[ii]*HatoeV)
+                FitFileIn.write(Xtext+"  "+Ytext+"\n")
+        FitFileIn.write("3\n-2\n0\n0\n0\n0\n0\n0\n")
+        FitFileIn.close
+        FitFileIn = open('fit.inp','w')
+        FitFileIn.close
+        os.system(benf_path)
+        FitFileOut = open('fit.res','r')
+        if SpaceGroup ==2:
+            TText = "# SpaceGroup: fcc"
+        elif SpaceGroup ==3:
+            TText = "# SpaceGroup: bcc"
+        elif SpaceGroup ==4:
+            TText = "# SpaceGroup: hcp"
+        else:
+            TText = "# SpaceGroup: unknown"
+        K0p_test = 0
+        for oline in FitFileOut:
+            test_fit1  = oline.find('Vo =')
+            test_fit2  = oline.find('Eo =')
+            test_fit3  = oline.find('Ko =')
+            test_fit4  = oline.find("Ko'=")
+            test_fit5  = oline.find('Angstroms')
+            test_fit6  = oline.find('Rydbergs')
+            test_fit7  = oline.find('GPa')
+            if test_fit1 != -1 and test_fit5 != -1:
+                V0 = float(oline.split()[2])
+                a0 = float(oline.split()[6])
+            if test_fit2 != -1 and test_fit6 != -1:
+                E0 = float(oline.split()[2])/2
+            if test_fit3 != -1 and test_fit7 != -1:
+                K0 = float(oline.split()[2])
+            if test_fit4 != -1:
+                if K0p_test == 1:
+                    K0p = float(oline.split()[1])
+                if K0p_test != 1:
+                    K0p_test=K0p_test+1
+        Eunit=" Ha/at\n"
+        if y_keyword == "etot_eV":
+            Eunit=" eV/at\n"
+            E0=E0*HatoeV
+        TText = "# a0="+str(a0)+" Ang, V0="+str(V0)+" Ang^3/at, K0="+str(K0*Natom)+" GPa, K0'="+str(K0p*Natom)+", E0="+str(E0)+Eunit+TText
+        print(TText)
+        os.system('rm -rf fit.* ')
+        if y_keyword == "etot-e0":
+            for ii in range(ndtset_asked):
+                EtotmE0[ii+1] = Etotal[ii+1]-E0
+
+Title = "#     "
+if x_keyword == "acell":
+    Title=Title+" A(Ang)     "
+elif x_keyword == "V":
+    Title=Title+" Vol(Ang3)  "
+elif x_keyword == "P":
+    Title=Title+" P(GPa)     "
+elif x_keyword == "ecut":
+    Title=Title+" ecut(Ha)   "
+elif x_keyword == "tsmear":
+    Title=Title+" Tsmear(Ha) "
+else:
+    print("Unknown x keyword!", file=sys.stderr)
+    sys.exit()
+if y_keyword == "etot":
+    Title=Title+" Etot(Ha)"
+elif y_keyword == "etot_eV":
+    Title=Title+" Etot(eV)"
+elif y_keyword == "etot-e0":
+    Title=Title+" DeltaE(Ha)"
+elif y_keyword == "etot-elast":
+    Title=Title+" E_Err(Ha)"
+elif y_keyword == "P":
+    Title=Title+" P(GPa)"
+elif y_keyword == "V":
+    Title=Title+" Vol(Ang3)"
+elif y_keyword == "c/a":
+    Title=Title+" c/a"
+elif y_keyword == "mu":
+    Title=Title+" Mu"
+else:
+    print("Unknown y keyword!", file=sys.stderr)
+    sys.exit()
+
+print(Title)
+
+for ii in range(ndtset_asked+1) :
+    if ii > 0 :
+        Xtext = ""
+        if x_keyword == "acell":
+            Xtext = "% 03.12f "% (Acell[ii])
+        elif x_keyword == "V":
+            Xtext = "% 03.12f "% (Volume[ii])
+        elif x_keyword == "P":
+            Xtext = "% 03.12f "% (Pressure[ii])
+        elif x_keyword == "ecut":
+            Xtext = "% 03.12f "% (Ecut[ii])
+        elif x_keyword == "tsmear":
+            Xtext = "% 03.12f "% (Tsmear[ii])
+        Ytext = ""
+        if y_keyword == "etot":
+            Ytext = "% 03.12f "% (Etotal[ii])
+        elif y_keyword == "etot_eV":
+            Ytext = "% 03.12f "% (Etotal[ii]*HatoeV)
+        elif y_keyword == "etot-e0":
+            Ytext = "% 03.12f "% (EtotmE0[ii])
+        elif y_keyword == "etot-elast":
+            Ytext = "% 03.12f "% (EmElast[ii])
+        elif y_keyword == "P":
+            Ytext = "% 03.12f "% (Pressure[ii])
+        elif y_keyword == "V":
+            Ytext = "% 03.12f "% (Volume[ii])
+        elif y_keyword == "c/a":
+            Ytext = "% 03.12f "% (CSA[ii])
+        elif y_keyword == "mu":
+            Ytext = "% 03.12f "% (Mu[ii])
+        print(Xtext+"  "+Ytext)
+
